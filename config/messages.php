@@ -22,111 +22,57 @@ return [
         ],
         'created' => [
             'code' => '20100',
-            'status' => 'ok',
+            'status' => 'created',
             'successful' => true,
             'message' => 'Resource was successfully created.'
         ],
-        'created' => [
-            'code' => '20400',
-            'status' => 'ok',
+        'accepted' => [
+            'code' => '20200',
+            'status' => 'accepted',
             'successful' => true,
-            'message' => 'Resource was successfully created.'
+            'message' => 'Resource has been received but not yet acted upon.'
         ],
         'bad_request' => [
-            'code' => '002',
+            'code' => '40000',
             'status' => 'bad_request',
             'successful' => false,
             'message' => 'Bad Request.'
         ],
-        'invalid_token' => [
-            'code' => '012',
-            'status' => 'invalid_token',
-            'successful' => false,
-            'message' => 'An invalid token was supplied.'
-        ],
-        'expired_token' => [
-            'code' => '022',
-            'status' => 'invalid_token',
-            'successful' => false,
-            'message' => 'An expired token was supplied.'
-        ],
-        'already_verified' => [
-            'code' => '032',
-            'status' => 'invalid_token',
-            'successful' => false,
-            'message' => 'User has already been verified.'
-        ],
-        'invalid_credentials' => [
-            'code' => '042',
-            'status' => 'invalid_credentials',
-            'successful' => false,
-            'message' => 'Invalid username or password.'
-        ],
-        'unverified_account' => [
-            'code' => '052',
-            'status' => 'unverified_account',
-            'successful' => false,
-            'message' => "User's email has not been verified"
-        ],
-        'invalid_data' => [
-            'code' => '062',
-            'status' => 'invalid_data',
-            'successful' => false,
-            'message' => "Invalid data sent"
-        ],
-        'inactive_user' => [
-            'code' => '072',
-            'status' => 'inactive_user',
-            'successful' => false,
-            'message' => "User account is inactive"
-        ],
-        'inactive_counsellor' => [
-            'code' => '082',
-            'status' => 'inactive_counsellor',
-            'successful' => false,
-            'message' => "Counsellor account is inactive"
-        ],
-        'forbidden' => [
-            'code' => '003',
-            'status' => 'forbidden',
-            'successful' => false,
-            'message' => 'Forbidden Request.'
-        ],
         'unauthorised' => [
-            'code' => '004',
+            'code' => '40100',
             'status' => 'unauthorised',
             'successful' => false,
             'message' => 'Unauthorised Request.'
         ],
+        'forbidden' => [
+            'code' => '40300',
+            'status' => 'forbidden',
+            'successful' => false,
+            'message' => 'Forbidden Request.'
+        ],
         'not_found' => [
-            'code' => '005',
+            'code' => '40400',
             'status' => 'not_found',
             'successful' => false,
             'message' => 'Resource was not found.'
         ],
         'duplicate' => [
-            'code' => '006',
+            'code' => '40900',
             'status' => 'duplicate_entry',
             'successful' => false,
             'message' => 'Resource already exist.'
         ],
-        'multiple_pending' => [
-            'code' => '016',
-            'status' => 'multiple_pending',
+        'unprocessable_entity' => [
+            'code' => '42200',
+            'status' => 'unprocessable_entity',
             'successful' => false,
-            'message' => 'Counsellor already has pending bookings within the selected time frame. You can go ahead and book however we cant guarantee the counsellor will be available at this time'
-        ],
-        'already_booked' => [
-            'code' => '026',
-            'status' => 'already_booked',
-            'successful' => false,
-            'message' => 'Counsellor already has a booking within the selected time frame.'
+            'message' => 'An invalid data was supplied.'
         ],
         'server_error' => [
-            'code' => '007',
+            'code' => '50000',
             'status' => 'server_error',
             'successful' => false,
-            'message' => 'An unexpected error occured.'
+            'message' => 'An unexpected server exception occured.'
         ],
     ],
     'web' => [
