@@ -44,6 +44,12 @@ return [
             'successful' => false,
             'message' => 'Unauthorised Request.'
         ],
+        'invalid_credentials' => [
+            'code' => '40101',
+            'status' => 'invalid_credentials',
+            'successful' => false,
+            'message' => 'Your username or password is incorrect'
+        ],
         'forbidden' => [
             'code' => '40300',
             'status' => 'forbidden',

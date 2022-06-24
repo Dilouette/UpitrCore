@@ -15,7 +15,7 @@ class IndustrySeeder extends Seeder
      */
     public function run()
     {
-        $file = Storage::get("datasets/employment-types.json");
+        $file = Storage::get("datasets/industries.json");
         $items = json_decode($file);
 
         foreach ($items as $key => $item) {

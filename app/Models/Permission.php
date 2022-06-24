@@ -11,8 +11,12 @@ class Permission extends SpatiePermission
 {
     protected $fillable = ['permission_group_id'];
 
-    public function permission_group()
+    protected $table = 'permissions';
+
+    protected $hidden = ['pivot'];
+
+    public function group()
     {
-        return $this->belongsTo(PermissionGroup::class);
+        return $this->belongsTo(PermissionGroup::class, 'group_id');
     }
 }

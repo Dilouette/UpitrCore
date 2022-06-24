@@ -34,7 +34,7 @@ class User extends Authenticatable
 
     protected $searchableFields = ['*'];
 
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token','department_id','designation_id', 'roles'];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -58,4 +58,5 @@ class User extends Authenticatable
     {
         return in_array($this->email, config('auth.super_admins'));
     }
+    
 }

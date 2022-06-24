@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::table('permissions', function (Blueprint $table) {
             $table
-                ->foreign('permission_group_id')
+                ->foreign('group_id')
                 ->references('id')
                 ->on('permission_groups')
                 ->onUpdate('CASCADE')
@@ -30,7 +30,7 @@ return new class extends Migration {
     public function down()
     {
         Schema::table('permissions', function (Blueprint $table) {
-            $table->dropForeign(['permission_group_id']);
+            $table->dropForeign(['group_id']);
         });
     }
 };
