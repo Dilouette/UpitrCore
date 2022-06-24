@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('title');
             $table->text('content');
             $table->tinyInteger('related_to_id');
-            $table->bigInteger('created_by');
+            $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('job_id');
             $table->bigInteger('updated_by');
             $table->unsignedBigInteger('job_applicant_id');
