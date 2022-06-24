@@ -29,11 +29,11 @@ return new class extends Migration {
             $table->text('requirements');
             $table->text('benefit')->nullable();
             $table->unsignedInteger('department_id')->nullable();
-            $table->integer('industry_id')->nullable();
-            $table->integer('job_function_id')->nullable();
-            $table->integer('employment_type_id')->nullable();
-            $table->integer('experience_level_id')->nullable();
-            $table->integer('education_level_id')->nullable();
+            $table->unsignedBigInteger('industry_id')->nullable();
+            $table->unsignedBigInteger('job_function_id')->nullable();
+            $table->unsignedBigInteger('employment_type_id')->nullable();
+            $table->unsignedBigInteger('experience_level_id')->nullable();
+            $table->unsignedBigInteger('education_level_id')->nullable();
             $table->text('keywords')->nullable();
             $table->decimal('salary_min')->nullable();
             $table->decimal('salary_max')->nullable();
