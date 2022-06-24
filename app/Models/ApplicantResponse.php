@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Scopes\Searchable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class ApplicantResponse extends Model
+{
+    use HasFactory;
+    use Searchable;
+
+    protected $fillable = [
+        'job_applicant_id',
+        'job_question_id',
+        'job_question_option_id',
+    ];
+
+    protected $searchableFields = ['*'];
+
+    protected $table = 'applicant_responses';
+
+    public function jobApplicant()
+    {
+        return $this->belongsTo(JobApplicant::class);
+    }
+
+    public function jobQuestion()
+    {
+        return $this->belongsTo(JobQuestion::class);
+    }
+
+    public function jobQuestionOption()
+    {
+        return $this->belongsTo(JobQuestionOption::class);
+    }
+}
