@@ -19,9 +19,9 @@ return new class extends Migration {
                 ->string('code')
                 ->nullable()
                 ->unique();
-            $table->integer('country_id')->nullable();
-            $table->integer('region_id')->nullable();
-            $table->integer('city_id')->nullable();
+            $table->unsignedInteger('country_id')->nullable();
+            $table->unsignedBigInteger('region_id')->nullable();
+            $table->unsignedBigInteger('city_id')->nullable();
             $table->string('zip_code')->nullable();
             $table->string('location')->nullable();
             $table->boolean('is_remote')->nullable();
