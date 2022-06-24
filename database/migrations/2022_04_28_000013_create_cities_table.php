@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('region_id');
+            $table->unsignedBigInteger('region_id');
             $table->string('name');
 
             $table->timestamps();
