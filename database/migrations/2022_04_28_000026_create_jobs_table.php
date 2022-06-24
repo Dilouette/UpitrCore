@@ -37,7 +37,7 @@ return new class extends Migration {
             $table->text('keywords')->nullable();
             $table->decimal('salary_min')->nullable();
             $table->decimal('salary_max')->nullable();
-            $table->integer('salary_currency_id')->nullable();
+            $table->unsignedBigInteger('salary_currency_id')->nullable();
             $table->smallInteger('head_count')->nullable();
             $table->bigInteger('created_by');
             $table->boolean('is_published');
