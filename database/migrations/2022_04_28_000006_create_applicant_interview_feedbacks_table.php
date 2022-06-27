@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->tinyInteger('rating');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

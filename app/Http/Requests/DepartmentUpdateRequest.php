@@ -25,8 +25,7 @@ class DepartmentUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:255', 'string'],
-            'description' => ['required', 'max:255', 'string'],
-            'created_by' => ['required', 'numeric'],
+            'description' => ['required', 'max:255', 'string']
         ];
     }
 }

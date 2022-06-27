@@ -41,6 +41,20 @@ class ServiceController extends BaseController
     }
 
     /**
+     * no content response.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function no_content($data=null, $message=null)
+    {
+    	$response = (object)config('messages.api.no_content');
+        $response->data = $data;
+        $response->message = $message==null?$response->message:$message;
+
+        return response()->json($response, 204);
+    }
+
+    /**
      * bad request response.
      *
      * @return \Illuminate\Http\Response

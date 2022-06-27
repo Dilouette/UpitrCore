@@ -22,8 +22,7 @@ class DepartmentSeeder extends Seeder
         foreach ($departments as $key => $dept) {
             Department::create([
                 "name" => $dept,
-                "description" => $dept,
-                "created_by" => 1
+                "description" => $dept
             ]);
         }
     }

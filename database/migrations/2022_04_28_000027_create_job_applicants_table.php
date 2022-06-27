@@ -30,6 +30,7 @@ return new class extends Migration {
             $table->tinyInteger('consideration_id');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

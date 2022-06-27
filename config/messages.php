@@ -32,11 +32,23 @@ return [
             'successful' => true,
             'message' => 'Resource has been received but not yet acted upon.'
         ],
+        'no_content' => [
+            'code' => '20400',
+            'status' => 'no_content',
+            'successful' => true,
+            'message' => 'Resource has been successfully removed.'
+        ],
         'bad_request' => [
             'code' => '40000',
             'status' => 'bad_request',
             'successful' => false,
             'message' => 'Bad Request.'
+        ],
+        'user_mismatch' => [
+            'code' => '40001',
+            'status' => 'user_mismatch',
+            'successful' => false,
+            'message' => 'Bad Request. Invalid created_by id detected'
         ],
         'unauthorised' => [
             'code' => '40100',

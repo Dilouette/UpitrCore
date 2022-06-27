@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('job_question_option_id')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

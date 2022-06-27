@@ -16,9 +16,10 @@ return new class extends Migration {
             $table->increments('id');
             $table->string('name');
             $table->text('description');
-            $table->integer('created_by');
+            $table->unsignedBigInteger('created_by')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

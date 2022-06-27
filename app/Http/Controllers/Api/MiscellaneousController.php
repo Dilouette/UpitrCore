@@ -19,7 +19,8 @@ class MiscellaneousController extends ServiceController
     public function countries()
     {
         try {            
-            $countries = Country::all();
+            $countries = Country::all()
+            ->orderby('id');
             return $this->success($countries);
         } catch (\Throwable $ex) {
             return $this->server_error($ex);

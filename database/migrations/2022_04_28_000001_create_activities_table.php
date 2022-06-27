@@ -29,6 +29,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('job_id')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

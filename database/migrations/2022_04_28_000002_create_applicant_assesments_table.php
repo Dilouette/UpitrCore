@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->string('user_agent');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

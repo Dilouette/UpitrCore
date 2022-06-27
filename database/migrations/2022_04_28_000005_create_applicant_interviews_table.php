@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->dateTime('end_time');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

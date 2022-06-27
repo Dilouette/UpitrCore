@@ -63,6 +63,10 @@ class PermissionsSeeder extends Seeder
             'email' => 'optimus@upitr.com',
             'is_active'=> true,
             'password' => Hash::make('password@123'),
+            'department_id' => 1,
+            'designation_id' => 1,
+            'reset_login' => false,
+            'first_login' => false,
         ]);
 
         $user = \App\Models\User::whereEmail('optimus@upitr.com')->first();

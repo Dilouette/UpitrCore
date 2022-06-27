@@ -12,14 +12,13 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('assesments', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('job_id');
-            $table->boolean('is_timed');
-            $table->integer('duration');
-
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::table('departments', function (Blueprint $table) {
+            $table
+                ->foreign('created_by')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
         });
     }
 
@@ -30,6 +29,8 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('assesments');
+        Schema::table('departments', function (Blueprint $table) {
+            $table->dropForeign(['created_by']);
+        });
     }
 };
