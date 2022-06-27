@@ -2,46 +2,61 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Job;
 use App\Models\JobQuestion;
 use Illuminate\Http\Request;
+use App\Models\JobQuestionOption;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\JobQuestionResource;
 use App\Http\Resources\JobQuestionCollection;
 use App\Http\Requests\JobQuestionStoreRequest;
 use App\Http\Requests\JobQuestionUpdateRequest;
 
-class JobQuestionController extends Controller
+use function PHPUnit\Framework\throwException;
+
+class JobQuestionController extends ServiceController
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $this->authorize('view-any', JobQuestion::class);
-
-        $search = $request->get('search', '');
-
-        $jobQuestions = JobQuestion::search($search)
-            ->latest()
-            ->paginate();
-
-        return new JobQuestionCollection($jobQuestions);
-    }
-
+   
     /**
      * @param \App\Http\Requests\JobQuestionStoreRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(JobQuestionStoreRequest $request)
     {
-        $this->authorize('create', JobQuestion::class);
+        try {        
 
-        $validated = $request->validated();
+            DB::beginTransaction();
 
-        $jobQuestion = JobQuestion::create($validated);
+            $validated = $request->validated();   
+            $job  = Job::find($validated['job_id']);
+            if (!$job) {
+                return $this->not_found(null, null, "Vacancy not found");
+            }             
+            $jobQuestion = JobQuestion::create($validated);
 
-        return new JobQuestionResource($jobQuestion);
+            Log::alert($validated['question_options']);
+
+            foreach($validated['question_options'] as $option){ 
+
+                $newOption = new JobQuestionOption();
+
+                $newOption->option = $option;
+                $newOption->job_question_id = $jobQuestion->id;
+
+                $newOption->save(); 
+            }
+
+            DB::commit();
+
+            $jobQuestion->load('jobQuestionOptions');
+
+            return $this->created(new JobQuestionResource($jobQuestion));
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $this->server_error($th);
+        } 
     }
 
     /**
@@ -49,42 +64,25 @@ class JobQuestionController extends Controller
      * @param \App\Models\JobQuestion $jobQuestion
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, JobQuestion $jobQuestion)
+    public function destroy($id)
     {
-        $this->authorize('view', $jobQuestion);
+        try {        
 
-        return new JobQuestionResource($jobQuestion);
-    }
+            DB::beginTransaction();
 
-    /**
-     * @param \App\Http\Requests\JobQuestionUpdateRequest $request
-     * @param \App\Models\JobQuestion $jobQuestion
-     * @return \Illuminate\Http\Response
-     */
-    public function update(
-        JobQuestionUpdateRequest $request,
-        JobQuestion $jobQuestion
-    ) {
-        $this->authorize('update', $jobQuestion);
+            $jobQuestion  = JobQuestion::find($id);
+            if (!$jobQuestion) {
+                return $this->not_found();
+            }   
+            JobQuestionOption::where('job_question_id', $jobQuestion->id)->delete();
+                      
+            $jobQuestion->delete();
+            DB::commit();
 
-        $validated = $request->validated();
-
-        $jobQuestion->update($validated);
-
-        return new JobQuestionResource($jobQuestion);
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\JobQuestion $jobQuestion
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, JobQuestion $jobQuestion)
-    {
-        $this->authorize('delete', $jobQuestion);
-
-        $jobQuestion->delete();
-
-        return response()->noContent();
+            return $this->success();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $this->server_error($th);
+        } 
     }
 }

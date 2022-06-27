@@ -11,9 +11,14 @@ class QuestionType extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'has_options'];
 
     protected $searchableFields = ['*'];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at', 
+    ];
 
     protected $table = 'question_types';
 

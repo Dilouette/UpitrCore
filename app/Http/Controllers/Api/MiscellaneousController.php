@@ -12,6 +12,7 @@ use App\Models\EmploymentType;
 use App\Models\ExperienceLevel;
 use App\Models\Industry;
 use App\Models\JobFunction;
+use App\Models\QuestionType;
 use Illuminate\Support\Facades\Request;
 
 class MiscellaneousController extends ServiceController
@@ -110,6 +111,16 @@ class MiscellaneousController extends ServiceController
     {
         try {            
             $items = JobFunction::orderBy('created_at')->get();
+            return $this->success($items);
+        } catch (\Throwable $ex) {
+            return $this->server_error($ex);
+        }
+    }
+
+    public function questionTypes()
+    {
+        try {            
+            $items = QuestionType::orderBy('created_at')->get();
             return $this->success($items);
         } catch (\Throwable $ex) {
             return $this->server_error($ex);

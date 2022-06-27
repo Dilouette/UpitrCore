@@ -13,6 +13,11 @@ class JobQuestionOption extends Model
 
     protected $fillable = ['option', 'job_question_id'];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at', 
+    ];
+
     protected $searchableFields = ['*'];
 
     protected $table = 'job_question_options';

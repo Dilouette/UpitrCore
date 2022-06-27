@@ -1,1 +1,26 @@
-["Multiple Choice", "True/False", "Dropdown", "Short Text", "Long Text"]
+[
+    {
+        "name": "Multiple Choice",
+        "has_options": true
+    },
+    {
+        "name": "True Or False",
+        "has_options": false
+    },
+    {
+        "name": "Dropdown",
+        "has_options": true
+    },
+    {
+        "name": "Short Text",
+        "has_options": false
+    },
+    {
+        "name": "Long Text",
+        "has_options": false
+    },
+    {
+        "name": "Date Time",
+        "has_options": false
+    }
+]

@@ -120,6 +120,7 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::get('/employment-types', [MiscellaneousController::class, 'employmentTypes'])->name('employment-types');
         Route::get('/experience-levels', [MiscellaneousController::class, 'experienceLevels'])->name('experience-levels');
         Route::get('/job-functions', [MiscellaneousController::class, 'jobFunctions'])->name('job-functions');
+        Route::get('/question-types', [MiscellaneousController::class, 'questionTypes'])->name('question-types');
     });
 
     //Department Routes
@@ -151,12 +152,11 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
 
     //Vacancy Questions Routes
     Route::name('vacancy.questions.')->prefix('vacancy-questions')->middleware('auth:api')->group(function () {
-        Route::post('/', [JobSettingController::class, 'store'])->name('store');
-        Route::post('/bulk', [JobSettingController::class, 'bulkStore'])->name('store.bulk');
-        Route::get('/{id}', [JobSettingController::class, 'show'])->name('show');
-        Route::put('/{id}', [JobSettingController::class, 'update'])->name('update');
-        Route::delete('/{id}', [JobController::class, 'destroy'])->name('destroy');
+        Route::post('/', [JobQuestionController::class, 'store'])->name('store');
+        Route::get('/{id}', [JobQuestionController::class, 'show'])->name('show');
+        Route::put('/{id}', [JobQuestionController::class, 'update'])->name('update');
+        Route::delete('/{id}', [JobQuestionController::class, 'destroy'])->name('destroy');
     });
 
-    
+
 });

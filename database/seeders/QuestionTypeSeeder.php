@@ -20,8 +20,9 @@ class QuestionTypeSeeder extends Seeder
 
         foreach ($types as $key => $type) {
             QuestionType::create([
-                "name" => $type,
-                "description" => $type
+                "name" => $type->name,
+                "description" => $type->name,
+                "has_options"=>$type->has_options
             ]);
         }
     }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class JobQuestionUpdateRequest extends FormRequest
+class JobQuestionUpdateRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,6 +27,7 @@ class JobQuestionUpdateRequest extends FormRequest
             'job_id' => ['required', 'exists:jobs,id'],
             'question' => ['required', 'max:255', 'string'],
             'job_question_type_id' => ['required', 'exists:question_types,id'],
+            'question_options.*' => ['distinct', 'max:255', 'string'],
         ];
     }
 }

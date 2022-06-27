@@ -154,7 +154,11 @@ class JobController extends ServiceController
                 'experienceLevel', 
                 'educationLevel', 
                 'currency', 
-                'jobWorkflow'
+                'jobWorkflow',
+                'jobQuestions', 
+                'jobSettings',
+                'activities',
+                'notes'
             );
 
             return $this->success(new JobResource($job));

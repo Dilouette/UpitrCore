@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->unsignedSmallInteger('job_question_type_id');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

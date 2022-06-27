@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->smallIncrements('id');
             $table->string('name');
             $table->text('description');
+            $table->boolean('has_options');
 
             $table->timestamps();
         });
