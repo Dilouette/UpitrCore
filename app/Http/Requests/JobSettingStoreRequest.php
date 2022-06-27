@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class JobSettingStoreRequest extends FormRequest
+class JobSettingStoreRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,19 +25,19 @@ class JobSettingStoreRequest extends FormRequest
     {
         return [
             'job_id' => ['required', 'exists:jobs,id'],
-            'firstname' => ['required', 'in:mandatory'],
-            'lastname' => ['required', 'in:mandatory'],
-            'email' => ['required', 'in:mandatory'],
-            'phone' => ['required', 'in:mandatory,optional,off'],
-            'heading' => ['required', 'in:mandatory,optional,off'],
-            'address' => ['required', 'in:mandatory,optional,off'],
-            'photo' => ['required', 'in:mandatory,optional,off'],
-            'education' => ['required', 'in:optional,off'],
-            'experience' => ['required', 'in:optional,off'],
-            'summary' => ['required', 'in:mandatory,optional,off'],
-            'resume' => ['required', 'in:mandatory,optional,off'],
-            'cover_letter' => ['required', 'in:mandatory,optional,off'],
-            'cv' => ['required', 'in:mandatory,optional,off'],
+            'firstname' => ['required', 'in:Mandatory'],
+            'lastname' => ['required', 'in:Mandatory'],
+            'email' => ['required', 'in:Mandatory'],
+            'phone' => ['required', 'in:Mandatory,Optional,Off'],
+            'heading' => ['required', 'in:Mandatory,Optional,Off'],
+            'address' => ['required', 'in:Mandatory,Optional,Off'],
+            'photo' => ['required', 'in:Mandatory,Optional,Off'],
+            'education' => ['required', 'in:Mandatory,Optional,Off'],
+            'experience' => ['required', 'in:Mandatory,Optional,Off'],
+            'summary' => ['required', 'in:Mandatory,Optional,Off'],
+            'resume' => ['required', 'in:Mandatory,Optional,Off'],
+            'cover_letter' => ['required', 'in:Mandatory,Optional,Off'],
+            'cv' => ['required', 'in:Mandatory,Optional,Off'],
         ];
     }
 }

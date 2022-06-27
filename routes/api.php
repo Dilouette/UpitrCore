@@ -137,6 +137,26 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::get('/', [JobController::class, 'index'])->name('index');
         Route::get('/{id}', [JobController::class, 'show'])->name('show');
         Route::put('/{id}', [JobController::class, 'update'])->name('update');
+        Route::put('/publish/{id}', [JobController::class, 'publish'])->name('publish');
+        Route::put('/unpublish/{id}', [JobController::class, 'unpublish'])->name('unpublish');
         Route::delete('/{id}', [JobController::class, 'destroy'])->name('destroy');
     });
+
+    //Vacancy Settings Routes
+    Route::name('vacancy.settings.')->prefix('vacancy-setting')->middleware('auth:api')->group(function () {
+        Route::post('/', [JobSettingController::class, 'store'])->name('store');
+        Route::get('/{id}', [JobSettingController::class, 'show'])->name('show');
+        Route::put('/{id}', [JobSettingController::class, 'update'])->name('update');
+    });
+
+    //Vacancy Questions Routes
+    Route::name('vacancy.questions.')->prefix('vacancy-questions')->middleware('auth:api')->group(function () {
+        Route::post('/', [JobSettingController::class, 'store'])->name('store');
+        Route::post('/bulk', [JobSettingController::class, 'bulkStore'])->name('store.bulk');
+        Route::get('/{id}', [JobSettingController::class, 'show'])->name('show');
+        Route::put('/{id}', [JobSettingController::class, 'update'])->name('update');
+        Route::delete('/{id}', [JobController::class, 'destroy'])->name('destroy');
+    });
+
+    
 });

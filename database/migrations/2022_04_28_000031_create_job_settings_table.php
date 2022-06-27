@@ -30,9 +30,9 @@ return new class extends Migration {
             $table
                 ->enum('photo', ['Mandatory', 'Optional', 'Off'])
                 ->default('Mandatory');
-            $table->enum('education', ['Optional', 'Off'])->default('Optional');
+            $table->enum('education', ['Mandatory','Optional', 'Off'])->default('Optional');
             $table
-                ->enum('experience', ['Optional', 'Off'])
+                ->enum('experience', ['Mandatory','Optional', 'Off'])
                 ->default('Optional');
             $table
                 ->enum('summary', ['Mandatory', 'Optional', 'Off'])

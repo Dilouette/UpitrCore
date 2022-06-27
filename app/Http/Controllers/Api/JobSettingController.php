@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use App\Models\JobSetting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,38 +11,25 @@ use App\Http\Resources\JobSettingCollection;
 use App\Http\Requests\JobSettingStoreRequest;
 use App\Http\Requests\JobSettingUpdateRequest;
 
-class JobSettingController extends Controller
+class JobSettingController extends ServiceController
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $this->authorize('view-any', JobSetting::class);
-
-        $search = $request->get('search', '');
-
-        $jobSettings = JobSetting::search($search)
-            ->latest()
-            ->paginate();
-
-        return new JobSettingCollection($jobSettings);
-    }
-
     /**
      * @param \App\Http\Requests\JobSettingStoreRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(JobSettingStoreRequest $request)
     {
-        $this->authorize('create', JobSetting::class);
+        try {
+            $validated = $request->validated();
+            $validated['created_at'] = Carbon::now();
 
-        $validated = $request->validated();
-
-        $jobSetting = JobSetting::create($validated);
-
-        return new JobSettingResource($jobSetting);
+            $jobSetting = JobSetting::create($validated);
+            
+            return $this->success(new JobSettingResource($jobSetting));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
+        
     }
 
     /**
@@ -49,11 +37,17 @@ class JobSettingController extends Controller
      * @param \App\Models\JobSetting $jobSetting
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, JobSetting $jobSetting)
+    public function show($job_id)
     {
-        $this->authorize('view', $jobSetting);
-
-        return new JobSettingResource($jobSetting);
+        try {
+            $jobSetting  = JobSetting::where('job_id',$job_id)->first();
+            if (!$jobSetting) {
+                return $this->not_found();
+            }
+            return $this->success(new JobSettingResource($jobSetting));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }        
     }
 
     /**
@@ -61,30 +55,22 @@ class JobSettingController extends Controller
      * @param \App\Models\JobSetting $jobSetting
      * @return \Illuminate\Http\Response
      */
-    public function update(
-        JobSettingUpdateRequest $request,
-        JobSetting $jobSetting
-    ) {
-        $this->authorize('update', $jobSetting);
+    public function update(JobSettingUpdateRequest $request, $job_id) {      
 
-        $validated = $request->validated();
+        try {
+            $validated = $request->validated();
+            $validated['updated_at'] = Carbon::now();
 
-        $jobSetting->update($validated);
+            $jobSetting  = JobSetting::where('job_id',$job_id)->first();
+            if (!$jobSetting) {
+                return $this->not_found();
+            }
 
-        return new JobSettingResource($jobSetting);
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\JobSetting $jobSetting
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, JobSetting $jobSetting)
-    {
-        $this->authorize('delete', $jobSetting);
-
-        $jobSetting->delete();
-
-        return response()->noContent();
+            $jobSetting->update($validated);
+            
+            return $this->success(new JobSettingResource($jobSetting));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 }
