@@ -19,8 +19,7 @@ class MiscellaneousController extends ServiceController
     public function countries()
     {
         try {            
-            $countries = Country::all()
-            ->orderby('id');
+            $countries = Country::orderBy('created_at')->get();
             return $this->success($countries);
         } catch (\Throwable $ex) {
             return $this->server_error($ex);
@@ -30,7 +29,7 @@ class MiscellaneousController extends ServiceController
     public function regions($country_id)
     {
         try {            
-            $states = Region::where('country_id', $country_id)->get();
+            $states = Region::where('country_id', $country_id)->orderby('created_at')->get();            
             return $this->success($states);
         } catch (\Throwable $ex) {
             return $this->server_error($ex);
@@ -40,7 +39,7 @@ class MiscellaneousController extends ServiceController
     public function cities($region_id)
     {
         try {            
-            $cities = City::where('region_id', $region_id)->get();
+            $cities = City::where('region_id', $region_id)->orderby('created_at')->get();
             return $this->success($cities);
         } catch (\Throwable $ex) {
             return $this->server_error($ex);
@@ -50,7 +49,7 @@ class MiscellaneousController extends ServiceController
     public function currencies()
     {
         try {            
-            $items = Currency::all();
+            $items = Currency::orderBy('created_at')->get();
             return $this->success($items);
         } catch (\Throwable $ex) {
             return $this->server_error($ex);
@@ -60,7 +59,7 @@ class MiscellaneousController extends ServiceController
     public function designations()
     {
         try {            
-            $items = Designation::all();
+            $items = Designation::orderBy('created_at')->get();
             return $this->success($items);
         } catch (\Throwable $ex) {
             return $this->server_error($ex);
@@ -70,7 +69,7 @@ class MiscellaneousController extends ServiceController
     public function educationLevels()
     {
         try {            
-            $items = EducationLevel::all();
+            $items = EducationLevel::orderBy('created_at')->get();
             return $this->success($items);
         } catch (\Throwable $ex) {
             return $this->server_error($ex);
@@ -80,7 +79,7 @@ class MiscellaneousController extends ServiceController
     public function employmentTypes()
     {
         try {            
-            $items = EmploymentType::all();
+            $items = EmploymentType::orderBy('created_at')->get();
             return $this->success($items);
         } catch (\Throwable $ex) {
             return $this->server_error($ex);
@@ -90,7 +89,7 @@ class MiscellaneousController extends ServiceController
     public function experienceLevels()
     {
         try {            
-            $items = ExperienceLevel::all();
+            $items = ExperienceLevel::orderBy('created_at')->get();
             return $this->success($items);
         } catch (\Throwable $ex) {
             return $this->server_error($ex);
@@ -100,7 +99,7 @@ class MiscellaneousController extends ServiceController
     public function industries()
     {
         try {            
-            $items = Industry::all();
+            $items = Industry::orderBy('created_at')->get();
             return $this->success($items);
         } catch (\Throwable $ex) {
             return $this->server_error($ex);
@@ -110,7 +109,7 @@ class MiscellaneousController extends ServiceController
     public function jobFunctions()
     {
         try {            
-            $items = JobFunction::all();
+            $items = JobFunction::orderBy('created_at')->get();
             return $this->success($items);
         } catch (\Throwable $ex) {
             return $this->server_error($ex);

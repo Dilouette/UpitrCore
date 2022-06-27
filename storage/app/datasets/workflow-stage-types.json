@@ -1,0 +1,10 @@
+[  
+    {
+        "name": "Assessment",
+        "description": "Candidates' assessment"
+    },
+    {
+        "name": "Interview",
+        "description": "Candidates'  interview"
+    }
+]

@@ -11,6 +11,11 @@ class Industry extends Model
     use HasFactory;
     use Searchable;
 
+    protected $hidden = [
+        'created_at',
+        'updated_at', 
+    ];
+
     protected $fillable = ['name'];
 
     protected $searchableFields = ['*'];

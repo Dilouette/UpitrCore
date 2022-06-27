@@ -15,6 +15,11 @@ class EducationLevel extends Model
 
     protected $searchableFields = ['*'];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at', 
+    ];
+
     protected $table = 'education_levels';
 
     public function jobs()

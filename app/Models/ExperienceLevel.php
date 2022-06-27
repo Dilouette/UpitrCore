@@ -15,6 +15,11 @@ class ExperienceLevel extends Model
 
     protected $searchableFields = ['*'];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at', 
+    ];
+
     protected $table = 'experience_levels';
 
     public function jobs()

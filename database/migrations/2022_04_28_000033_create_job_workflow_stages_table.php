@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('name');
             $table->text('description');
             $table->tinyInteger('order');
-            $table->tinyInteger('stage_type_id');
+            $table->tinyInteger('stage_type_id')->nullable();
             $table->unsignedBigInteger('job_workflow_id');
 
             $table->timestamps();

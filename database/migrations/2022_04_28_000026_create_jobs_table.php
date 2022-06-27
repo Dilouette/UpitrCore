@@ -39,8 +39,8 @@ return new class extends Migration {
             $table->decimal('salary_max')->nullable();
             $table->unsignedBigInteger('salary_currency_id')->nullable();
             $table->smallInteger('head_count')->nullable();
-            $table->bigInteger('created_by');
-            $table->boolean('is_published');
+            $table->unsignedBigInteger('created_by');
+            $table->boolean('is_published')->default(false);
             $table->dateTime('deadline');
             $table->unsignedBigInteger('job_workflow_id');
 

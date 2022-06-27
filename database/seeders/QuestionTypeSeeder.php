@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\QuestionType;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class QuestionTypeSeeder extends Seeder
 {
@@ -14,8 +15,14 @@ class QuestionTypeSeeder extends Seeder
      */
     public function run()
     {
-        QuestionType::factory()
-            ->count(5)
-            ->create();
+        $file = Storage::get("datasets/question-types.json");
+        $types = json_decode($file);
+
+        foreach ($types as $key => $type) {
+            QuestionType::create([
+                "name" => $type,
+                "description" => $type
+            ]);
+        }
     }
 }

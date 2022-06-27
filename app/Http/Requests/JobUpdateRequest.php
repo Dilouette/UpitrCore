@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class JobUpdateRequest extends FormRequest
+class JobUpdateRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -72,10 +72,7 @@ class JobUpdateRequest extends FormRequest
                 'exists:currencies,id',
             ],
             'head_count' => ['nullable', 'max:255'],
-            'created_by' => ['required', 'max:255'],
-            'is_published' => ['required', 'boolean'],
-            'deadline' => ['required', 'date'],
-            'job_workflow_id' => ['required', 'exists:job_workflows,id'],
+            'deadline' => ['required', 'date']
         ];
     }
 }

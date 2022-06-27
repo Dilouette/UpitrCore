@@ -1,0 +1,32 @@
+[    
+    {
+        "name": "Sourced",
+        "description": "Source candidates",
+        "order": 1
+    },
+    {
+        "name": "Applied",
+        "description": "Applied candidates",
+        "order": 2
+    },
+    {
+        "name": "Assessment",
+        "description": "Candidates' assessment",
+        "order": 3
+    },
+    {
+        "name": "Interview",
+        "description": "Candidates'  interview",
+        "order": 4
+    },
+    {
+        "name": "Offer",
+        "description": "Candidates' offer",
+        "order": 5
+    },
+    {
+        "name": "Hired",
+        "description": "Candidates' hired",
+        "order": 5
+    }
+]

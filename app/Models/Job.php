@@ -139,4 +139,9 @@ class Job extends Model
     {
         return $this->hasMany(Note::class);
     }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

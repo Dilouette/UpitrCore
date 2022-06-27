@@ -15,6 +15,11 @@ class EmploymentType extends Model
 
     protected $searchableFields = ['*'];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at', 
+    ];
+
     protected $table = 'employment_types';
 
     public function jobs()

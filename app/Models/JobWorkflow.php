@@ -17,6 +17,12 @@ class JobWorkflow extends Model
 
     protected $searchableFields = ['*'];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at', 
+        'deleted_at', 
+    ];
+
     protected $table = 'job_workflows';
 
     protected $casts = [

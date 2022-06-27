@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Api;
 use Carbon\Carbon;
 use App\Models\Department;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\TryCatch;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\DepartmentResource;
 use App\Http\Resources\DepartmentCollection;
@@ -23,13 +21,17 @@ class DepartmentController extends ServiceController
     public function index(Request $request)
     {
         try {
-            $search = $request->get('search', '');
-            $departments = Department::search($search)
-                ->latest()
-                ->orderby('id')
-                ->paginate();
-            $departments->makeHidden(['created_by']);
-            return $this->success(new DepartmentCollection($departments));
+            $page_size = env('DEFAULT_PAGE_SIZE');
+
+            if ($request->filled('page_size')) {
+                $page_size = $request->page_size;
+            }            
+            $query = Department::query()
+                ->orderby('id', 'desc');
+
+            $departments = $query->paginate($page_size);
+
+            return $this->success($departments);
         } catch (\Throwable $th) {
             return $this->server_error($th);
         }
@@ -42,15 +44,12 @@ class DepartmentController extends ServiceController
     public function store(DepartmentStoreRequest $request)
     {
         try {
+            
             $user = Auth::user();
 
-            Log::debug($user);
-            
             $validated = $request->validated();
 
-            if ($validated['created_by'] != $user->id) {
-                return $this->bad_request(null, null, 'user_mismatch');
-            }
+            $validated['created_by'] = $user->id;
 
             $department = Department::create($validated);
 

@@ -130,4 +130,13 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::put('/{id}', [DepartmentController::class, 'update'])->name('update');
         Route::delete('/{id}', [DepartmentController::class, 'destroy'])->name('destroy');
     });
+
+    //Vacancy Routes
+    Route::name('vacancy.')->prefix('vacancies')->middleware('auth:api')->group(function () {
+        Route::post('/', [JobController::class, 'store'])->name('store');
+        Route::get('/', [JobController::class, 'index'])->name('index');
+        Route::get('/{id}', [JobController::class, 'show'])->name('show');
+        Route::put('/{id}', [JobController::class, 'update'])->name('update');
+        Route::delete('/{id}', [JobController::class, 'destroy'])->name('destroy');
+    });
 });

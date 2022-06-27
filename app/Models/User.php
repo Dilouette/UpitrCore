@@ -34,7 +34,16 @@ class User extends Authenticatable
 
     protected $searchableFields = ['*'];
 
-    protected $hidden = ['password', 'remember_token','department_id','designation_id', 'roles'];
+    protected $hidden = [
+        'password', 
+        'remember_token',
+        'department_id',
+        'designation_id', 
+        'roles',
+        'created_at',
+        'updated_at', 
+        'deleted_at',
+    ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',

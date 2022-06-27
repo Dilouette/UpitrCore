@@ -89,6 +89,13 @@ return new class extends Migration {
                 ->on('job_workflows')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
+
+            $table
+                ->foreign('created_by')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
         });
     }
 
@@ -111,6 +118,7 @@ return new class extends Migration {
             $table->dropForeign(['education_level_id']);
             $table->dropForeign(['salary_currency_id']);
             $table->dropForeign(['job_workflow_id']);
+            $table->dropForeign(['created_by']);
         });
     }
 };

@@ -13,6 +13,14 @@ class City extends Model
 
     protected $fillable = ['region_id', 'name'];
 
+    protected $hidden =[
+        'region_id', 
+        'created_at',
+        'update_at',             
+    ];
+
+    protected $with = ['region'];
+
     protected $searchableFields = ['*'];
 
     public function region()

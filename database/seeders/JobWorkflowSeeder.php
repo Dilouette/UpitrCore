@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\JobWorkflow;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class JobWorkflowSeeder extends Seeder
 {
@@ -14,8 +15,10 @@ class JobWorkflowSeeder extends Seeder
      */
     public function run()
     {
-        JobWorkflow::factory()
-            ->count(5)
-            ->create();
+        JobWorkflow::create([
+            "name" => 'default',
+            "description" => 'System default workflow',
+            "is_system_workflow" => true
+        ]);
     }
 }

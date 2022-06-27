@@ -30,6 +30,9 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionGroupSeeder::class);
         $this->call(PermissionsSeeder::class);
         $this->call(JobFunctionSeeder::class);
+        $this->call(QuestionTypeSeeder::class);
+        $this->call(JobWorkflowSeeder::class);
+        $this->call(JobWorkflowStageSeeder::class);
 
         // $this->call(ActivitySeeder::class);
         // $this->call(ApplicantAssesmentSeeder::class);
@@ -55,6 +58,5 @@ class DatabaseSeeder extends Seeder
         // $this->call(JobWorkflowSeeder::class);
         // $this->call(JobWorkflowStageSeeder::class);
         // $this->call(NoteSeeder::class);
-        // $this->call(QuestionTypeSeeder::class);
     }
 }

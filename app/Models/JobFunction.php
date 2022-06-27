@@ -15,6 +15,11 @@ class JobFunction extends Model
 
     protected $searchableFields = ['*'];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at', 
+    ];
+
     protected $table = 'job_functions';
 
     public function jobs()

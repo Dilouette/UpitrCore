@@ -17,6 +17,12 @@ class Department extends Model
 
     protected $searchableFields = ['name', 'description'];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at', 
+        'deleted_at',
+    ];
+
     public function jobs()
     {
         return $this->hasMany(Job::class);

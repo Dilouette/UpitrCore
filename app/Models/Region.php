@@ -13,6 +13,14 @@ class Region extends Model
 
     protected $fillable = ['country_id', 'name'];
 
+    protected $hidden =[
+        'country_id',
+        'created_at',
+        'update_at',             
+    ];
+
+    protected $with = ['country'];
+
     protected $searchableFields = ['*'];
 
     public function country()

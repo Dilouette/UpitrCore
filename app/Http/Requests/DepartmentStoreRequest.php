@@ -23,8 +23,7 @@ class DepartmentStoreRequest extends BaseRequest
     {
         return [
             'name' => ['required', 'max:255', 'string'],
-            'description' => ['required', 'max:255', 'string'],
-            'created_by' => ['required', 'numeric', 'exists:users,id'],
+            'description' => ['required', 'max:255', 'string']
         ];
     }
 }

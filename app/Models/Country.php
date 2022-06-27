@@ -15,6 +15,11 @@ class Country extends Model
 
     protected $searchableFields = ['*'];
 
+    protected $hidden =[
+        'created_at',
+        'update_at',             
+    ];
+
     public function regions()
     {
         return $this->hasMany(Region::class);
