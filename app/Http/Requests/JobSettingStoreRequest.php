@@ -28,6 +28,8 @@ class JobSettingStoreRequest extends BaseRequest
             'firstname' => ['required', 'in:Mandatory'],
             'lastname' => ['required', 'in:Mandatory'],
             'email' => ['required', 'in:Mandatory'],
+            'dob' => ['required', 'in:Mandatory'],
+            'gender' => ['required', 'in:Mandatory'],
             'phone' => ['required', 'in:Mandatory,Optional,Off'],
             'heading' => ['required', 'in:Mandatory,Optional,Off'],
             'address' => ['required', 'in:Mandatory,Optional,Off'],

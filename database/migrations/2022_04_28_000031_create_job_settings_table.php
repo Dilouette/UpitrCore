@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->enum('firstname', ['Mandatory'])->default('Mandatory');
             $table->enum('lastname', ['Mandatory'])->default('Mandatory');
             $table->enum('email', ['Mandatory'])->default('Mandatory');
+            $table->enum('dob', ['Mandatory'])->default('Mandatory');
+            $table->enum('gender', ['Mandatory'])->default('Mandatory');
             $table
                 ->enum('phone', ['Mandatory', 'Optional', 'Off'])
                 ->default('Mandatory');

@@ -158,5 +158,12 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::delete('/{id}', [JobQuestionController::class, 'destroy'])->name('destroy');
     });
 
+    //Candidates
+    Route::name('candidates')->prefix('candidates')->middleware('auth:api')->group(function () {
+        Route::post('/', [JobQuestionController::class, 'store'])->name('store');
+        Route::get('/{id}', [JobQuestionController::class, 'show'])->name('show');
+        Route::put('/{id}', [JobQuestionController::class, 'update'])->name('update');
+        Route::delete('/{id}', [JobQuestionController::class, 'destroy'])->name('destroy');
+    });
 
 });

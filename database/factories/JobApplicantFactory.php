@@ -23,19 +23,21 @@ class JobApplicantFactory extends Factory
     public function definition()
     {
         return [
-            'firstname' => $this->faker->text(255),
+            'firstname' => $this->faker->firstName,
             'lastname' => $this->faker->lastName,
             'email' => $this->faker->email,
+            'dob' => $this->faker->dateTimeBetween($startDate='-30 years', $endDate='-20 years'),
+            'gender_id' => $this->faker->randomElement(0, 1),
             'phone' => $this->faker->phoneNumber,
-            'headline' => $this->faker->text(255),
+            'headline' => $this->faker->text(128),
             'address' => $this->faker->text,
             'summary' => $this->faker->text,
-            'resume' => $this->faker->text(255),
-            'cover_letter' => $this->faker->text,
-            'cv' => $this->faker->text,
-            'consideration_id' => $this->faker->numberBetween(0, 127),
-            'job_id' => \App\Models\Job::factory(),
-            'job_workflow_stage_id' => \App\Models\JobWorkflowStage::factory(),
+            'resume' => $this->faker->imageUrl(),
+            'cover_letter' => $this->faker->imageUrl(),
+            'skills' => $this->faker->text,
+            'consideration_id' => $this->faker->numberBetween(0, 2),
+            'job_id' => $this->faker->numberBetween(0, 20),
+            'job_workflow_stage_id' => $this->faker->numberBetween(0, 5),
         ];
     }
 }

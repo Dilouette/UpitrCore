@@ -16,6 +16,8 @@ class JobSetting extends Model
         'firstname',
         'lastname',
         'email',
+        'dob',
+        'gender',
         'phone',
         'heading',
         'address',

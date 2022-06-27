@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->string('firstname');
             $table->string('lastname');
             $table->string('email');
+            $table->date('dob');
+            $table->tinyInteger('gender_id');
             $table->string('phone')->nullable();
             $table->string('headline')->nullable();
             $table->text('address')->nullable();
@@ -25,7 +27,7 @@ return new class extends Migration {
             $table->text('summary')->nullable();
             $table->string('resume')->nullable();
             $table->text('cover_letter')->nullable();
-            $table->text('cv')->nullable();
+            $table->text('skills')->nullable();
             $table->unsignedBigInteger('job_workflow_stage_id');
             $table->tinyInteger('consideration_id');
 
