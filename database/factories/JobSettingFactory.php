@@ -31,7 +31,7 @@ class JobSettingFactory extends Factory
             'address' => 'Mandatory',
             'photo' => 'Mandatory',
             'education' => 'Optional',
-            'experience' => 'optional',
+            'experience' => 'Optional',
             'summary' => 'Mandatory',
             'resume' => 'Mandatory',
             'cover_letter' => 'Mandatory',

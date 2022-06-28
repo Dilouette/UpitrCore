@@ -10,23 +10,22 @@ use App\Http\Resources\ApplicantResponseCollection;
 use App\Http\Requests\ApplicantResponseStoreRequest;
 use App\Http\Requests\ApplicantResponseUpdateRequest;
 
-class ApplicantResponseController extends Controller
+class ApplicantResponseController extends ServiceController
 {
     /**
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($applicant_id)
     {
-        $this->authorize('view-any', ApplicantResponse::class);
+        try {
+            $applicantResponses = ApplicantResponse::where('job_applicant_id',$applicant_id)->orderBy('id', 'asc')->get();
 
-        $search = $request->get('search', '');
-
-        $applicantResponses = ApplicantResponse::search($search)
-            ->latest()
-            ->paginate();
-
-        return new ApplicantResponseCollection($applicantResponses);
+            return $this->success(new ApplicantResponseCollection($applicantResponses));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }  
+        
     }
 
     /**
@@ -35,13 +34,17 @@ class ApplicantResponseController extends Controller
      */
     public function store(ApplicantResponseStoreRequest $request)
     {
-        $this->authorize('create', ApplicantResponse::class);
+        try {
+            $validated = $request->validated();
 
-        $validated = $request->validated();
+            $applicantResponse = ApplicantResponse::create($validated);
 
-        $applicantResponse = ApplicantResponse::create($validated);
+            return $this->created(new ApplicantResponseResource($applicantResponse));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }   
 
-        return new ApplicantResponseResource($applicantResponse);
+        
     }
 
     /**

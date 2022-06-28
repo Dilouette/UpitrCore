@@ -14,6 +14,7 @@ class ApplicantResponse extends Model
     protected $fillable = [
         'job_applicant_id',
         'job_question_id',
+        'response',
         'job_question_option_id',
     ];
 

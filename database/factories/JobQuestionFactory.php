@@ -23,7 +23,7 @@ class JobQuestionFactory extends Factory
     public function definition()
     {
         return [
-            'question' => $this->faker->text,
+            'question' => $this->faker->text(128),
             'job_id' => \App\Models\Job::factory(),
             'job_question_type_id' => \App\Models\QuestionType::factory(),
         ];

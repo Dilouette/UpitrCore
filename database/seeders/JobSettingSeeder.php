@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+
+use App\Models\Job;
 use App\Models\JobSetting;
 use Illuminate\Database\Seeder;
 
@@ -14,8 +16,12 @@ class JobSettingSeeder extends Seeder
      */
     public function run()
     {
-        JobSetting::factory()
-            ->count(5)
-            ->create();
+        $jobs = Job::all();
+        foreach ($jobs as $key => $job) {
+            JobSetting::factory()
+            ->create([
+                'job_id' => $job->id,
+            ]);
+        }        
     }
 }

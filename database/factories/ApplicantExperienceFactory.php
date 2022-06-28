@@ -23,10 +23,10 @@ class ApplicantExperienceFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->text(255),
-            'company' => $this->faker->text(255),
-            'industry_id' => $this->faker->randomNumber(0),
-            'summary' => $this->faker->text,
+            'title' => $this->faker->jobTitle(),
+            'company' => $this->faker->company(),
+            'industry_id' => $this->faker->randomDigit(),
+            'summary' => $this->faker->text(128),
             'start_date' => $this->faker->date,
             'end_date' => $this->faker->date,
             'job_applicant_id' => \App\Models\JobApplicant::factory(),

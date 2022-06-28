@@ -25,6 +25,7 @@ class ApplicantResponseFactory extends Factory
         return [
             'job_applicant_id' => \App\Models\JobApplicant::factory(),
             'job_question_id' => \App\Models\JobQuestion::factory(),
+            'response' => $this->faker->text(64),
             'job_question_option_id' => \App\Models\JobQuestionOption::factory(),
         ];
     }

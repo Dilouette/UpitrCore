@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('job_applicant_id');
             $table->unsignedBigInteger('job_question_id');
+            $table->text('response')->nullable();
             $table->unsignedBigInteger('job_question_option_id')->nullable();
 
             $table->timestamps();

@@ -23,9 +23,9 @@ class ApplicantEducationFactory extends Factory
     public function definition()
     {
         return [
-            'institution' => $this->faker->text(255),
-            'field' => $this->faker->text(255),
-            'degree' => $this->faker->text(255),
+            'institution' => $this->faker->company(),
+            'field' => $this->faker->jobTitle(),
+            'degree' => $this->faker->text(64),
             'start_date' => $this->faker->date,
             'end_date' => $this->faker->date,
             'job_applicant_id' => \App\Models\JobApplicant::factory(),

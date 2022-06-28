@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\JobApplicant;
 use Illuminate\Database\Seeder;
 use App\Models\ApplicantExperience;
 
@@ -14,8 +15,13 @@ class ApplicantExperienceSeeder extends Seeder
      */
     public function run()
     {
-        ApplicantExperience::factory()
+        $applicants = JobApplicant::all();
+        foreach ($applicants as $i => $applicant) {
+            ApplicantExperience::factory()
             ->count(5)
-            ->create();
+            ->create([
+                'job_applicant_id' => $applicant->id,
+            ]);
+        }        
     }
 }

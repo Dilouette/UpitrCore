@@ -23,17 +23,17 @@ class JobFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence(10),
-            'code' => $this->faker->unique->text(16),
+            'title' => $this->faker->jobTitle(),
+            'code' => $this->faker->unique->text(8),
             'zip_code' => $this->faker->address(),
-            'location' => $this->faker->text(255),
+            'location' => $this->faker->text(128),
             'is_remote' => $this->faker->boolean,
             'description' => $this->faker->text,
             'requirements' => $this->faker->text,
             'benefit' => $this->faker->text,
             'keywords' => "MS Excel, ACCA, Dynamics, ICAN",
-            'salary_min' => $this->faker->randomNumber(200000),
-            'salary_max' => $this->faker->randomNumber(300000),
+            'salary_min' => 200000,
+            'salary_max' => 300000,
             'head_count' => $this->faker->numberBetween(0, 10),
             'created_by' => 1,
             'is_published' => $this->faker->boolean,

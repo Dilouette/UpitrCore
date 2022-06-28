@@ -160,10 +160,17 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
 
     //Candidates
     Route::name('candidates')->prefix('candidates')->middleware('auth:api')->group(function () {
-        Route::post('/', [JobQuestionController::class, 'store'])->name('store');
-        Route::get('/{id}', [JobQuestionController::class, 'show'])->name('show');
-        Route::put('/{id}', [JobQuestionController::class, 'update'])->name('update');
-        Route::delete('/{id}', [JobQuestionController::class, 'destroy'])->name('destroy');
+        Route::post('/', [JobApplicantController::class, 'store'])->name('store');
+        Route::get('/', [JobApplicantController::class, 'index'])->name('index');
+        Route::get('/{id}', [JobApplicantController::class, 'show'])->name('show');
+        Route::post('/{id}', [JobApplicantController::class, 'update'])->name('update');
+    });
+
+    //Candidates' vacancy questions
+    Route::name('candidate.responses')->prefix('candidates-responses')->middleware('auth:api')->group(function () {
+        Route::get('/{applicant_id}', [ApplicantResponseController::class, 'index'])->name('index');
+        Route::post('/', [ApplicantResponseController::class, 'store'])->name('store');
+        Route::put('/{id}', [ApplicantResponseController::class, 'index'])->name('update');
     });
 
 });

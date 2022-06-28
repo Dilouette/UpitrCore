@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\ApplicantResponse;
+use App\Models\JobApplicant;
+use App\Models\JobQuestion;
+use App\Models\JobQuestionOption;
 
 class ApplicantResponseSeeder extends Seeder
 {
@@ -14,8 +17,30 @@ class ApplicantResponseSeeder extends Seeder
      */
     public function run()
     {
-        ApplicantResponse::factory()
-            ->count(5)
-            ->create();
+        $applicants = JobApplicant::all();
+        foreach ($applicants as $i => $applicant) {
+            $questions = JobQuestion::where('job_id', $applicant->job_id)->get();
+            foreach ($questions as $j => $question) {
+                if ($question->has_options) {
+                    $options = JobQuestionOption::where('job_question_id', $question->id)->get()->pluck('id');
+                    ApplicantResponse::factory()
+                    ->create([
+                        'job_applicant_id' => $applicant->id,
+                        'job_question_id' => $question->id,
+                        'response' => null,
+                        'job_question_option_id' => $options[rand(1,5)],
+                    ]);
+                } else {
+                    ApplicantResponse::factory()
+                    ->create([
+                        'job_applicant_id' => $applicant->id,
+                        'job_question_id' => $question->id,
+                        'job_question_option_id' => null,
+                    ]);
+                }              
+                
+            }
+            
+        }         
     }
 }

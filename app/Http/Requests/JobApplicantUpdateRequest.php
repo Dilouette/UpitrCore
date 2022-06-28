@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class JobApplicantUpdateRequest extends FormRequest
+class JobApplicantUpdateRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,14 +33,10 @@ class JobApplicantUpdateRequest extends FormRequest
             'address' => ['nullable', 'max:255', 'string'],
             'photo' => ['nullable', 'file'],
             'summary' => ['nullable', 'max:255', 'string'],
-            'resume' => ['nullable', 'max:255', 'string'],
-            'cover_letter' => ['nullable', 'max:255', 'string'],
-            'cv' => ['nullable', 'max:255', 'string'],
-            'job_workflow_stage_id' => [
-                'required',
-                'exists:job_workflow_stages,id',
-            ],
-            'consideration_id' => ['required', 'max:255'],
+            'resume' => ['nullable', 'file'],
+            'cover_letter' => ['nullable', 'file'],
+            'skills' => ['nullable', 'string'],
+            'dob' => ['required', 'date'],            
         ];
     }
 }

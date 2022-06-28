@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\JobApplicant;
 use Illuminate\Database\Seeder;
 use App\Models\ApplicantEducation;
 
@@ -14,8 +15,13 @@ class ApplicantEducationSeeder extends Seeder
      */
     public function run()
     {
-        ApplicantEducation::factory()
+        $applicants = JobApplicant::all();
+        foreach ($applicants as $i => $applicant) {
+            ApplicantEducation::factory()
             ->count(5)
-            ->create();
+            ->create([
+                'job_applicant_id' => $applicant->id,
+            ]);
+        }
     }
 }

@@ -107,7 +107,9 @@ class JobController extends ServiceController
                 'experienceLevel', 
                 'educationLevel', 
                 'currency', 
-                'jobWorkflow'
+                'jobWorkflow',
+                'jobQuestions',
+                'jobSettings'
             );
 
             return $this->created(new JobResource($job));
@@ -208,7 +210,9 @@ class JobController extends ServiceController
                 'experienceLevel', 
                 'educationLevel', 
                 'currency', 
-                'jobWorkflow'
+                'jobWorkflow',
+                'jobQuestions',
+                'jobSettings'
             );
 
             return $this->success(new JobResource($job));
@@ -258,7 +262,9 @@ class JobController extends ServiceController
                 'experienceLevel', 
                 'educationLevel', 
                 'currency', 
-                'jobWorkflow'
+                'jobWorkflow',
+                'jobQuestions',
+                'jobSettings'
             );
 
             return $this->success(new JobResource($job));
@@ -310,7 +316,9 @@ class JobController extends ServiceController
                 'experienceLevel', 
                 'educationLevel', 
                 'currency', 
-                'jobWorkflow'
+                'jobWorkflow',
+                'jobQuestions',
+                'jobSettings'
             );
 
             return $this->success(new JobResource($job));

@@ -15,7 +15,7 @@ class JobSeeder extends Seeder
     public function run()
     {
         Job::factory()
-            ->count(5)
+            ->count(20)
             ->create();
     }
 }

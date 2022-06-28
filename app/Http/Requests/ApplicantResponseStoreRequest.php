@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ApplicantResponseStoreRequest extends FormRequest
+class ApplicantResponseStoreRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,6 +30,7 @@ class ApplicantResponseStoreRequest extends FormRequest
                 'nullable',
                 'exists:job_question_options,id',
             ],
+            'response' => ['nullable', 'string'],
         ];
     }
 }

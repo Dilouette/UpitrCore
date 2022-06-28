@@ -30,6 +30,7 @@ return new class extends Migration {
             $table->text('skills')->nullable();
             $table->unsignedBigInteger('job_workflow_stage_id');
             $table->tinyInteger('consideration_id');
+            $table->tinyInteger('years_of_experience')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

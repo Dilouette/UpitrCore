@@ -33,14 +33,19 @@ class DatabaseSeeder extends Seeder
         $this->call(QuestionTypeSeeder::class);
         $this->call(JobWorkflowSeeder::class);
         $this->call(JobWorkflowStageSeeder::class);
+        $this->call(JobSeeder::class);
+        $this->call(JobSettingSeeder::class);
+        $this->call(JobQuestionSeeder::class);
+        $this->call(JobQuestionOptionSeeder::class);
+        $this->call(JobApplicantSeeder::class);
+        $this->call(ApplicantResponseSeeder::class);
+        $this->call(ApplicantEducationSeeder::class);
+        $this->call(ApplicantExperienceSeeder::class);
 
         // $this->call(ActivitySeeder::class);
         // $this->call(ApplicantAssesmentSeeder::class);
-        // $this->call(ApplicantEducationSeeder::class);
-        // $this->call(ApplicantExperienceSeeder::class);
         // $this->call(ApplicantInterviewSeeder::class);
         // $this->call(ApplicantInterviewFeedbackSeeder::class);
-        // $this->call(ApplicantResponseSeeder::class);
         // $this->call(AssesmentSeeder::class);
         // $this->call(AssesmentQuestionSeeder::class);
         // $this->call(AssesmentQuestionOptionSeeder::class);
@@ -49,14 +54,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(InterviewSeeder::class);
         // $this->call(InterviewSectionSeeder::class);
         // $this->call(InteviewQuestionSeeder::class);
-        // $this->call(JobSeeder::class);
-        // $this->call(JobApplicantSeeder::class);
-        // $this->call(JobFunctionSeeder::class);
-        // $this->call(JobQuestionSeeder::class);
-        // $this->call(JobQuestionOptionSeeder::class);
-        // $this->call(JobSettingSeeder::class);
-        // $this->call(JobWorkflowSeeder::class);
-        // $this->call(JobWorkflowStageSeeder::class);
         // $this->call(NoteSeeder::class);
     }
 }
