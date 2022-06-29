@@ -36,14 +36,16 @@ class JobQuestionController extends ServiceController
             }             
             $jobQuestion = JobQuestion::create($validated);
 
-            foreach($validated['question_options'] as $option){ 
+            if (isset($validated['question_options'])) {                
+                foreach($validated['question_options'] as $option){ 
 
-                $newOption = new JobQuestionOption();
+                    $newOption = new JobQuestionOption();
 
-                $newOption->option = $option;
-                $newOption->job_question_id = $jobQuestion->id;
+                    $newOption->option = $option;
+                    $newOption->job_question_id = $jobQuestion->id;
 
-                $newOption->save(); 
+                    $newOption->save(); 
+                }
             }
 
             DB::commit();
