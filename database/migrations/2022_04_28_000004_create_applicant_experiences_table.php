@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('company')->nullable();
-            $table->integer('industry_id')->nullable();
+            $table->unsignedBigInteger('industry_id')->nullable();
             $table->text('summary')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
