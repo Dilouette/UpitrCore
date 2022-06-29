@@ -15,6 +15,7 @@ return new class extends Migration {
         Schema::create('applicant_educations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('institution');
+            $table->tinyInteger('degree_classification_id')->nullable();
             $table->string('field')->nullable();
             $table->string('degree')->nullable();
             $table->date('start_date')->nullable();

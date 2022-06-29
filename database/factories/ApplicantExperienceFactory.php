@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Industry;
 use Illuminate\Support\Str;
 use App\Models\ApplicantExperience;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -25,7 +26,7 @@ class ApplicantExperienceFactory extends Factory
         return [
             'title' => $this->faker->jobTitle(),
             'company' => $this->faker->company(),
-            'industry_id' => $this->faker->randomDigit(),
+            'industry_id' => $this->faker->randomElement(Industry::pluck('id')->toArray()),
             'summary' => $this->faker->text(128),
             'start_date' => $this->faker->date,
             'end_date' => $this->faker->date,

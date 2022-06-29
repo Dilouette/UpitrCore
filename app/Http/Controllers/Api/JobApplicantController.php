@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\JobApplicantResource;
+use App\Http\Requests\JobApplicantMoveRequest;
 use App\Http\Resources\JobApplicantCollection;
 use App\Http\Requests\JobApplicantStoreRequest;
 use App\Http\Requests\JobApplicantUpdateRequest;
@@ -29,6 +30,20 @@ class JobApplicantController extends ServiceController
 
             $query = JobApplicant::query()
                 ->orderby('id', 'desc');
+            
+            $query->when($request->filled('degree_class'), function ($q) use($request){
+                return $q->whereHas('applicant_education', function ($q) use ($request) {
+                    $q->where('degree_classification_id', $request->degree_class);
+                });
+            });
+
+            $query->when(($request->filled('dob_start') && $request->filled('dob_end')), function ($q) use($request){
+                return $q->orWhereBetween('dob', [$request->date('dob_start'), $request->date('dob_end')]);
+            });
+
+            $query->when($request->filled('keyword'), function ($q) use($request){
+                return $q->where("note", "ilike", "%$request->keyword%");
+            });
 
             $applicants = $query->paginate($page_size);
             $applicants->load(
@@ -110,7 +125,8 @@ class JobApplicantController extends ServiceController
             $jobApplicant->load(
                 'applicantExperiences', 
                 'applicantEducations', 
-                'applicantResponses', 
+                'applicantResponses',
+                'jobWorkFlowStage', 
             );
 
             return $this->success(new JobApplicantResource($jobApplicant));
@@ -168,13 +184,51 @@ class JobApplicantController extends ServiceController
             $jobApplicant->load(
                 'applicantExperiences', 
                 'applicantEducations', 
-                'applicantResponses', 
+                'applicantResponses',
+                'jobWorkFlowStage', 
             );
 
             return $this->success(new JobApplicantResource($jobApplicant));
         } catch (\Throwable $th) {
             return $this->server_error($th);
-        }        
+        } 
+        
+    }
+
+        /**
+     * @param \App\Http\Requests\JobApplicantMoveRequest $request
+     * @param \App\Models\JobApplicant $jobApplicant
+     * @return \Illuminate\Http\Response
+     */
+    public function move(JobApplicantMoveRequest $request, $id) {
+
+        try {
+            $jobApplicant  = JobApplicant::find($id);
+
+            if (!$jobApplicant) {
+                return $this->not_found();
+            }
+
+            $validated = $request->validated();
+            $jobApplicant->update($validated);            
+
+            $jobApplicant->makeHidden([
+                'job_id',
+                'job_workflow_stage_id',        
+            ]);  
+
+            $jobApplicant->load(
+                'applicantExperiences', 
+                'applicantEducations', 
+                'applicantResponses',
+                'jobWorkFlowStage', 
+            );
+
+            return $this->success(new JobApplicantResource($jobApplicant));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        } 
+        
     }
 
     /**

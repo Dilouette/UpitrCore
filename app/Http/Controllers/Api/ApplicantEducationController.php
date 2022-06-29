@@ -10,23 +10,21 @@ use App\Http\Resources\ApplicantEducationCollection;
 use App\Http\Requests\ApplicantEducationStoreRequest;
 use App\Http\Requests\ApplicantEducationUpdateRequest;
 
-class ApplicantEducationController extends Controller
+class ApplicantEducationController extends ServiceController
 {
     /**
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($applicant_id)
     {
-        $this->authorize('view-any', ApplicantEducation::class);
+        try {
+            $applicantEducations = ApplicantEducation::where('job_applicant_id',$applicant_id)->orderBy('id', 'asc')->get();
 
-        $search = $request->get('search', '');
-
-        $applicantEducations = ApplicantEducation::search($search)
-            ->latest()
-            ->paginate();
-
-        return new ApplicantEducationCollection($applicantEducations);
+            return $this->success(new ApplicantEducationCollection($applicantEducations));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 
     /**
@@ -35,27 +33,15 @@ class ApplicantEducationController extends Controller
      */
     public function store(ApplicantEducationStoreRequest $request)
     {
-        $this->authorize('create', ApplicantEducation::class);
+        try {
+            
+            $validated = $request->validated();
+            $applicantEducation = ApplicantEducation::create($validated);
 
-        $validated = $request->validated();
-
-        $applicantEducation = ApplicantEducation::create($validated);
-
-        return new ApplicantEducationResource($applicantEducation);
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\ApplicantEducation $applicantEducation
-     * @return \Illuminate\Http\Response
-     */
-    public function show(
-        Request $request,
-        ApplicantEducation $applicantEducation
-    ) {
-        $this->authorize('view', $applicantEducation);
-
-        return new ApplicantEducationResource($applicantEducation);
+            return $this->success(new ApplicantEducationResource($applicantEducation));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        } 
     }
 
     /**
@@ -63,17 +49,19 @@ class ApplicantEducationController extends Controller
      * @param \App\Models\ApplicantEducation $applicantEducation
      * @return \Illuminate\Http\Response
      */
-    public function update(
-        ApplicantEducationUpdateRequest $request,
-        ApplicantEducation $applicantEducation
-    ) {
-        $this->authorize('update', $applicantEducation);
+    public function update(ApplicantEducationUpdateRequest $request, $id) {
+        try {
+            $validated = $request->validated();
+            $applicantEducation = ApplicantEducation::find($id);
+            if (!$applicantEducation) {
+                return $this->not_found();
+            }
+            $applicantEducation->update($validated);
 
-        $validated = $request->validated();
-
-        $applicantEducation->update($validated);
-
-        return new ApplicantEducationResource($applicantEducation);
+            return $this->success(new ApplicantEducationResource($applicantEducation));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 
     /**
@@ -81,14 +69,20 @@ class ApplicantEducationController extends Controller
      * @param \App\Models\ApplicantEducation $applicantEducation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(
-        Request $request,
-        ApplicantEducation $applicantEducation
-    ) {
-        $this->authorize('delete', $applicantEducation);
+    public function destroy($id)
+    {
+        try {
+            $applicantEducation = ApplicantEducation::find($id);
+            if (!$applicantEducation) {
+                return $this->not_found();
+            }
 
-        $applicantEducation->delete();
+            $applicantEducation->delete();
+            return $this->success();
 
-        return response()->noContent();
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 }
+

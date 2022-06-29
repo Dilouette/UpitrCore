@@ -34,4 +34,9 @@ class ApplicantExperience extends Model
     {
         return $this->belongsTo(JobApplicant::class);
     }
+
+    public function industry()
+    {
+        return $this->belongsTo(Industry::class);
+    }
 }

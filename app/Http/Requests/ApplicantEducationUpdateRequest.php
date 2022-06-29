@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use BenSampo\Enum\Rules\EnumValue;
+use App\Enums\DegreeClassification;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ApplicantEducationUpdateRequest extends FormRequest
@@ -25,11 +27,12 @@ class ApplicantEducationUpdateRequest extends FormRequest
     {
         return [
             'institution' => ['required', 'max:255', 'string'],
-            'field' => ['nullable', 'max:255', 'string'],
-            'degree' => ['nullable', 'max:255', 'string'],
-            'start_date' => ['nullable', 'date'],
+            'field' => ['required', 'max:255', 'string'],
+            'degree' => ['required', 'max:255', 'string'],
+            'start_date' => ['required', 'date'],
             'end_date' => ['nullable', 'date'],
             'job_applicant_id' => ['required', 'exists:job_applicants,id'],
+            'degree_classification_id' => ['required', 'integer', new EnumValue(DegreeClassification::class)],
         ];
     }
 }

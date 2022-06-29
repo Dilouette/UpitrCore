@@ -19,6 +19,12 @@ return new class extends Migration {
                 ->on('job_applicants')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
+            $table
+                ->foreign('industry_id')
+                ->references('id')
+                ->on('industries')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
         });
     }
 
@@ -31,6 +37,7 @@ return new class extends Migration {
     {
         Schema::table('applicant_experiences', function (Blueprint $table) {
             $table->dropForeign(['job_applicant_id']);
+            $table->dropForeign(['industry_id']);
         });
     }
 };

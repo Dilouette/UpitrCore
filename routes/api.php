@@ -121,6 +121,7 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::get('/experience-levels', [MiscellaneousController::class, 'experienceLevels'])->name('experience-levels');
         Route::get('/job-functions', [MiscellaneousController::class, 'jobFunctions'])->name('job-functions');
         Route::get('/question-types', [MiscellaneousController::class, 'questionTypes'])->name('question-types');
+        Route::get('/degree-classifications', [MiscellaneousController::class, 'degreeClassifications'])->name('degree-classifications');
     });
 
     //Department Routes
@@ -164,12 +165,29 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::get('/', [JobApplicantController::class, 'index'])->name('index');
         Route::get('/{id}', [JobApplicantController::class, 'show'])->name('show');
         Route::post('/{id}', [JobApplicantController::class, 'update'])->name('update');
+        Route::put('/move/{id}', [JobApplicantController::class, 'move'])->name('move');
     });
 
     //Candidates' vacancy questions
-    Route::name('candidate.responses')->prefix('candidates-responses')->middleware('auth:api')->group(function () {
+    Route::name('candidate.responses')->prefix('candidate-responses')->middleware('auth:api')->group(function () {
         Route::get('/{applicant_id}', [ApplicantResponseController::class, 'index'])->name('index');
         Route::post('/', [ApplicantResponseController::class, 'store'])->name('store');
+    });
+
+    //Candidates' education
+    Route::name('candidate.education')->prefix('candidate-education')->middleware('auth:api')->group(function () {
+        Route::get('/{applicant_id}', [ApplicantEducationController::class, 'index'])->name('index');
+        Route::post('/', [ApplicantEducationController::class, 'store'])->name('store');
+        Route::put('/{id}', [ApplicantEducationController::class, 'update'])->name('update');
+        Route::delete('/{id}', [ApplicantEducationController::class, 'destroy'])->name('destroy');
+    });
+
+    //Candidates' experience
+    Route::name('candidate.experiences')->prefix('candidate-experiences')->middleware('auth:api')->group(function () {
+        Route::get('/{applicant_id}', [ApplicantExperienceController::class, 'index'])->name('index');
+        Route::post('/', [ApplicantExperienceController::class, 'store'])->name('store');
+        Route::put('/{id}', [ApplicantExperienceController::class, 'update'])->name('update');
+        Route::delete('/{id}', [ApplicantExperienceController::class, 'destroy'])->name('destroy');
     });
 
 });

@@ -10,23 +10,30 @@ use App\Http\Resources\ApplicantExperienceCollection;
 use App\Http\Requests\ApplicantExperienceStoreRequest;
 use App\Http\Requests\ApplicantExperienceUpdateRequest;
 
-class ApplicantExperienceController extends Controller
+class ApplicantExperienceController extends ServiceController
 {
     /**
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($applicant_id)
     {
-        $this->authorize('view-any', ApplicantExperience::class);
+        try {
+            $applicantExperiences = ApplicantExperience::where('job_applicant_id', $applicant_id)->orderBy('id', 'desc')->get();
+            
 
-        $search = $request->get('search', '');
+            $applicantExperiences->makeHidden([
+                'industry_id',             
+            ]);
 
-        $applicantExperiences = ApplicantExperience::search($search)
-            ->latest()
-            ->paginate();
-
-        return new ApplicantExperienceCollection($applicantExperiences);
+            $applicantExperiences->load(
+                'industry', 
+            );
+            
+            return $this->success(new ApplicantExperienceCollection($applicantExperiences));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 
     /**
@@ -35,27 +42,23 @@ class ApplicantExperienceController extends Controller
      */
     public function store(ApplicantExperienceStoreRequest $request)
     {
-        $this->authorize('create', ApplicantExperience::class);
+        try {
+            
+            $validated = $request->validated();
+            $applicantExperience = ApplicantExperience::create($validated);
 
-        $validated = $request->validated();
+            $applicantExperience->makeHidden([
+                'industry_id',             
+            ]);
 
-        $applicantExperience = ApplicantExperience::create($validated);
+            $applicantExperience->load(
+                'industry', 
+            );
 
-        return new ApplicantExperienceResource($applicantExperience);
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\ApplicantExperience $applicantExperience
-     * @return \Illuminate\Http\Response
-     */
-    public function show(
-        Request $request,
-        ApplicantExperience $applicantExperience
-    ) {
-        $this->authorize('view', $applicantExperience);
-
-        return new ApplicantExperienceResource($applicantExperience);
+            return $this->success(new ApplicantExperienceResource($applicantExperience));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        } 
     }
 
     /**
@@ -63,17 +66,29 @@ class ApplicantExperienceController extends Controller
      * @param \App\Models\ApplicantExperience $applicantExperience
      * @return \Illuminate\Http\Response
      */
-    public function update(
-        ApplicantExperienceUpdateRequest $request,
-        ApplicantExperience $applicantExperience
-    ) {
-        $this->authorize('update', $applicantExperience);
+    public function update(ApplicantExperienceUpdateRequest $request, $id) {
 
-        $validated = $request->validated();
+        try {
+            $validated = $request->validated();
+            $experience = ApplicantExperience::find($id);
+            if (!$experience) {
+                return $this->not_found();
+            }
+            $experience->update($validated);
 
-        $applicantExperience->update($validated);
+            $experience->makeHidden([
+                'industry_id',             
+            ]);
 
-        return new ApplicantExperienceResource($applicantExperience);
+            $experience->load(
+                'industry', 
+            );
+
+            return $this->success(new ApplicantExperienceResource($experience));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
+        
     }
 
     /**
@@ -81,14 +96,19 @@ class ApplicantExperienceController extends Controller
      * @param \App\Models\ApplicantExperience $applicantExperience
      * @return \Illuminate\Http\Response
      */
-    public function destroy(
-        Request $request,
-        ApplicantExperience $applicantExperience
-    ) {
-        $this->authorize('delete', $applicantExperience);
+    public function destroy($id)
+    {
+        try {
+            $experience = ApplicantExperience::find($id);
+            if (!$experience) {
+                return $this->not_found();
+            }
 
-        $applicantExperience->delete();
+            $experience->delete();
+            return $this->success();
 
-        return response()->noContent();
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 }

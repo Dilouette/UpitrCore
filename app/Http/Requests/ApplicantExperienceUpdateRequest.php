@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ApplicantExperienceUpdateRequest extends FormRequest
+class ApplicantExperienceUpdateRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,10 @@ class ApplicantExperienceUpdateRequest extends FormRequest
     {
         return [
             'title' => ['required', 'max:255', 'string'],
-            'company' => ['nullable', 'max:255', 'string'],
-            'industry_id' => ['nullable', 'numeric'],
+            'company' => ['required', 'max:255', 'string'],
+            'industry_id' => ['nullable', 'exists:industries,id'],
             'summary' => ['nullable', 'max:255', 'string'],
-            'start_date' => ['nullable', 'date'],
+            'start_date' => ['required', 'date'],
             'end_date' => ['nullable', 'date'],
             'job_applicant_id' => ['required', 'exists:job_applicants,id'],
         ];

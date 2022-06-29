@@ -26,6 +26,7 @@ class ApplicantEducationFactory extends Factory
             'institution' => $this->faker->company(),
             'field' => $this->faker->jobTitle(),
             'degree' => $this->faker->text(64),
+            'degree_classification_id' => $this->faker->randomElement([1, 2, 3, 4]),
             'start_date' => $this->faker->date,
             'end_date' => $this->faker->date,
             'job_applicant_id' => \App\Models\JobApplicant::factory(),

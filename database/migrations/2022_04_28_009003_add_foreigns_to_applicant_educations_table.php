@@ -19,6 +19,7 @@ return new class extends Migration {
                 ->on('job_applicants')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
+            
         });
     }
 

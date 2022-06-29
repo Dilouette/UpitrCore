@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api;
 
+use App\Enums\DegreeClassification;
 use Carbon\Carbon;
 use App\Models\City;
 use App\Models\Region;
@@ -122,6 +123,24 @@ class MiscellaneousController extends ServiceController
         try {            
             $items = QuestionType::orderBy('created_at')->get();
             return $this->success($items);
+        } catch (\Throwable $ex) {
+            return $this->server_error($ex);
+        }
+    }
+
+    public function degreeClassifications()
+    {
+        try {            
+            $classification_enums = DegreeClassification::asSelectArray();
+            $classifications = [];
+            foreach ($classification_enums as $key => $value) {
+                $classification=[
+                    'value'=> $key,
+                    'name'=> $value
+                ];
+                array_push($classifications, $classification);
+            }
+            return $this->success($classifications);
         } catch (\Throwable $ex) {
             return $this->server_error($ex);
         }
