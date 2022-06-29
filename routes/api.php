@@ -170,7 +170,6 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
     Route::name('candidate.responses')->prefix('candidates-responses')->middleware('auth:api')->group(function () {
         Route::get('/{applicant_id}', [ApplicantResponseController::class, 'index'])->name('index');
         Route::post('/', [ApplicantResponseController::class, 'store'])->name('store');
-        Route::put('/{id}', [ApplicantResponseController::class, 'index'])->name('update');
     });
 
 });

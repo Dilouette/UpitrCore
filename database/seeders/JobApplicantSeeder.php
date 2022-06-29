@@ -15,7 +15,7 @@ class JobApplicantSeeder extends Seeder
     public function run()
     {
         JobApplicant::factory()
-            ->count(500)
+            ->count(100)
             ->create();
     }
 }

@@ -25,12 +25,13 @@ class ApplicantResponseStoreRequest extends BaseRequest
     {
         return [
             'job_applicant_id' => ['required', 'exists:job_applicants,id'],
-            'job_question_id' => ['required', 'exists:job_questions,id'],
-            'job_question_option_id' => [
+            'questions' => ['required', 'array'],
+            'questions.*.job_question_id' => ['required', 'exists:job_questions,id'],
+            'questions.*.job_question_option_id' => [
                 'nullable',
                 'exists:job_question_options,id',
             ],
-            'response' => ['nullable', 'string'],
+            'questions.*.response' => ['nullable', 'string'],
         ];
     }
 }

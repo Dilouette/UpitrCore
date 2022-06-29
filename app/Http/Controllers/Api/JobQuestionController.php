@@ -36,8 +36,6 @@ class JobQuestionController extends ServiceController
             }             
             $jobQuestion = JobQuestion::create($validated);
 
-            Log::alert($validated['question_options']);
-
             foreach($validated['question_options'] as $option){ 
 
                 $newOption = new JobQuestionOption();
