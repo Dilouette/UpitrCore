@@ -45,6 +45,10 @@ class JobApplicantController extends ServiceController
                 return $q->where("note", "ilike", "%$request->keyword%");
             });
 
+            $query->when($request->filled('vacancy_id'), function ($q) use($request){
+                return $q->where("job_id", $request->vacancy_id);
+            });
+
             $applicants = $query->paginate($page_size);
             $applicants->load(
                 'job', 

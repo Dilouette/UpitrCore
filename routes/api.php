@@ -137,6 +137,7 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
     Route::name('vacancy.')->prefix('vacancies')->middleware('auth:api')->group(function () {
         Route::post('/', [JobController::class, 'store'])->name('store');
         Route::get('/', [JobController::class, 'index'])->name('index');
+        Route::get('/active', [JobController::class, 'active'])->name('active');
         Route::get('/{id}', [JobController::class, 'show'])->name('show');
         Route::put('/{id}', [JobController::class, 'update'])->name('update');
         Route::put('/publish/{id}', [JobController::class, 'publish'])->name('publish');
@@ -188,6 +189,14 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::post('/', [ApplicantExperienceController::class, 'store'])->name('store');
         Route::put('/{id}', [ApplicantExperienceController::class, 'update'])->name('update');
         Route::delete('/{id}', [ApplicantExperienceController::class, 'destroy'])->name('destroy');
+    });
+
+    //Job Board
+    Route::name('jobs.')->prefix('jobs')->group(function () {
+        Route::post('/', [JobController::class, 'store'])->name('store');
+        Route::get('/active', [JobController::class, 'active'])->name('active');
+        Route::get('/{id}', [JobController::class, 'show'])->name('show');
+        Route::put('/{id}', [JobController::class, 'update'])->name('update');
     });
 
 });

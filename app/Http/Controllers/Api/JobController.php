@@ -66,6 +66,58 @@ class JobController extends ServiceController
     }
 
     /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function active(Request $request)
+    {
+        try {
+
+            $page_size = env('DEFAULT_PAGE_SIZE');
+
+            if ($request->filled('page_size')) {
+                $page_size = $request->page_size;
+            }
+
+            $query = Job::query()->where('is_published', true)->where('deadline', '>', Carbon::now())
+                ->orderby('id', 'desc');
+
+            $jobs = $query->paginate($page_size);
+            $jobs->load(
+                'user', 
+                'city', 
+                'department', 
+                'industry', 
+                'jobFunction', 
+                'employmentType',
+                'experienceLevel', 
+                'educationLevel', 
+                'currency', 
+                'jobWorkflow'
+            );
+
+            $jobs->makeHidden([
+                'created_by',
+                'country_id',
+                'region_id',
+                'city_id',
+                'department_id',
+                'industry_id',
+                'job_function_id',
+                'employment_type_id',
+                'experience_level_id',
+                'education_level_id',  
+                'salary_currency_id',
+                'job_workflow_id',                
+            ]);           
+
+            return $this->success($jobs);
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }        
+    }
+
+    /**
      * @param \App\Http\Requests\JobStoreRequest $request
      * @return \Illuminate\Http\Response
      */
