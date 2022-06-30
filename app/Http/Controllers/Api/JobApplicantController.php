@@ -49,6 +49,10 @@ class JobApplicantController extends ServiceController
                 return $q->where("job_id", $request->vacancy_id);
             });
 
+            $query->when($request->filled('stage_id'), function ($q) use($request){
+                return $q->where("job_workflow_stage_id", $request->stage_id);
+            });
+
             $applicants = $query->paginate($page_size);
             $applicants->load(
                 'job', 
