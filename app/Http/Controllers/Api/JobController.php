@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use App\Http\Resources\JobResource;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\JobCollection;
 use App\Http\Requests\JobStoreRequest;
@@ -27,12 +28,16 @@ class JobController extends ServiceController
                 $page_size = $request->page_size;
             }
 
+            Log::info($request->all());
+
             $query = Job::query()
                 ->orderby('id', 'desc');
 
             $query->when($request->filled('keyword'), function ($q) use($request){
+                Log::info($request->keyword);
                 return $q->where("title", "ilike", "%$request->keyword%")
-                         ->where("description", "ilike", "%$request->keyword%");
+                            ->orWhere("description", "ilike", "%$request->keyword%")
+                            ->orWhere("code", "ilike", "%$request->keyword%");
             });
 
             $query->when(($request->filled('deadline_start') && $request->filled('deadline_end')), function ($q) use($request){
@@ -96,9 +101,10 @@ class JobController extends ServiceController
                 ->orderby('id', 'desc');
 
             $query->when($request->filled('keyword'), function ($q) use($request){
+                Log::info($request->keyword);
                 return $q->where("title", "ilike", "%$request->keyword%")
-                         ->where("description", "ilike", "%$request->keyword%")
-                         ->where("code", "ilike", "%$request->keyword%");
+                         ->orWhere("description", "ilike", "%$request->keyword%")
+                         ->orWhere("code", "ilike", "%$request->keyword%");
             });
 
             $query->when(($request->filled('deadline_start') && $request->filled('deadline_end')), function ($q) use($request){
