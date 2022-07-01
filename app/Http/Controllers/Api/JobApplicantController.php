@@ -42,15 +42,22 @@ class JobApplicantController extends ServiceController
             });
 
             $query->when($request->filled('keyword'), function ($q) use($request){
-                return $q->where("note", "ilike", "%$request->keyword%");
+                return $q->where("firstname", "ilike", "%$request->keyword%")
+                ->orWhere("lastname", "ilike", "%$request->keyword%")
+                ->orWhere("email", "ilike", "%$request->keyword%")
+                ->orWhere("phone", "ilike", "%$request->keyword%");
             });
 
-            $query->when($request->filled('vacancy_id'), function ($q) use($request){
-                return $q->where("job_id", $request->vacancy_id);
+            $query->when($request->filled('vacancy'), function ($q) use($request){
+                return $q->where("job_id", $request->vacancy);
             });
 
-            $query->when($request->filled('stage_id'), function ($q) use($request){
-                return $q->where("job_workflow_stage_id", $request->stage_id);
+            $query->when($request->filled('stage'), function ($q) use($request){
+                return $q->where("job_workflow_stage_id", $request->stage);
+            });
+
+            $query->when($request->filled('gender'), function ($q) use($request){
+                return $q->where("gender_id", $request->gender);
             });
 
             $applicants = $query->paginate($page_size);

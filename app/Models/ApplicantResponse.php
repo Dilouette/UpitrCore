@@ -18,6 +18,16 @@ class ApplicantResponse extends Model
         'job_question_option_id',
     ];
 
+    protected $hidden = [
+        'job_question_id',
+        'job_question_option_id',
+    ];
+
+    protected $with = [
+        'jobQuestion',
+        'jobQuestionOption',
+    ];
+
     protected $searchableFields = ['*'];
 
     protected $table = 'applicant_responses';

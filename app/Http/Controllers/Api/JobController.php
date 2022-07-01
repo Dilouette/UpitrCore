@@ -30,6 +30,19 @@ class JobController extends ServiceController
             $query = Job::query()
                 ->orderby('id', 'desc');
 
+            $query->when($request->filled('keyword'), function ($q) use($request){
+                return $q->where("title", "ilike", "%$request->keyword%")
+                         ->where("description", "ilike", "%$request->keyword%");
+            });
+
+            $query->when(($request->filled('deadline_start') && $request->filled('deadline_end')), function ($q) use($request){
+                return $q->orWhereBetween('deadline', [$request->date('deadline_start'), $request->date('deadline_start')]);
+            });
+
+            $query->when($request->filled('department'), function ($q) use($request){
+                return $q->where("department_id", $request->department);
+            });
+
             $jobs = $query->paginate($page_size);
             $jobs->load(
                 'user', 
@@ -81,6 +94,20 @@ class JobController extends ServiceController
 
             $query = Job::query()->where('is_published', true)->where('deadline', '>', Carbon::now())
                 ->orderby('id', 'desc');
+
+            $query->when($request->filled('keyword'), function ($q) use($request){
+                return $q->where("title", "ilike", "%$request->keyword%")
+                         ->where("description", "ilike", "%$request->keyword%")
+                         ->where("code", "ilike", "%$request->keyword%");
+            });
+
+            $query->when(($request->filled('deadline_start') && $request->filled('deadline_end')), function ($q) use($request){
+                return $q->orWhereBetween('deadline', [$request->date('deadline_start'), $request->date('deadline_start')]);
+            });
+
+            $query->when($request->filled('department'), function ($q) use($request){
+                return $q->where("department_id", $request->department);
+            });
 
             $jobs = $query->paginate($page_size);
             $jobs->load(
