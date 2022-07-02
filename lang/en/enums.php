@@ -1,5 +1,8 @@
 <?php
 
+use App\Enums\ActivityTypes;
+use App\Enums\ImportanceLevels;
+use App\Enums\ActivityRelations;
 use App\Enums\DegreeClassification;
 
 return [
@@ -8,5 +11,24 @@ return [
         DegreeClassification::SecondClass => 'Second Class',
         DegreeClassification::ThirdClass => 'Third Class',
         DegreeClassification::Pass => 'Pass',
+    ],
+
+    ActivityTypes::class => [
+        ActivityTypes::Call => 'Call',
+        ActivityTypes::Meeting => 'Meeting',
+        ActivityTypes::Task => 'Task',
+        ActivityTypes::Email => 'Email',
+        ActivityTypes::Interview => 'Interview',
+    ],
+
+    ActivityRelations::class => [
+        ActivityRelations::Candidate => 'Candidate',
+        ActivityRelations::Vacancy => 'Vacancy',
+    ],
+
+    ImportanceLevels::class => [
+        ImportanceLevels::LowPriority => 'Low Priority',
+        ImportanceLevels::MediumPriority => 'Medium Priority',
+        ImportanceLevels::HighPriority => 'High Priority',
     ],
 ];

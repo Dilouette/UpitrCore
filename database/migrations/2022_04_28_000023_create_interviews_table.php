@@ -15,7 +15,8 @@ return new class extends Migration {
         Schema::create('interviews', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('job_id');
-            $table->tinyInteger('type_id');
+            $table->string('title');
+            $table->tinyInteger('type_id')->nullable();
 
             $table->timestamps();
         });

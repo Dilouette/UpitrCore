@@ -1,19 +1,22 @@
 <?php
 namespace App\Http\Controllers\Api;
 
-use App\Enums\DegreeClassification;
 use Carbon\Carbon;
 use App\Models\City;
 use App\Models\Region;
 use App\Models\Country;
 use App\Models\Currency;
+use App\Models\Industry;
 use App\Models\Designation;
+use App\Models\JobFunction;
+use App\Enums\ActivityTypes;
+use App\Models\QuestionType;
 use App\Models\EducationLevel;
 use App\Models\EmploymentType;
+use App\Enums\ImportanceLevels;
 use App\Models\ExperienceLevel;
-use App\Models\Industry;
-use App\Models\JobFunction;
-use App\Models\QuestionType;
+use App\Enums\ActivityRelations;
+use App\Enums\DegreeClassification;
 use Illuminate\Support\Facades\Request;
 
 class MiscellaneousController extends ServiceController
@@ -141,6 +144,60 @@ class MiscellaneousController extends ServiceController
                 array_push($classifications, $classification);
             }
             return $this->success($classifications);
+        } catch (\Throwable $ex) {
+            return $this->server_error($ex);
+        }
+    }
+
+    public function activityTypes()
+    {
+        try {            
+            $enums = ActivityTypes::asSelectArray();
+            $items = [];
+            foreach ($enums as $key => $value) {
+                $item=[
+                    'value'=> $key,
+                    'name'=> $value
+                ];
+                array_push($items, $item);
+            }
+            return $this->success($items);
+        } catch (\Throwable $ex) {
+            return $this->server_error($ex);
+        }
+    }
+
+    public function activityRelations()
+    {
+        try {            
+            $enums = ActivityRelations::asSelectArray();
+            $items = [];
+            foreach ($enums as $key => $value) {
+                $item=[
+                    'value'=> $key,
+                    'name'=> $value
+                ];
+                array_push($items, $item);
+            }
+            return $this->success($items);
+        } catch (\Throwable $ex) {
+            return $this->server_error($ex);
+        }
+    }
+
+    public function activityImportance()
+    {
+        try {            
+            $enums = ImportanceLevels::asSelectArray();
+            $items = [];
+            foreach ($enums as $key => $value) {
+                $item=[
+                    'value'=> $key,
+                    'name'=> $value
+                ];
+                array_push($items, $item);
+            }
+            return $this->success($items);
         } catch (\Throwable $ex) {
             return $this->server_error($ex);
         }

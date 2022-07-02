@@ -38,9 +38,9 @@ class JobUpdateRequest extends BaseRequest
             'zip_code' => ['nullable', 'max:255', 'string'],
             'location' => ['nullable', 'max:255', 'string'],
             'is_remote' => ['nullable', 'boolean'],
-            'description' => ['required', 'max:255', 'string'],
-            'requirements' => ['required', 'max:255', 'string'],
-            'benefit' => ['nullable', 'max:255', 'string'],
+            'description' => ['required', 'string'],
+            'requirements' => ['required','string'],
+            'benefit' => ['nullable', 'string'],
             'department_id' => ['nullable', 'exists:departments,id'],
             'industry_id' => ['nullable', 'numeric', 'exists:industries,id'],
             'job_function_id' => [
@@ -63,7 +63,7 @@ class JobUpdateRequest extends BaseRequest
                 'numeric',
                 'exists:education_levels,id',
             ],
-            'keywords' => ['nullable', 'max:255', 'string'],
+            'keywords' => ['nullable', 'string'],
             'salary_min' => ['nullable', 'numeric'],
             'salary_max' => ['nullable', 'numeric'],
             'salary_currency_id' => [

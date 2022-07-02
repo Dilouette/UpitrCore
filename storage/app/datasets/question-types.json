@@ -22,5 +22,9 @@
     {
         "name": "Date Time",
         "has_options": false
+    },
+    {
+        "name": "Number",
+        "has_options": false
     }
 ]

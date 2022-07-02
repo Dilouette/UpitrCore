@@ -63,6 +63,16 @@ class User extends Authenticatable
         return $this->belongsTo(Department::class);
     }
 
+    public function activities()
+    {
+        return $this->hasMany(Activity::class, 'created_by');
+    }
+
+    public function updatedActivities()
+    {
+        return $this->hasMany(Activity::class, 'updated_by');
+    }
+
     public function isSuperAdmin()
     {
         return in_array($this->email, config('auth.super_admins'));

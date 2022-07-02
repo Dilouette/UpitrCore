@@ -10,68 +10,64 @@ use App\Http\Resources\InterviewSectionCollection;
 use App\Http\Requests\InterviewSectionStoreRequest;
 use App\Http\Requests\InterviewSectionUpdateRequest;
 
-class InterviewSectionController extends Controller
+class InterviewSectionController extends ServiceController
 {
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $this->authorize('view-any', InterviewSection::class);
-
-        $search = $request->get('search', '');
-
-        $interviewSections = InterviewSection::search($search)
-            ->latest()
-            ->paginate();
-
-        return new InterviewSectionCollection($interviewSections);
-    }
-
+    
     /**
      * @param \App\Http\Requests\InterviewSectionStoreRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(InterviewSectionStoreRequest $request)
     {
-        $this->authorize('create', InterviewSection::class);
+        try {
+            
+            $validated = $request->validated();
+            $interviewSection = InterviewSection::create($validated);
 
-        $validated = $request->validated();
-
-        $interviewSection = InterviewSection::create($validated);
-
-        return new InterviewSectionResource($interviewSection);
+            return $this->success(new InterviewSectionResource($interviewSection));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        } 
     }
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\InterviewSection $interviewSection
+     * @param \App\Models\InterviewSectionResource $interviewSectionResource
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, InterviewSection $interviewSection)
+    public function show($id)
     {
-        $this->authorize('view', $interviewSection);
+        try {
+            $section = InterviewSection::find($id);
+            if (!$section) {
+                return $this->not_found();
+            }
 
-        return new InterviewSectionResource($interviewSection);
+            return $this->success(new InterviewSectionResource($section));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 
+
     /**
-     * @param \App\Http\Requests\InterviewSectionUpdateRequest $request
+     * @param \App\Http\Requests\InterviewSectionStoreRequest $request
      * @param \App\Models\InterviewSection $interviewSection
      * @return \Illuminate\Http\Response
      */
-    public function update(
-        InterviewSectionUpdateRequest $request,
-        InterviewSection $interviewSection
-    ) {
-        $this->authorize('update', $interviewSection);
+    public function update(InterviewSectionUpdateRequest $request, $id) {
+        try {
+            $validated = $request->validated();
+            $section = InterviewSection::find($id);
+            if (!$section) {
+                return $this->not_found();
+            }
+            $section->update($validated);
 
-        $validated = $request->validated();
-
-        $interviewSection->update($validated);
-
-        return new InterviewSectionResource($interviewSection);
+            return $this->success(new InterviewSectionResource($section));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 
     /**
@@ -79,14 +75,18 @@ class InterviewSectionController extends Controller
      * @param \App\Models\InterviewSection $interviewSection
      * @return \Illuminate\Http\Response
      */
-    public function destroy(
-        Request $request,
-        InterviewSection $interviewSection
-    ) {
-        $this->authorize('delete', $interviewSection);
+    public function destroy($id) {
+        try {
+            $section  = InterviewSection::find($id);
+            if (!$section) {
+                return $this->not_found();
+            }
 
-        $interviewSection->delete();
+            $section->delete();
+            return $this->success();
 
-        return response()->noContent();
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 }

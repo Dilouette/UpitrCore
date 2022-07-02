@@ -25,7 +25,8 @@ class InterviewStoreRequest extends FormRequest
     {
         return [
             'job_id' => ['required', 'exists:jobs,id'],
-            'type_id' => ['required', 'max:255'],
+            'title' => ['required', 'max:255', 'string'],
+            'type_id' => ['nullable', 'max:255'],
         ];
     }
 }

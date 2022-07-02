@@ -41,8 +41,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ApplicantResponseSeeder::class);
         $this->call(ApplicantEducationSeeder::class);
         $this->call(ApplicantExperienceSeeder::class);
+        $this->call(ActivitySeeder::class);
+        $this->call(InterviewSeeder::class);
+        $this->call(InterviewSectionSeeder::class);
 
-        // $this->call(ActivitySeeder::class);
         // $this->call(ApplicantAssesmentSeeder::class);
         // $this->call(ApplicantInterviewSeeder::class);
         // $this->call(ApplicantInterviewFeedbackSeeder::class);
@@ -51,8 +53,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(AssesmentQuestionOptionSeeder::class);
         // $this->call(AssesmentResponseSeeder::class);
         // $this->call(BenefitTemplateSeeder::class);
-        // $this->call(InterviewSeeder::class);
-        // $this->call(InterviewSectionSeeder::class);
         // $this->call(InteviewQuestionSeeder::class);
         // $this->call(NoteSeeder::class);
     }

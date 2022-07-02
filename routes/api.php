@@ -122,6 +122,10 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::get('/job-functions', [MiscellaneousController::class, 'jobFunctions'])->name('job-functions');
         Route::get('/question-types', [MiscellaneousController::class, 'questionTypes'])->name('question-types');
         Route::get('/degree-classifications', [MiscellaneousController::class, 'degreeClassifications'])->name('degree-classifications');
+        Route::get('/activity-types', [MiscellaneousController::class, 'activityTypes'])->name('activity-types');
+        Route::get('/activity-relations', [MiscellaneousController::class, 'activityRelations'])->name('activity-relations');
+        Route::get('/activity-importance', [MiscellaneousController::class, 'activityImportance'])->name('activity-importance');
+        
     });
 
     //Department Routes
@@ -160,7 +164,20 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::delete('/{id}', [JobQuestionController::class, 'destroy'])->name('destroy');
     });
 
-    //Candidates
+    //Vacancy Interviews Routes
+    Route::name('vacancy.interviews.')->prefix('vacancy-interviews')->middleware('auth:api')->group(function () {
+        Route::get('/{id}/{vacancy_id}', [InterviewController::class, 'show'])->name('show');
+    });
+
+    //Vacancy Interview Sections Routes
+    Route::name('vacancy.interview.sections')->prefix('vacancy-interview-sections')->middleware('auth:api')->group(function () {
+        Route::post('/', [InterviewSectionController::class, 'store'])->name('store');
+        Route::get('/{id}', [InterviewSectionController::class, 'show'])->name('show');
+        Route::put('/{id}', [InterviewSectionController::class, 'update'])->name('update');
+        Route::delete('/{id}', [InterviewSectionController::class, 'destroy'])->name('destroy');
+    });
+
+    //Candidates Routes
     Route::name('candidates')->prefix('candidates')->middleware('auth:api')->group(function () {
         Route::post('/', [JobApplicantController::class, 'store'])->name('store');
         Route::get('/', [JobApplicantController::class, 'index'])->name('index');
@@ -169,13 +186,13 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::put('/move/{id}', [JobApplicantController::class, 'move'])->name('move');
     });
 
-    //Candidates' vacancy questions
+    //Candidates' Vacancy Questions Routes
     Route::name('candidate.responses')->prefix('candidate-responses')->middleware('auth:api')->group(function () {
         Route::get('/{applicant_id}', [ApplicantResponseController::class, 'index'])->name('index');
         Route::post('/', [ApplicantResponseController::class, 'store'])->name('store');
     });
 
-    //Candidates' education
+    //Candidates' Education Routes
     Route::name('candidate.education')->prefix('candidate-education')->middleware('auth:api')->group(function () {
         Route::get('/{applicant_id}', [ApplicantEducationController::class, 'index'])->name('index');
         Route::post('/', [ApplicantEducationController::class, 'store'])->name('store');
@@ -183,12 +200,21 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::delete('/{id}', [ApplicantEducationController::class, 'destroy'])->name('destroy');
     });
 
-    //Candidates' experience
+    //Candidates' Experience Routes
     Route::name('candidate.experiences')->prefix('candidate-experiences')->middleware('auth:api')->group(function () {
         Route::get('/{applicant_id}', [ApplicantExperienceController::class, 'index'])->name('index');
         Route::post('/', [ApplicantExperienceController::class, 'store'])->name('store');
         Route::put('/{id}', [ApplicantExperienceController::class, 'update'])->name('update');
         Route::delete('/{id}', [ApplicantExperienceController::class, 'destroy'])->name('destroy');
+    });
+
+    //Activities Routes
+    Route::name('activities')->prefix('activities')->middleware('auth:api')->group(function () {
+        Route::post('/', [ActivityController::class, 'store'])->name('store');
+        Route::get('/', [ActivityController::class, 'index'])->name('index');
+        Route::get('/{id}', [ActivityController::class, 'show'])->name('show');
+        Route::put('/{id}', [ActivityController::class, 'update'])->name('update');
+        Route::delete('/{id}', [ActivityController::class, 'destroy'])->name('delete');
     });
 
     //Job Board

@@ -2,9 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ActivityTypes;
+use App\Enums\ImportanceLevels;
+use App\Enums\ActivityRelations;
+use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ActivityStoreRequest extends FormRequest
+class ActivityStoreRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +28,15 @@ class ActivityStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'activity_type_id' => ['required', 'max:255'],
+            'activity_type_id' => ['required', 'integer', new EnumValue(ActivityTypes::class)],
             'title' => ['required', 'max:255', 'string'],
             'start' => ['required', 'date'],
             'end' => ['required', 'date'],
-            'location' => ['required', 'max:255', 'string'],
-            'meeting_url' => ['required', 'max:255', 'string'],
-            'related_to_id' => ['required', 'max:255'],
-            'importance_id' => ['required', 'max:255'],
+            'location' => ['nullable', 'max:255', 'string'],
+            'meeting_url' => ['nullable', 'max:255', 'string'],
+            'related_to_id' => ['required', 'integer', new EnumValue(ActivityRelations::class)],
+            'importance_id' => ['required', 'integer', new EnumValue(ImportanceLevels::class)],
             'description' => ['required', 'max:255', 'string'],
-            'created_by' => ['required', 'max:255'],
-            'updated_by' => ['required', 'max:255'],
             'job_applicant_id' => ['nullable', 'exists:job_applicants,id'],
             'job_id' => ['nullable', 'exists:jobs,id'],
         ];

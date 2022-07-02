@@ -23,6 +23,7 @@ class InterviewFactory extends Factory
     public function definition()
     {
         return [
+            'title' => $this->faker->sentence(5),
             'type_id' => $this->faker->numberBetween(0, 127),
             'job_id' => \App\Models\Job::factory(),
         ];

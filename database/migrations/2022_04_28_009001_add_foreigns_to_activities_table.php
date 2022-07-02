@@ -26,6 +26,20 @@ return new class extends Migration {
                 ->on('jobs')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
+
+            $table
+                ->foreign('created_by')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
+
+            $table
+                ->foreign('updated_by')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
         });
     }
 
@@ -39,6 +53,8 @@ return new class extends Migration {
         Schema::table('activities', function (Blueprint $table) {
             $table->dropForeign(['job_applicant_id']);
             $table->dropForeign(['job_id']);
+            $table->dropForeign(['created_by']);
+            $table->dropForeign(['updated_by']);
         });
     }
 };

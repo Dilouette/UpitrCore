@@ -23,8 +23,8 @@ class InterviewSectionFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence(10),
-            'description' => $this->faker->sentence(15),
+            'title' => $this->faker->sentence(5),
+            'questions' => $this->faker->sentence(15),
             'interview_id' => \App\Models\Interview::factory(),
         ];
     }

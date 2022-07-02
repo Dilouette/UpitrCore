@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use App\Models\Activity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ActivityResource;
 use App\Http\Resources\ActivityCollection;
 use App\Http\Requests\ActivityStoreRequest;
 use App\Http\Requests\ActivityUpdateRequest;
 
-class ActivityController extends Controller
+class ActivityController extends ServiceController
 {
     /**
      * @param \Illuminate\Http\Request $request
@@ -18,15 +20,43 @@ class ActivityController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('view-any', Activity::class);
+        try {
 
-        $search = $request->get('search', '');
+            $page_size = env('DEFAULT_PAGE_SIZE');
 
-        $activities = Activity::search($search)
-            ->latest()
-            ->paginate();
+            if ($request->filled('page_size')) {
+                $page_size = $request->page_size;
+            }
 
-        return new ActivityCollection($activities);
+            $query = Activity::query()
+                ->orderby('id', 'desc');
+
+            $query->when($request->filled('keyword'), function ($q) use($request){
+                Log::info($request->keyword);
+                return $q->where("title", "ilike", "%$request->keyword%")
+                ->orWhere("location", "ilike", "%$request->keyword%")
+                ->orWhere("description", "ilike", "%$request->keyword%");
+            });
+
+            $query->when(($request->filled('start') && $request->filled('end')), function ($q) use($request){
+                return $q->orWhereBetween('start', [$request->date('start'), $request->date('end')]);
+            });
+
+            $query->when($request->filled('vacancy'), function ($q) use($request){
+                return $q->where("job_id", $request->vacancy);
+            });
+
+            $query->when($request->filled('candidate'), function ($q) use($request){
+                return $q->where("job_applicant_id", $request->candidate);
+            });
+
+            $activities = $query->paginate($page_size);
+            $activities->load('job', 'jobApplicant');
+
+            return $this->success($activities);
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        } 
     }
 
     /**
@@ -35,13 +65,20 @@ class ActivityController extends Controller
      */
     public function store(ActivityStoreRequest $request)
     {
-        $this->authorize('create', Activity::class);
+        try {
+            $validated = $request->validated();
 
-        $validated = $request->validated();
+            $validated['created_by'] = Auth::user()->id;
+            $validated['created_at'] = Carbon::now();
+            
+            $activity = Activity::create($validated);
 
-        $activity = Activity::create($validated);
-
-        return new ActivityResource($activity);
+            $activity->load('job', 'jobApplicant', 'creator', 'editor');
+            
+            return $this->success($activity);
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 
     /**
@@ -49,11 +86,20 @@ class ActivityController extends Controller
      * @param \App\Models\Activity $activity
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Activity $activity)
+    public function show($id)
     {
-        $this->authorize('view', $activity);
+        try {
+            $activity  = Activity::find($id);
+            if (!$activity) {
+                return $this->not_found();
+            }
 
-        return new ActivityResource($activity);
+            $activity->load('job', 'jobApplicant', 'creator', 'editor');
+
+            return $this->success(new ActivityResource($activity));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 
     /**
@@ -61,15 +107,27 @@ class ActivityController extends Controller
      * @param \App\Models\Activity $activity
      * @return \Illuminate\Http\Response
      */
-    public function update(ActivityUpdateRequest $request, Activity $activity)
+    public function update(ActivityUpdateRequest $request, $id)
     {
-        $this->authorize('update', $activity);
+        try {
+            $validated = $request->validated();
 
-        $validated = $request->validated();
+            $activity  = Activity::find($id);
+            if (!$activity) {
+                return $this->not_found();
+            }
 
-        $activity->update($validated);
+            $validated['updated_by'] = Auth::user()->id;
+            $validated['updated_at'] = Carbon::now();
+            
+            $activity->update($validated);
 
-        return new ActivityResource($activity);
+            $activity->load('job', 'jobApplicant', 'creator', 'editor');
+            
+            return $this->success($activity);
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 
     /**
@@ -77,12 +135,19 @@ class ActivityController extends Controller
      * @param \App\Models\Activity $activity
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Activity $activity)
+    public function destroy($id)
     {
-        $this->authorize('delete', $activity);
+        try {
+            $activity  = Activity::find($id);
+            if (!$activity) {
+                return $this->not_found();
+            }
 
-        $activity->delete();
+            $activity->delete();
 
-        return response()->noContent();
+            return $this->success();
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 }

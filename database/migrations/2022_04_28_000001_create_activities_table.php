@@ -18,13 +18,13 @@ return new class extends Migration {
             $table->string('title');
             $table->dateTime('start');
             $table->dateTime('end');
-            $table->string('location');
-            $table->string('meeting_url');
+            $table->string('location')->nullable();
+            $table->string('meeting_url')->nullable();
             $table->tinyInteger('related_to_id');
             $table->tinyInteger('importance_id');
             $table->text('description');
-            $table->bigInteger('created_by');
-            $table->bigInteger('updated_by');
+            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('job_applicant_id')->nullable();
             $table->unsignedBigInteger('job_id')->nullable();
 

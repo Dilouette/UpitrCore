@@ -2,8 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Job;
+use App\Models\User;
 use App\Models\Activity;
 use Illuminate\Support\Str;
+use App\Models\JobApplicant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ActivityFactory extends Factory
@@ -23,19 +26,19 @@ class ActivityFactory extends Factory
     public function definition()
     {
         return [
-            'activity_type_id' => $this->faker->numberBetween(0, 127),
-            'title' => $this->faker->sentence(10),
+            'activity_type_id' => $this->faker->numberBetween(0, 4),
+            'title' => $this->faker->sentence(5),
             'start' => $this->faker->dateTime,
             'end' => $this->faker->dateTime,
-            'location' => $this->faker->text(255),
-            'meeting_url' => $this->faker->text(255),
-            'related_to_id' => $this->faker->numberBetween(0, 127),
-            'importance_id' => $this->faker->numberBetween(0, 127),
-            'description' => $this->faker->sentence(15),
-            'created_by' => $this->faker->randomNumber,
-            'updated_by' => $this->faker->randomNumber,
-            'job_id' => \App\Models\Job::factory(),
-            'job_applicant_id' => \App\Models\JobApplicant::factory(),
+            'location' => $this->faker->streetAddress(),
+            'meeting_url' => $this->faker->url(),
+            'related_to_id' => $this->faker->numberBetween(0, 1),
+            'importance_id' => $this->faker->numberBetween(0, 2),
+            'description' => $this->faker->sentence(10),
+            'created_by' => $this->faker->randomElement(User::pluck('id')->toArray()),
+            'updated_by' => $this->faker->randomElement(User::pluck('id')->toArray()),
+            'job_id' => $this->faker->randomElement(Job::pluck('id')->toArray()),
+            'job_applicant_id' => $this->faker->randomElement(JobApplicant::pluck('id')->toArray()),
         ];
     }
 }

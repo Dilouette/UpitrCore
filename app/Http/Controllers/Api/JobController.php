@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Carbon\Carbon;
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\JobResource;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -27,8 +28,6 @@ class JobController extends ServiceController
             if ($request->filled('page_size')) {
                 $page_size = $request->page_size;
             }
-
-            Log::info($request->all());
 
             $query = Job::query()
                 ->orderby('id', 'desc');
@@ -165,7 +164,15 @@ class JobController extends ServiceController
             $validated['is_published'] = false;
             $validated['job_workflow_id'] = 1;//Default workflow id
 
+            DB::beginTransaction();
             $job = Job::create($validated);
+
+            $job->interviews()->create([
+                'title' => $job->title . ' Interview',
+                'job_id' => $job->id,
+            ]);
+
+            DB::commit();
 
             $job->makeHidden([
                 'created_by',
@@ -194,11 +201,13 @@ class JobController extends ServiceController
                 'currency', 
                 'jobWorkflow',
                 'jobQuestions',
-                'jobSettings'
+                'jobSettings',
+                'interviews'
             );
 
             return $this->created(new JobResource($job));
         } catch (\Throwable $th) {
+            DB::rollBack();
             return $this->server_error($th);
         }        
     }

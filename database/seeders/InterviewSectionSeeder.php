@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Interview;
 use Illuminate\Database\Seeder;
 use App\Models\InterviewSection;
 
@@ -14,8 +15,14 @@ class InterviewSectionSeeder extends Seeder
      */
     public function run()
     {
-        InterviewSection::factory()
-            ->count(5)
-            ->create();
+        $interviews = Interview::all();
+        foreach ($interviews as $i => $interview) {
+            InterviewSection::factory()
+            ->count(7)
+            ->create([
+                'interview_id' => $interview->id,
+            ]);
+        }
+        
     }
 }

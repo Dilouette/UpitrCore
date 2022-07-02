@@ -11,7 +11,7 @@ class InterviewSection extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['title', 'description', 'interview_id'];
+    protected $fillable = ['title', 'questions', 'interview_id'];
 
     protected $searchableFields = ['*'];
 
