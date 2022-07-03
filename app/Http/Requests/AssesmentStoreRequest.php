@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AssesmentStoreRequest extends FormRequest
+class AssesmentStoreRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,6 +27,7 @@ class AssesmentStoreRequest extends FormRequest
             'job_id' => ['required', 'exists:jobs,id'],
             'is_timed' => ['required', 'boolean'],
             'duration' => ['required', 'numeric'],
+            'pass_score' => ['required', 'numeric'],
         ];
     }
 }

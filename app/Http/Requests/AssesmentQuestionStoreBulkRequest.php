@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AssesmentQuestionStoreRequest extends FormRequest
+class AssesmentQuestionStoreBulkRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +23,14 @@ class AssesmentQuestionStoreRequest extends FormRequest
      */
     public function rules()
     {
+        
         return [
             'assesment_id' => ['required', 'exists:assesments,id'],
-            'question' => ['required', 'max:255', 'string'],
-            'question_type_id' => ['required', 'exists:question_types,id'],
-            'answer' => ['required', 'max:255', 'string'],
+            'questions.*.question' => ['required', 'max:255', 'string'],
+            'questions.*.question_type_id' => ['required', 'exists:question_types,id'],
+            'questions.*.answer' => ['nullable', 'max:255', 'string'],
+            'questions.*.options.*.value' => ['required', 'max:255', 'string'],
+            'questions.*.options.*.is_answer' => ['required', 'boolean'],
         ];
     }
 }

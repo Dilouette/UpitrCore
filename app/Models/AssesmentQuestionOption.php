@@ -11,7 +11,7 @@ class AssesmentQuestionOption extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['assesment_question_id', 'is_answer'];
+    protected $fillable = ['assesment_question_id', 'value', 'is_answer'];
 
     protected $searchableFields = ['*'];
 

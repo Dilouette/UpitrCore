@@ -10,7 +10,7 @@ use App\Http\Resources\AssesmentQuestionCollection;
 use App\Http\Requests\AssesmentQuestionStoreRequest;
 use App\Http\Requests\AssesmentQuestionUpdateRequest;
 
-class AssesmentQuestionController extends Controller
+class AssesmentQuestionController extends ServiceController
 {
     /**
      * @param \Illuminate\Http\Request $request
@@ -18,15 +18,38 @@ class AssesmentQuestionController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('view-any', AssesmentQuestion::class);
+        try {
 
-        $search = $request->get('search', '');
+            $page_size = env('DEFAULT_PAGE_SIZE');
 
-        $assesmentQuestions = AssesmentQuestion::search($search)
-            ->latest()
-            ->paginate();
+            if ($request->filled('page_size')) {
+                $page_size = $request->page_size;
+            }
 
-        return new AssesmentQuestionCollection($assesmentQuestions);
+            $query = AssesmentQuestion::query()
+                ->orderby('id', 'asc');
+
+            $jobs = $query->paginate($page_size);
+            
+            return $this->success($jobs);
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }    
+    }
+
+    /**
+     * @param \App\Http\Requests\AssesmentQuestionStoreRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function bulk(AssesmentQuestionStoreRequest $request)
+    {
+        Log::info($request);
+
+        $validated = $request->validated();
+
+        $assesmentQuestion = AssesmentQuestion::create($validated);
+
+        return new AssesmentQuestionResource($assesmentQuestion);
     }
 
     /**
@@ -35,7 +58,7 @@ class AssesmentQuestionController extends Controller
      */
     public function store(AssesmentQuestionStoreRequest $request)
     {
-        $this->authorize('create', AssesmentQuestion::class);
+        Log::info($request);
 
         $validated = $request->validated();
 

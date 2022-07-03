@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AssesmentUpdateRequest extends BaseRequest
+class AssesmentQuestionUploadRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,8 @@ class AssesmentUpdateRequest extends BaseRequest
     public function rules()
     {
         return [
-            'job_id' => ['required', 'exists:jobs,id'],
-            'is_timed' => ['required', 'boolean'],
-            'duration' => ['required', 'numeric'],
-            'pass_score' => ['required', 'numeric'],
+            'assesment_id' => ['required', 'exists:assesments,id'],
+            'question_file' => ['required', 'max:2084', 'mimes:xlsx'],
         ];
     }
 }

@@ -183,6 +183,22 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::delete('/{id}', [InterviewSectionController::class, 'destroy'])->name('destroy');
     });
 
+     //Vacancy Assessment Routes
+     Route::name('vacancy.assessments.')->prefix('vacancy-assessments')->middleware('auth:api')->group(function () {
+        Route::post('/', [AssesmentController::class, 'store'])->name('store');
+        Route::get('/{id}', [AssesmentController::class, 'show'])->name('show');
+        Route::put('/{id}', [AssesmentController::class, 'update'])->name('update');
+    });
+
+    //Vacancy Assessment Questions Routes
+    Route::name('vacancy.assessments.questions')->prefix('vacancy-assessment-questions')->middleware('auth:api')->group(function () {
+        Route::post('/', [AssesmentQuestionController::class, 'store'])->name('store');
+        Route::post('/bulk', [AssesmentQuestionController::class, 'bulk'])->name('bulk.store');
+        Route::get('/{id}', [AssesmentQuestionController::class, 'show'])->name('show');
+        Route::put('/{id}', [AssesmentQuestionController::class, 'update'])->name('update');
+        Route::delete('/{id}', [AssesmentQuestionController::class, 'destroy'])->name('destroy');
+    });
+
     //Candidates Routes
     Route::name('candidates')->prefix('candidates')->middleware('auth:api')->group(function () {
         Route::post('/', [JobApplicantController::class, 'store'])->name('store');

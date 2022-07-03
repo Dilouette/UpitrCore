@@ -11,7 +11,7 @@ class Assesment extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['job_id', 'is_timed', 'duration'];
+    protected $fillable = ['job_id', 'is_timed','pass_score', 'duration'];
 
     protected $searchableFields = ['*'];
 

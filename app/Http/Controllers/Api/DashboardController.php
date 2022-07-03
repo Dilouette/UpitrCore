@@ -40,12 +40,15 @@ class DashboardController extends ServiceController
 
             // Most Recent Vacancies
             $vacancies = Job::latest()->take(5)->get();
+            $vacancies->load('department');
 
             // Most Recent Candidates
             $candidates = JobApplicant::latest()->take(5)->get();
+            $vacancies->load('job', 'jobWorkflowStage');
 
             // Most Recent Activities
             $activities = Activity::latest()->take(5)->get();
+            $vacancies->load('job', 'jobApplicant', 'assignees');
            
             $response=[
                 'active_vacancies' => $active_vacancies,
