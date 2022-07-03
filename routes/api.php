@@ -192,10 +192,10 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
 
     //Vacancy Assessment Questions Routes
     Route::name('vacancy.assessments.questions')->prefix('vacancy-assessment-questions')->middleware('auth:api')->group(function () {
+        Route::get('/', [AssesmentQuestionController::class, 'index'])->name('index');
         Route::post('/', [AssesmentQuestionController::class, 'store'])->name('store');
         Route::post('/bulk', [AssesmentQuestionController::class, 'bulk'])->name('bulk.store');
         Route::get('/{id}', [AssesmentQuestionController::class, 'show'])->name('show');
-        Route::put('/{id}', [AssesmentQuestionController::class, 'update'])->name('update');
         Route::delete('/{id}', [AssesmentQuestionController::class, 'destroy'])->name('destroy');
     });
 

@@ -18,6 +18,12 @@ class AssesmentQuestion extends Model
         'answer',
     ];
 
+    protected $with = [
+        'questionType',
+        'assesmentQuestionOptions',
+    ];
+
+
     protected $searchableFields = ['*'];
 
     protected $table = 'assesment_questions';

@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('assesment_id');
             $table->text('question');
             $table->unsignedSmallInteger('question_type_id');
-            $table->string('answer');
+            $table->string('answer')->nullable();
 
             $table->timestamps();
         });

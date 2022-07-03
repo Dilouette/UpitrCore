@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Models\AssesmentQuestion;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\AssesmentQuestionOption;
 use App\Http\Resources\AssesmentQuestionResource;
 use App\Http\Resources\AssesmentQuestionCollection;
 use App\Http\Requests\AssesmentQuestionStoreRequest;
 use App\Http\Requests\AssesmentQuestionUpdateRequest;
+use App\Http\Requests\AssesmentQuestionStoreBulkRequest;
 
 class AssesmentQuestionController extends ServiceController
 {
@@ -29,7 +33,16 @@ class AssesmentQuestionController extends ServiceController
             $query = AssesmentQuestion::query()
                 ->orderby('id', 'asc');
 
-            $jobs = $query->paginate($page_size);
+            $query->when($request->filled('assessment'), function ($q) use($request){
+                return $q->where("assesment_id", $request->assessment);
+            });
+
+            $jobs = null;
+            if ($page_size =! '*') {
+                $jobs = $query->paginate($page_size);
+            } else {
+                $jobs = $query->get();
+            }            
             
             return $this->success($jobs);
         } catch (\Throwable $th) {
@@ -41,15 +54,33 @@ class AssesmentQuestionController extends ServiceController
      * @param \App\Http\Requests\AssesmentQuestionStoreRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function bulk(AssesmentQuestionStoreRequest $request)
+    public function bulk(AssesmentQuestionStoreBulkRequest $request)
     {
-        Log::info($request);
-
-        $validated = $request->validated();
-
-        $assesmentQuestion = AssesmentQuestion::create($validated);
-
-        return new AssesmentQuestionResource($assesmentQuestion);
+        try {
+            $validated = $request->validated();
+            DB::beginTransaction();
+            Log::info($validated['questions']);
+            foreach ($validated['questions'] as $question) {
+                $q = AssesmentQuestion::create([
+                    'assesment_id' => $validated['assesment_id'],
+                    'question_type_id' => $question['question_type_id'],
+                    'question' => $question['question'],
+                ]);
+                foreach ($question['options'] as $option) {
+                    Log::info($option);
+                    AssesmentQuestionOption::create([
+                        'assesment_question_id' => $q->id,
+                        'value' => $option['value'],
+                        'is_answer' => $option['is_answer'],
+                    ]);
+                }
+            }
+            DB::commit();
+            return $this->success();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $this->server_error($th);
+        }        
     }
 
     /**
@@ -58,13 +89,31 @@ class AssesmentQuestionController extends ServiceController
      */
     public function store(AssesmentQuestionStoreRequest $request)
     {
-        Log::info($request);
-
-        $validated = $request->validated();
-
-        $assesmentQuestion = AssesmentQuestion::create($validated);
-
-        return new AssesmentQuestionResource($assesmentQuestion);
+        try {
+            $validated = $request->validated();
+            DB::beginTransaction();
+            $q = AssesmentQuestion::create([
+                'assesment_id' => $validated['assesment_id'],
+                'question_type_id' => $validated['question_type_id'],
+                'question' => $validated['question'],
+            ]);
+            foreach ($validated['options'] as $option) {
+                AssesmentQuestionOption::create([
+                    'assesment_question_id' => $q->id,
+                    'value' => $option['value'],
+                    'is_answer' => $option['is_answer'],
+                ]);
+            }
+            $q->load(
+                'questionType',
+                'assesmentQuestionOptions', 
+            );
+            DB::commit();
+            return $this->success($q);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $this->server_error($th);
+        }
     }
 
     /**
@@ -72,44 +121,49 @@ class AssesmentQuestionController extends ServiceController
      * @param \App\Models\AssesmentQuestion $assesmentQuestion
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, AssesmentQuestion $assesmentQuestion)
+    public function show($id)
     {
-        $this->authorize('view', $assesmentQuestion);
+        try {
+            $question  = AssesmentQuestion::find($id);
+            if (!$question) {
+                return $this->not_found();
+            }
 
-        return new AssesmentQuestionResource($assesmentQuestion);
+            $question->load(
+                'questionType',
+                'assesmentQuestionOptions', 
+            );
+
+            return $this->success($question);
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 
-    /**
-     * @param \App\Http\Requests\AssesmentQuestionUpdateRequest $request
-     * @param \App\Models\AssesmentQuestion $assesmentQuestion
-     * @return \Illuminate\Http\Response
-     */
-    public function update(
-        AssesmentQuestionUpdateRequest $request,
-        AssesmentQuestion $assesmentQuestion
-    ) {
-        $this->authorize('update', $assesmentQuestion);
-
-        $validated = $request->validated();
-
-        $assesmentQuestion->update($validated);
-
-        return new AssesmentQuestionResource($assesmentQuestion);
-    }
-
+    
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\AssesmentQuestion $assesmentQuestion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(
-        Request $request,
-        AssesmentQuestion $assesmentQuestion
-    ) {
-        $this->authorize('delete', $assesmentQuestion);
+    public function destroy($id) {
+        try {
+            $question  = AssesmentQuestion::find($id);
+            if (!$question) {
+                return $this->not_found();
+            }
 
-        $assesmentQuestion->delete();
+            $options = AssesmentQuestionOption::where('assesment_question_id', $question->id)->get();
 
-        return response()->noContent();
+            $options->each(function($option) {
+                $option->delete();
+            });
+
+            $question->delete();
+
+            return $this->success();
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 }
