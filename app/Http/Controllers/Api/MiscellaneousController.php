@@ -16,6 +16,7 @@ use App\Models\EmploymentType;
 use App\Enums\ImportanceLevels;
 use App\Models\ExperienceLevel;
 use App\Enums\ActivityRelations;
+use App\Enums\ActivityStatuses;
 use App\Enums\DegreeClassification;
 use Illuminate\Support\Facades\Request;
 
@@ -189,6 +190,24 @@ class MiscellaneousController extends ServiceController
     {
         try {            
             $enums = ImportanceLevels::asSelectArray();
+            $items = [];
+            foreach ($enums as $key => $value) {
+                $item=[
+                    'value'=> $key,
+                    'name'=> $value
+                ];
+                array_push($items, $item);
+            }
+            return $this->success($items);
+        } catch (\Throwable $ex) {
+            return $this->server_error($ex);
+        }
+    }
+
+    public function activityStatuses()
+    {
+        try {            
+            $enums = ActivityStatuses::asSelectArray();
             $items = [];
             foreach ($enums as $key => $value) {
                 $item=[

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Department;
+use App\Models\Designation;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -35,8 +37,8 @@ class UserFactory extends Factory
             'first_login' => $this->faker->boolean,
             'last_login' => $this->faker->dateTime,
             'is_active' => $this->faker->boolean,
-            'designation_id' => \App\Models\Designation::factory(),
-            'department_id' => \App\Models\Department::factory(),
+            'designation_id' => $this->faker->randomElement(Designation::pluck('id')->toArray()),
+            'department_id' => $this->faker->randomElement(Department::pluck('id')->toArray()),
         ];
     }
 

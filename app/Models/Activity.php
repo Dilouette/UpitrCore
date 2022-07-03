@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ActivityStatuses;
 use App\Enums\ActivityTypes;
 use App\Models\Scopes\Searchable;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,7 @@ class Activity extends Model
         'meeting_url',
         'related_to_id',
         'importance_id',
+        'status_id',
         'description',
         'created_by',
         'updated_by',
@@ -41,9 +43,10 @@ class Activity extends Model
         'importance_id',
         'job_applicant_id',
         'job_id',
+        'status_id'
     ];
 
-    protected $appends = ['activity_type'];
+    protected $appends = ['activity_type', 'status'];
 
     public function job()
     {
@@ -65,6 +68,11 @@ class Activity extends Model
         return $this->belongsTo(JobApplicant::class);
     }
 
+    public function assignees()
+    {
+        return $this->belongsToMany(User::class, 'activity_assignees');
+    }
+
     /**
      * Get the activity's true type.
      *
@@ -74,5 +82,16 @@ class Activity extends Model
     public function getActivityTypeAttribute()
     {
         return ActivityTypes::getDescription($this->activity_type_id);
+    }
+
+    /**
+     * Get the activity's true status.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getStatusAttribute()
+    {
+        return ActivityStatuses::getDescription($this->status_id);
     }
 }

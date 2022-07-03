@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\ActivityTypes;
 use App\Enums\ImportanceLevels;
 use App\Enums\ActivityRelations;
+use App\Enums\ActivityStatuses;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -36,9 +37,11 @@ class ActivityStoreRequest extends BaseRequest
             'meeting_url' => ['nullable', 'max:255', 'string'],
             'related_to_id' => ['required', 'integer', new EnumValue(ActivityRelations::class)],
             'importance_id' => ['required', 'integer', new EnumValue(ImportanceLevels::class)],
+            'status_id' => ['required', 'integer', new EnumValue(ActivityStatuses::class)],
             'description' => ['required', 'max:255', 'string'],
             'job_applicant_id' => ['nullable', 'exists:job_applicants,id'],
             'job_id' => ['nullable', 'exists:jobs,id'],
+            'assignees.*' => ['distinct', 'exists:users,id'],
         ];
     }
 }

@@ -43,6 +43,7 @@ class User extends Authenticatable
         'created_at',
         'updated_at', 
         'deleted_at',
+        'pivot'
     ];
 
     protected $casts = [
@@ -63,7 +64,7 @@ class User extends Authenticatable
         return $this->belongsTo(Department::class);
     }
 
-    public function activities()
+    public function createdActivities()
     {
         return $this->hasMany(Activity::class, 'created_by');
     }
@@ -71,6 +72,11 @@ class User extends Authenticatable
     public function updatedActivities()
     {
         return $this->hasMany(Activity::class, 'updated_by');
+    }
+
+    public function activities()
+    {
+        return $this->belongsToMany(Activity::class, 'activity_assignees');
     }
 
     public function isSuperAdmin()

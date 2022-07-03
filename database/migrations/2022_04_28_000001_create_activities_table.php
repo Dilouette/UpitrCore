@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('meeting_url')->nullable();
             $table->tinyInteger('related_to_id');
             $table->tinyInteger('importance_id');
+            $table->tinyInteger('status_id');
             $table->text('description');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();

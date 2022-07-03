@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\JobController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Api\CurrencyController;
 use App\Http\Controllers\Api\IndustryController;
 use App\Http\Controllers\Api\JobNotesController;
 use App\Http\Controllers\Api\AssesmentController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\InterviewController;
 use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\JobSettingController;
@@ -86,7 +88,6 @@ use App\Http\Controllers\Api\AssesmentQuestionAssesmentQuestionOptionsController
 use App\Http\Controllers\Api\AssesmentQuestionOptionAssesmentResponsesController;
 use App\Http\Controllers\Api\InteviewQuestionApplicantInterviewFeedbacksController;
 use App\Http\Controllers\Api\ApplicantInterviewApplicantInterviewFeedbacksController;
-use App\Models\Department;
 
 /*
 |--------------------------------------------------------------------------
@@ -126,6 +127,11 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::get('/activity-relations', [MiscellaneousController::class, 'activityRelations'])->name('activity-relations');
         Route::get('/activity-importance', [MiscellaneousController::class, 'activityImportance'])->name('activity-importance');
         
+    });
+
+    //Dashboard Routes
+    Route::name('dashboard.')->prefix('dashboard')->middleware('auth:api')->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('index');
     });
 
     //Department Routes
@@ -215,6 +221,15 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::get('/{id}', [ActivityController::class, 'show'])->name('show');
         Route::put('/{id}', [ActivityController::class, 'update'])->name('update');
         Route::delete('/{id}', [ActivityController::class, 'destroy'])->name('delete');
+    });
+
+    //Users Routes
+    Route::name('users')->prefix('users')->middleware('auth:api')->group(function () {
+        Route::post('/', [UserController::class, 'store'])->name('store');
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/{id}', [UserController::class, 'show'])->name('show');
+        Route::put('/{id}', [UserController::class, 'update'])->name('update');
+        Route::delete('/{id}', [UserController::class, 'destroy'])->name('delete');
     });
 
     //Job Board

@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ActivitySeeder::class);
         $this->call(InterviewSeeder::class);
         $this->call(InterviewSectionSeeder::class);
+        $this->call(UserSeeder::class);
 
         // $this->call(ApplicantAssesmentSeeder::class);
         // $this->call(ApplicantInterviewSeeder::class);

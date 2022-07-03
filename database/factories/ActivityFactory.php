@@ -34,6 +34,7 @@ class ActivityFactory extends Factory
             'meeting_url' => $this->faker->url(),
             'related_to_id' => $this->faker->numberBetween(0, 1),
             'importance_id' => $this->faker->numberBetween(0, 2),
+            'status_id' => $this->faker->numberBetween(0, 3),
             'description' => $this->faker->sentence(10),
             'created_by' => $this->faker->randomElement(User::pluck('id')->toArray()),
             'updated_by' => $this->faker->randomElement(User::pluck('id')->toArray()),

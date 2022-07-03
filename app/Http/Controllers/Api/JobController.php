@@ -33,7 +33,6 @@ class JobController extends ServiceController
                 ->orderby('id', 'desc');
 
             $query->when($request->filled('keyword'), function ($q) use($request){
-                Log::info($request->keyword);
                 return $q->where("title", "ilike", "%$request->keyword%")
                             ->orWhere("description", "ilike", "%$request->keyword%")
                             ->orWhere("code", "ilike", "%$request->keyword%");

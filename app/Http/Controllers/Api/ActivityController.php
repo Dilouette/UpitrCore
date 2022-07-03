@@ -73,7 +73,11 @@ class ActivityController extends ServiceController
             
             $activity = Activity::create($validated);
 
-            $activity->load('job', 'jobApplicant', 'creator', 'editor');
+            foreach ($validated['assignees'] as $key => $value) {
+                $activity->assignees()->attach($value);
+            }
+
+            $activity->load('job', 'jobApplicant', 'creator', 'editor', 'assignees');
             
             return $this->success($activity);
         } catch (\Throwable $th) {
@@ -94,7 +98,7 @@ class ActivityController extends ServiceController
                 return $this->not_found();
             }
 
-            $activity->load('job', 'jobApplicant', 'creator', 'editor');
+            $activity->load('job', 'jobApplicant', 'creator', 'editor', 'assignees');
 
             return $this->success(new ActivityResource($activity));
         } catch (\Throwable $th) {
@@ -121,8 +125,9 @@ class ActivityController extends ServiceController
             $validated['updated_at'] = Carbon::now();
             
             $activity->update($validated);
+            $activity->assignees()->sync($validated['assignees']);
 
-            $activity->load('job', 'jobApplicant', 'creator', 'editor');
+            $activity->load('job', 'jobApplicant', 'creator', 'editor', 'assignees');
             
             return $this->success($activity);
         } catch (\Throwable $th) {
@@ -143,6 +148,7 @@ class ActivityController extends ServiceController
                 return $this->not_found();
             }
 
+            $activity->assignees()->detach();
             $activity->delete();
 
             return $this->success();

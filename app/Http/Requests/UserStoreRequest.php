@@ -30,10 +30,7 @@ class UserStoreRequest extends FormRequest
             'firstname' => ['required', 'max:255', 'string'],
             'lastname' => ['required', 'max:255', 'string'],
             'department_id' => ['nullable', 'numeric', 'exists:departments,id'],
-            'password' => ['required'],
-            'reset_login' => ['required', 'boolean'],
-            'first_login' => ['required', 'boolean'],
-            'last_login' => ['required', 'date'],
+            'role_id' => ['required', 'numeric', 'exists:roles,id'],
             'designation_id' => [
                 'nullable',
                 'numeric',

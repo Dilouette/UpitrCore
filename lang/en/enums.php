@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\ActivityTypes;
+use App\Enums\ActivityStatuses;
 use App\Enums\ImportanceLevels;
 use App\Enums\ActivityRelations;
 use App\Enums\DegreeClassification;
@@ -30,5 +31,12 @@ return [
         ImportanceLevels::LowPriority => 'Low Priority',
         ImportanceLevels::MediumPriority => 'Medium Priority',
         ImportanceLevels::HighPriority => 'High Priority',
+    ],
+
+    ActivityStatuses::class => [
+        ActivityStatuses::NotStarted => 'Not Started',
+        ActivityStatuses::Ongoing => 'Ongoing',
+        ActivityStatuses::Completed => 'Completed',
+        ActivityStatuses::Cancelled => 'Cancelled',
     ],
 ];

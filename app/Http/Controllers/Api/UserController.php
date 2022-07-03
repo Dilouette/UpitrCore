@@ -11,7 +11,7 @@ use App\Http\Resources\UserCollection;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 
-class UserController extends Controller
+class UserController extends ServiceController
 {
     /**
      * @param \Illuminate\Http\Request $request
@@ -19,15 +19,45 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('view-any', User::class);
+        try {
 
-        $search = $request->get('search', '');
+            $page_size = env('DEFAULT_PAGE_SIZE');
 
-        $users = User::search($search)
-            ->latest()
-            ->paginate();
+            if ($request->filled('page_size')) {
+                $page_size = $request->page_size;
+            }
 
-        return new UserCollection($users);
+            $query = User::query()
+                ->orderby('id', 'desc');
+
+            $query->when($request->filled('keyword'), function ($q) use($request){
+                return $q->where("email", "ilike", "%$request->keyword%")
+                            ->orWhere("firstname", "ilike", "%$request->keyword%")
+                            ->orWhere("lastname", "ilike", "%$request->keyword%");
+            });
+
+            $query->when($request->filled('department'), function ($q) use($request){
+                return $q->where("department_id", $request->department);
+            });
+
+            if ($page_size != '*') {
+                $users = $query->paginate($page_size);
+            }
+            
+            $users->load(
+                'department', 
+                'designation', 
+            );
+
+            $users->makeHidden([
+                'department_id',
+                'designation_id',             
+            ]);           
+
+            return $this->success($users);
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        } 
     }
 
     /**
@@ -36,8 +66,6 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        $this->authorize('create', User::class);
-
         $validated = $request->validated();
 
         $validated['password'] = Hash::make($validated['password']);
@@ -52,11 +80,28 @@ class UserController extends Controller
      * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, User $user)
+    public function show($id)
     {
-        $this->authorize('view', $user);
+        try {
+            $user  = User::find($id);
+            if (!$user) {
+                return $this->not_found();
+            }
 
-        return new UserResource($user);
+            $user->load(
+                'department', 
+                'designation', 
+            );
+
+            $user->makeHidden([
+                'department_id',
+                'designation_id',             
+            ]);    
+
+            return $this->success(new UserResource($user));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 
     /**
@@ -86,12 +131,19 @@ class UserController extends Controller
      * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, User $user)
+    public function destroy($id)
     {
-        $this->authorize('delete', $user);
+        try {
+            $user  = User::find($id);
+            if (!$user) {
+                return $this->not_found();
+            }
 
-        $user->delete();
+            $user->delete();
+            return $this->success();
 
-        return response()->noContent();
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 }
