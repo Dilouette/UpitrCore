@@ -28,7 +28,7 @@ class JobUpdateRequest extends BaseRequest
             'title' => ['required', 'max:255', 'string'],
             'code' => [
                 'nullable',
-                Rule::unique('jobs', 'code')->ignore($this->job),
+                'unique:jobs,code,' . $this->job->id,
                 'max:255',
                 'string',
             ],
@@ -36,11 +36,11 @@ class JobUpdateRequest extends BaseRequest
             'region_id' => ['nullable', 'numeric', 'exists:regions,id'],
             'city_id' => ['nullable', 'numeric', 'exists:cities,id'],
             'zip_code' => ['nullable', 'max:255', 'string'],
-            'location' => ['nullable', 'max:255', 'string'],
+            'location' => ['required_without:is_remote,'.true, 'max:255', 'string'],
             'is_remote' => ['nullable', 'boolean'],
-            'description' => ['required', 'string'],
-            'requirements' => ['required','string'],
-            'benefit' => ['nullable', 'string'],
+            'description' => ['required', 'max:255', 'string'],
+            'requirements' => ['required', 'max:255', 'string'],
+            'benefit' => ['nullable', 'max:255', 'string'],
             'department_id' => ['nullable', 'exists:departments,id'],
             'industry_id' => ['nullable', 'numeric', 'exists:industries,id'],
             'job_function_id' => [
@@ -63,16 +63,16 @@ class JobUpdateRequest extends BaseRequest
                 'numeric',
                 'exists:education_levels,id',
             ],
-            'keywords' => ['nullable', 'string'],
-            'salary_min' => ['nullable', 'numeric'],
-            'salary_max' => ['nullable', 'numeric'],
+            'keywords' => ['nullable', 'max:255', 'string'],
+            'salary_min' => ['required_if:salary_max', 'numeric'],
+            'salary_max' => ['required_if:salary_min', 'numeric'],
             'salary_currency_id' => [
-                'nullable',
+                'required_if:salary_min',
                 'numeric',
                 'exists:currencies,id',
             ],
             'head_count' => ['nullable', 'max:255'],
-            'deadline' => ['required', 'date']
+            'deadline' => ['required', 'date'],
         ];
     }
 }

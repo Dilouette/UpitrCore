@@ -25,8 +25,9 @@ class InterviewSectionStoreRequest extends BaseRequest
     {
         return [
             'title' => ['required', 'max:255', 'string'],
-            'questions' => ['required', 'string'],
             'interview_id' => ['required', 'exists:interviews,id'],
+            'questions.*.title' => ['nullable', 'max:256', 'string'],
+            'questions.*.question' => ['required', 'max:512', 'string'],
         ];
     }
 }

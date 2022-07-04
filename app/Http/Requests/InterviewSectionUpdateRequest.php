@@ -25,7 +25,6 @@ class InterviewSectionUpdateRequest extends BaseRequest
     {
         return [
             'title' => ['required', 'max:255', 'string'],
-            'questions' => ['required', 'string'],
             'interview_id' => ['required', 'exists:interviews,id'],
         ];
     }

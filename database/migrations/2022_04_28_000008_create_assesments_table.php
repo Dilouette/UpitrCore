@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('job_id');
             $table->boolean('is_timed');
             $table->integer('duration');
+            $table->integer('questions_per_candidate');
             $table->integer('pass_score');
             $table->timestamps();
             $table->softDeletes();

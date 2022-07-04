@@ -3,17 +3,17 @@
 namespace Database\Factories;
 
 use Illuminate\Support\Str;
-use App\Models\InteviewQuestion;
+use App\Models\InterviewQuestion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class InteviewQuestionFactory extends Factory
+class InterviewQuestionFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = InteviewQuestion::class;
+    protected $model = InterviewQuestion::class;
 
     /**
      * Define the model's default state.
@@ -23,8 +23,8 @@ class InteviewQuestionFactory extends Factory
     public function definition()
     {
         return [
-            'question' => $this->faker->text,
-            'title' => $this->faker->sentence(10),
+            'question' => $this->faker->sentence(10),
+            'title' => $this->faker->sentence(5),
             'interview_section_id' => \App\Models\InterviewSection::factory(),
         ];
     }

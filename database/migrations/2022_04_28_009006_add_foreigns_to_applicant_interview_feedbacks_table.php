@@ -23,9 +23,9 @@ return new class extends Migration {
                 ->onDelete('CASCADE');
 
             $table
-                ->foreign('inteview_question_id')
+                ->foreign('interview_question_id')
                 ->references('id')
-                ->on('inteview_questions')
+                ->on('interview_questions')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
         });

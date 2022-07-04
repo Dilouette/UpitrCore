@@ -6,7 +6,7 @@ use App\Models\Scopes\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class InteviewQuestion extends Model
+class InterviewQuestion extends Model
 {
     use HasFactory;
     use Searchable;
@@ -15,7 +15,7 @@ class InteviewQuestion extends Model
 
     protected $searchableFields = ['*'];
 
-    protected $table = 'inteview_questions';
+    protected $table = 'interview_questions';
 
     public function interviewSection()
     {

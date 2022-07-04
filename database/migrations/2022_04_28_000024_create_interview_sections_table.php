@@ -15,7 +15,6 @@ return new class extends Migration {
         Schema::create('interview_sections', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-            $table->text('questions');
             $table->unsignedBigInteger('interview_id');
 
             $table->timestamps();

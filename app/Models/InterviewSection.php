@@ -11,7 +11,9 @@ class InterviewSection extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['title', 'questions', 'interview_id'];
+    protected $fillable = ['title', 'interview_id'];
+
+    protected $with = ['inteviewQuestions'];
 
     protected $searchableFields = ['*'];
 
@@ -24,6 +26,6 @@ class InterviewSection extends Model
 
     public function inteviewQuestions()
     {
-        return $this->hasMany(InteviewQuestion::class);
+        return $this->hasMany(InterviewQuestion::class);
     }
 }

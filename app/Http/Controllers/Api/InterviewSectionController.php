@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Models\InterviewSection;
+use App\Models\InterviewQuestion;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\InterviewSectionResource;
 use App\Http\Resources\InterviewSectionCollection;
@@ -20,11 +22,22 @@ class InterviewSectionController extends ServiceController
     public function store(InterviewSectionStoreRequest $request)
     {
         try {
-            
             $validated = $request->validated();
-            $interviewSection = InterviewSection::create($validated);
-
-            return $this->success(new InterviewSectionResource($interviewSection));
+            DB::beginTransaction();
+            $section = InterviewSection::create([
+                'title' => $validated['title'],
+                'interview_id' => $validated['interview_id'],
+            ]);
+            foreach ($validated['questions'] as $question) {
+                InterviewQuestion::create([
+                    'interview_section_id' => $section->id,
+                    'title' => $question['title'],
+                    'question' => $question['question'],
+                ]);
+            }
+            DB::commit();
+            $section->load('inteviewQuestions');
+            return $this->success($section);
         } catch (\Throwable $th) {
             return $this->server_error($th);
         } 
@@ -81,6 +94,12 @@ class InterviewSectionController extends ServiceController
             if (!$section) {
                 return $this->not_found();
             }
+
+            $questions = InterviewQuestion::where('interview_section_id', $section->id)->get();
+
+            $questions->each(function($question) {
+                $question->delete();
+            });
 
             $section->delete();
             return $this->success();

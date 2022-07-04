@@ -55,6 +55,7 @@ use App\Http\Controllers\Api\JobWorkflowStageController;
 use App\Http\Controllers\Api\ApplicantResponseController;
 use App\Http\Controllers\Api\AssesmentQuestionController;
 use App\Http\Controllers\Api\AssesmentResponseController;
+use App\Http\Controllers\Api\InterviewQuestionController;
 use App\Http\Controllers\Api\JobApplicantNotesController;
 use App\Http\Controllers\Api\JobQuestionOptionController;
 use App\Http\Controllers\Api\ApplicantAssesmentController;
@@ -125,8 +126,7 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::get('/degree-classifications', [MiscellaneousController::class, 'degreeClassifications'])->name('degree-classifications');
         Route::get('/activity-types', [MiscellaneousController::class, 'activityTypes'])->name('activity-types');
         Route::get('/activity-relations', [MiscellaneousController::class, 'activityRelations'])->name('activity-relations');
-        Route::get('/activity-importance', [MiscellaneousController::class, 'activityImportance'])->name('activity-importance');
-        
+        Route::get('/activity-importance', [MiscellaneousController::class, 'activityImportance'])->name('activity-importance');       
     });
 
     //Dashboard Routes
@@ -181,6 +181,13 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::get('/{id}', [InterviewSectionController::class, 'show'])->name('show');
         Route::put('/{id}', [InterviewSectionController::class, 'update'])->name('update');
         Route::delete('/{id}', [InterviewSectionController::class, 'destroy'])->name('destroy');
+    });
+
+    //Vacancy Interview Section Questions Routes
+    Route::name('vacancy.interview.section.questions')->prefix('vacancy-interview-section-questions')->middleware('auth:api')->group(function () {
+        Route::post('/', [InterviewQuestionController::class, 'store'])->name('store');
+        Route::put('/{id}', [InterviewQuestionController::class, 'update'])->name('update');
+        Route::delete('/{id}', [InterviewQuestionController::class, 'destroy'])->name('destroy');
     });
 
      //Vacancy Assessment Routes

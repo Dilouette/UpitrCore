@@ -24,7 +24,6 @@ class InterviewSectionFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(5),
-            'questions' => $this->faker->sentence(15),
             'interview_id' => \App\Models\Interview::factory(),
         ];
     }

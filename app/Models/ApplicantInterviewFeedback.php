@@ -28,6 +28,6 @@ class ApplicantInterviewFeedback extends Model
 
     public function inteviewQuestion()
     {
-        return $this->belongsTo(InteviewQuestion::class);
+        return $this->belongsTo(InterviewQuestion::class);
     }
 }

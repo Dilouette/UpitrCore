@@ -12,7 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('inteview_questions', function (Blueprint $table) {
+        Schema::table('interview_questions', function (Blueprint $table) {
             $table
                 ->foreign('interview_section_id')
                 ->references('id')
@@ -29,7 +29,7 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('inteview_questions', function (Blueprint $table) {
+        Schema::table('interview_questions', function (Blueprint $table) {
             $table->dropForeign(['interview_section_id']);
         });
     }

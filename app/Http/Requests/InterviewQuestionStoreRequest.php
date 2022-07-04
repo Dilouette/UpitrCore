@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class InteviewQuestionStoreRequest extends FormRequest
+class InterviewQuestionStoreRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +28,8 @@ class InteviewQuestionStoreRequest extends FormRequest
                 'required',
                 'exists:interview_sections,id',
             ],
-            'question' => ['required', 'max:255', 'string'],
-            'title' => ['required', 'max:255', 'string'],
+            'question' => ['required', 'max:512', 'string'],
+            'title' => ['nullable', 'max:256', 'string'],
         ];
     }
 }

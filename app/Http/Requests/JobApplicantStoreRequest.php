@@ -25,18 +25,18 @@ class JobApplicantStoreRequest extends BaseRequest
     {
         return [
             'job_id' => ['required', 'numeric', 'exists:jobs,id'],
-            'firstname' => ['required', 'max:255', 'string'],
-            'lastname' => ['required', 'max:255', 'string'],
+            'firstname' => ['required', 'max:128', 'string'],
+            'lastname' => ['required', 'max:128', 'string'],
             'email' => ['required', 'email'],
             'dob' => ['required', 'date'],
             'gender_id' => ['required', 'min:0', 'max:1'],
-            'phone' => ['nullable', 'max:255', 'string'],
-            'headline' => ['nullable', 'max:255', 'string'],
-            'address' => ['nullable', 'max:255', 'string'],
-            'photo' => ['nullable', 'file'],
-            'summary' => ['nullable', 'max:255', 'string'],
-            'resume' => ['nullable', 'file'],
-            'cover_letter' => ['nullable', 'file'],
+            'phone' => ['nullable', 'max:64', 'string'],
+            'headline' => ['nullable', 'max:256', 'string'],
+            'address' => ['nullable', 'max:256', 'string'],
+            'photo' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif,svg'],
+            'summary' => ['nullable', 'max:512', 'string'],
+            'resume' => ['nullable', 'file', 'mimes:pdf,doc,docx,ppt,pptx', 'max:10240'],
+            'cover_letter' => ['nullable', 'file', 'mimes:pdf,doc,docx,ppt,pptx', 'max:10240'],
             'skills' => ['nullable', 'string'],
         ];
     }

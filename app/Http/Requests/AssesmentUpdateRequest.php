@@ -28,6 +28,7 @@ class AssesmentUpdateRequest extends BaseRequest
             'is_timed' => ['required', 'boolean'],
             'duration' => ['required', 'numeric'],
             'pass_score' => ['required', 'numeric'],
+            'questions_per_candidate' => ['required','gte:pass_score', 'numeric'],
         ];
     }
 }
