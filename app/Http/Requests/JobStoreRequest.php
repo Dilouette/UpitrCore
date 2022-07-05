@@ -59,10 +59,10 @@ class JobStoreRequest extends BaseRequest
                 'exists:education_levels,id',
             ],
             'keywords' => ['nullable', 'max:255', 'string'],
-            'salary_min' => ['required_if:salary_max', 'numeric'],
-            'salary_max' => ['required_if:salary_min', 'numeric'],
+            'salary_min' => ['required_with:salary_max', 'numeric'],
+            'salary_max' => ['required_with:salary_min', 'numeric'],
             'salary_currency_id' => [
-                'required_if:salary_min',
+                'required_with:salary_min',
                 'numeric',
                 'exists:currencies,id',
             ],
