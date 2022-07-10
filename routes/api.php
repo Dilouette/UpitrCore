@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\JobController;
+use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ActivityController;
 use App\Http\Controllers\Api\ApplicantController;
@@ -187,6 +188,15 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::get('/{id}', [ActivityController::class, 'show'])->name('show');
         Route::put('/{id}', [ActivityController::class, 'update'])->name('update');
         Route::delete('/{id}', [ActivityController::class, 'destroy'])->name('delete');
+    });
+
+    //Roles Routes
+    Route::name('roles')->prefix('roles')->middleware('auth:api')->group(function () {
+        Route::post('/', [RoleController::class, 'store'])->name('store');
+        Route::get('/', [RoleController::class, 'index'])->name('index');
+        Route::get('/{id}', [RoleController::class, 'show'])->name('show');
+        Route::put('/{id}', [RoleController::class, 'update'])->name('update');
+        Route::delete('/{id}', [RoleController::class, 'destroy'])->name('delete');
     });
 
     //Users Routes

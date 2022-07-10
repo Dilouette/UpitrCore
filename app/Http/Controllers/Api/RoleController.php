@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Resources\RoleResource;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\RoleCollection;
 use Spatie\Permission\Models\Permission;
+use App\Http\Controllers\Api\ServiceController;
 
-class RoleController extends Controller {
+class RoleController extends ServiceController {
 
     /**
      * @param \Illuminate\Http\Request $request
@@ -17,12 +16,27 @@ class RoleController extends Controller {
      */
     public function index(Request $request) 
     {
-        $this->authorize('list', Role::class);
+        try {
 
-        $search = $request->get('search', '');
-        $roles = Role::where('name', 'like', "%{$search}%")->paginate();
+            $page_size = env('DEFAULT_PAGE_SIZE');
 
-        return new RoleCollection($roles);
+            if ($request->filled('page_size')) {
+                $page_size = $request->page_size;
+            }
+
+            $query = Role::query()
+                ->orderby('created_at', 'desc');
+
+            $query->when($request->filled('keyword'), function ($q) use($request){
+                return $q->where("title", "ilike", "%$request->keyword%");
+            });
+
+            $roles = $page_size == '*' ? $query->get() : $query->paginate($page_size);
+
+            return $this->success($roles);
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }      
     }
 
     /**
@@ -31,30 +45,43 @@ class RoleController extends Controller {
      */
     public function store(Request $request) 
     {
-        $this->authorize('create', Role::class);
-
         $validated = $this->validate($request, [
-            'name' => 'required|unique:roles|max:32',
+            'name' => 'required|unique:roles|max:64',
             'permissions' => 'array',
         ]);
+        try {
+            $role = Role::create($validated);
 
-        $role = Role::create($validated);
+            $permissions = Permission::find($request->permissions);
+            $role->syncPermissions($permissions);
+            
+            $role->load('permissions');
 
-        $permissions = Permission::find($request->permissions);
-        $role->syncPermissions($permissions);
-
-        return new RoleResource($role);
+            return new RoleResource($role);
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
+        
     }
 
     /**
      * @param  \Spatie\Permission\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show(Role $role) 
+    public function show($id) 
     {
-        $this->authorize('view', Role::class);
+        try {
+            $role  = Role::find($id);
+            if (!$role) {
+                return $this->not_found();
+            }
 
-        return new RoleResource($role);
+            $role->load('permissions');
+
+            return $this->success(new RoleResource($role));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 
     /**
@@ -62,33 +89,48 @@ class RoleController extends Controller {
      * @param  \Spatie\Permission\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role) 
+    public function update(Request $request, $id) 
     {
-        $this->authorize('update', $role);
-
         $validated = $this->validate($request, [
-            'name'=>'required|max:32|unique:roles,name,'.$role->id,
+            'name'=>'required|max:32|unique:roles,name,'.$id,
             'permissions' =>'array',
         ]);
-        
-        $role->update($validated);
+        try {
+            $role  = Role::find($id);
+            if (!$role) {
+                return $this->not_found();
+            }
 
-        $permissions = Permission::find($request->permissions);
-        $role->syncPermissions($permissions);
+            $role->update($validated);
 
-        return new RoleResource($role);
+            $permissions = Permission::find($request->permissions);
+            $role->syncPermissions($permissions);
+
+            $role->load('permissions');
+
+            return $this->success(new RoleResource($role));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 
     /**
      * @param  \Spatie\Permission\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
+    public function destroy($id)
     {
-        $this->authorize('delete', $role);
+        try {
+            $role  = Role::find($id);
+            if (!$role) {
+                return $this->not_found();
+            }
 
-        $role->delete();
+            $role->delete();
 
-        return response()->noContent();
+            return $this->success();
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
     }
 }

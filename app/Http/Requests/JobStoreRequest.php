@@ -33,9 +33,10 @@ class JobStoreRequest extends BaseRequest
             'zip_code' => ['nullable', 'max:255', 'string'],
             'location' => ['required_without:is_remote,'.true, 'max:255', 'string'],
             'is_remote' => ['nullable', 'boolean'],
-            'description' => ['required', 'max:255', 'string'],
-            'requirements' => ['required', 'max:255', 'string'],
-            'benefit' => ['nullable', 'max:255', 'string'],
+            'description' => ['required', 'string'],
+            'requirements' => ['required', 'string'],
+            'responsibilities' => ['required', 'string'],
+            'benefit' => ['nullable', 'string'],
             'department_id' => ['nullable', 'exists:departments,id'],
             'industry_id' => ['nullable', 'numeric', 'exists:industries,id'],
             'job_function_id' => [

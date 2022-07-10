@@ -26,12 +26,11 @@ class ApplicantInterviewStoreRequest extends BaseRequest
         return [
             'applicant_id' => ['required', 'exists:applicants,id'],
             'interview_id' => ['required', 'exists:interviews,id'],
-            'score' => ['required', 'max:255'],
             'feedback' => ['required', 'max:255', 'string'],
             'start_time' => ['required', 'date'],
             'end_time' => ['required', 'date'],
-            'feebacks.*.inteview_section_id' => ['required', 'exists:inteview_sections,id'],
-            'feebacks.*.rating' => ['required', 'min:1', 'max:5'],
+            'feedbacks.*.interview_section_id' => ['required', 'exists:interview_sections,id'],
+            'feedbacks.*.rating' => ['required', 'min:1', 'max:5'],
         ];
     }
 }

@@ -25,12 +25,12 @@ class ApplicantInterviewUpdateRequest extends FormRequest
     {
         return [
             'applicant_id' => ['required', 'exists:applicants,id'],
-            'score' => ['required', 'max:255'],
+            'interview_id' => ['required', 'exists:interviews,id'],
             'feedback' => ['required', 'max:255', 'string'],
             'start_time' => ['required', 'date'],
             'end_time' => ['required', 'date'],
-            'feebacks.*.inteview_question_id' => ['required', 'exists:inteview_questions,id'],
-            'feebacks.*.rating' => ['required', 'min:1', 'max:5'],
+            'feedbacks.*.interview_section_id' => ['required', 'exists:interview_sections,id'],
+            'feedbacks.*.rating' => ['required', 'min:1', 'max:5'],
         ];
     }
 }

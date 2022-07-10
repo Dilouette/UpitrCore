@@ -24,7 +24,7 @@ class ApplicantInterviewSeeder extends Seeder
         $start_time = Carbon::now();
         $end_time = $start_time->addMinutes(60);
 
-        for ($i=1; $i < 6; $i++) { 
+        for ($i=2; $i < 7; $i++) { 
             ApplicantInterview::factory()
             ->create([
                 'start_time' => $start_time,

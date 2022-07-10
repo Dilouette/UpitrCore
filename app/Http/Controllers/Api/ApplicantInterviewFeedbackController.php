@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use App\Models\InterviewSection;
 use App\Models\ApplicantInterview;
-use Illuminate\Support\Facades\Auth;
 use App\Models\ApplicantInterviewFeedback;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Resources\ApplicantInterviewResource;
 use App\Http\Requests\ApplicantInterviewStoreRequest;
-use App\Http\Resources\ApplicantInterviewFeedbackResource;
-use App\Http\Resources\ApplicantInterviewFeedbackCollection;
-use App\Http\Requests\ApplicantInterviewFeedbackStoreRequest;
-use App\Http\Requests\ApplicantInterviewFeedbackUpdateRequest;
 
 class ApplicantInterviewFeedbackController extends ServiceController
 {
@@ -59,12 +58,28 @@ class ApplicantInterviewFeedbackController extends ServiceController
             }
 
             $validated = $request->validated();
+
+            $applicant_interview_section_ids = array_map(fn ($fb) => $fb['interview_section_id'], $validated['feedbacks']);
+            $interview_section_ids = InterviewSection::where('interview_id', $validated['interview_id'])->pluck('id')->toArray();
+
+            $missing_sections = array_diff($interview_section_ids, $applicant_interview_section_ids);
+
+            Log::info($applicant_interview_section_ids);
+            Log::info($interview_section_ids);
+            Log::info($missing_sections);
+
+            if(count($missing_sections) > 0) {
+                return $this->bad_request('Missing feedback for sections: ' . implode(', ', $missing_sections));
+            }
+
             $validated['created_by'] = Auth::user()->id;
+            $validated['score'] = array_sum(array_map(fn ($fb) => $fb['rating'], $validated['feedbacks']));
+
             DB::beginTransaction();
             $interview = ApplicantInterview::create($validated);
 
             foreach ($validated['feedbacks'] as $feedback) {
-                InterviewQuestion::create([
+                ApplicantInterviewFeedback::create([
                     'applicant_interview_id' => $interview->id,
                     'interview_section_id' => $feedback['interview_section_id'],
                     'rating' => $feedback['rating'],

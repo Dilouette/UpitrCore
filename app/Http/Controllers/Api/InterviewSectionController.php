@@ -36,7 +36,7 @@ class InterviewSectionController extends ServiceController
                 ]);
             }
             DB::commit();
-            $section->load('inteviewQuestions');
+            $section->load('interviewQuestions');
             return $this->success($section);
         } catch (\Throwable $th) {
             return $this->server_error($th);

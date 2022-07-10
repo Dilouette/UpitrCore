@@ -24,6 +24,7 @@ class Job extends Model
         'is_remote',
         'description',
         'requirements',
+        'responsibilities',
         'benefit',
         'department_id',
         'industry_id',

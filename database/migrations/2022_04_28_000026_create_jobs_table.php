@@ -27,6 +27,7 @@ return new class extends Migration {
             $table->boolean('is_remote')->nullable();
             $table->text('description');
             $table->text('requirements');
+            $table->text('responsibilities');
             $table->text('benefit')->nullable();
             $table->unsignedInteger('department_id')->nullable();
             $table->unsignedBigInteger('industry_id')->nullable();
