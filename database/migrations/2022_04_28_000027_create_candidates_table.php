@@ -31,8 +31,8 @@ return new class extends Migration {
             $table->text('summary')->nullable();
             $table->string('resume')->nullable();
             $table->text('skills')->nullable();
-            $table->Integer('industry_id')->nullable();
-            $table->Integer('job_function_id')->nullable();
+            $table->unsignedBigInteger('industry_id')->nullable();
+            $table->unsignedBigInteger('job_function_id')->nullable();
             $table->tinyInteger('years_of_experience')->nullable();
 
             $table->timestamp('email_verified_at')->nullable();
