@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Activity;
 
 use App\Models\Job;
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -61,7 +61,7 @@ class ActivityTest extends TestCase
         $activity = Activity::factory()->create();
 
         $job = Job::factory()->create();
-        $jobApplicant = JobApplicant::factory()->create();
+        $applicant = Applicant::factory()->create();
 
         $data = [
             'activity_type_id' => $this->faker->numberBetween(0, 127),
@@ -76,7 +76,7 @@ class ActivityTest extends TestCase
             'created_by' => $this->faker->randomNumber,
             'updated_by' => $this->faker->randomNumber,
             'job_id' => $job->id,
-            'job_applicant_id' => $jobApplicant->id,
+            'applicant_id' => $applicant->id,
         ];
 
         $response = $this->putJson(

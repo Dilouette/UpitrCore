@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('applicant_assesments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('job_applicant_id');
+            $table->unsignedBigInteger('applicant_id');
             $table->tinyInteger('status_id')->nullable();
             $table->integer('score')->nullable();
             $table->dateTime('start_time');

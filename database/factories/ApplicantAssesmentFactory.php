@@ -29,7 +29,7 @@ class ApplicantAssesmentFactory extends Factory
             'end_time' => $this->faker->dateTime,
             'ip' => $this->faker->ipv4,
             'user_agent' => $this->faker->userAgent,
-            'job_applicant_id' => \App\Models\JobApplicant::factory(),
+            'applicant_id' => \App\Models\Applicant::factory(),
         ];
     }
 }

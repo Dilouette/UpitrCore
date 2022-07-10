@@ -39,7 +39,7 @@ class ActivityUpdateRequest extends BaseRequest
             'importance_id' => ['required', 'integer', new EnumValue(ImportanceLevels::class)],
             'status_id' => ['required', 'integer', new EnumValue(ActivityStatuses::class)],
             'description' => ['required', 'max:255', 'string'],
-            'job_applicant_id' => ['nullable', 'exists:job_applicants,id'],
+            'applicant_id' => ['nullable', 'exists:applicants,id'],
             'job_id' => ['nullable', 'exists:jobs,id'],
             'assignees.*' => ['distinct', 'exists:users,id'],
         ];

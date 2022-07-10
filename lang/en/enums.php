@@ -9,7 +9,8 @@ use App\Enums\DegreeClassification;
 return [
     DegreeClassification::class => [
         DegreeClassification::FirstClass => 'First Class',
-        DegreeClassification::SecondClass => 'Second Class',
+        DegreeClassification::SecondClassUpper => 'Second Class Upper',
+        DegreeClassification::SecondClassLower => 'Second Class Upper',
         DegreeClassification::ThirdClass => 'Third Class',
         DegreeClassification::Pass => 'Pass',
     ],
@@ -24,6 +25,7 @@ return [
 
     ActivityRelations::class => [
         ActivityRelations::Candidate => 'Candidate',
+        ActivityRelations::Application => 'Application',
         ActivityRelations::Vacancy => 'Vacancy',
     ],
 

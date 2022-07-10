@@ -23,9 +23,9 @@ return new class extends Migration {
                 ->onDelete('CASCADE');
 
             $table
-                ->foreign('interview_question_id')
+                ->foreign('interview_section_id')
                 ->references('id')
-                ->on('interview_questions')
+                ->on('interview_sections')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
         });
@@ -42,7 +42,7 @@ return new class extends Migration {
             Blueprint $table
         ) {
             $table->dropForeign(['applicant_interview_id']);
-            $table->dropForeign(['inteview_question_id']);
+            $table->dropForeign(['interview_section_id']);
         });
     }
 };

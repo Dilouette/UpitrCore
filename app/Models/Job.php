@@ -42,6 +42,34 @@ class Job extends Model
         'job_workflow_id',
     ];
 
+    protected $hidden = [
+        'created_by',
+        'country_id',
+        'region_id',
+        'city_id',
+        'department_id',
+        'industry_id',
+        'job_function_id',
+        'employment_type_id',
+        'experience_level_id',
+        'education_level_id',  
+        'salary_currency_id',
+        'job_workflow_id',       
+    ];
+
+    protected $with = [
+        'user', 
+        'city', 
+        'department', 
+        'industry', 
+        'jobFunction', 
+        'employmentType',
+        'experienceLevel', 
+        'educationLevel', 
+        'currency', 
+        'jobWorkflow'
+    ];
+
     protected $searchableFields = ['*'];
 
     protected $casts = [
@@ -62,7 +90,7 @@ class Job extends Model
 
     public function applications()
     {
-        return $this->hasMany(JobApplicant::class);
+        return $this->hasMany(Applicant::class);
     }
 
     public function industry()

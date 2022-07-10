@@ -4,7 +4,7 @@ namespace Tests\Feature\Api;
 
 use App\Models\Job;
 use App\Models\User;
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -24,10 +24,10 @@ class JobJobApplicantsTest extends TestCase
     /**
      * @test
      */
-    public function it_gets_job_job_applicants()
+    public function it_gets_job_applicants()
     {
         $job = Job::factory()->create();
-        $jobApplicants = JobApplicant::factory()
+        $applicants = Applicant::factory()
             ->count(2)
             ->create([
                 'job_id' => $job->id,
@@ -37,16 +37,16 @@ class JobJobApplicantsTest extends TestCase
             route('api.jobs.job-applicants.index', $job)
         );
 
-        $response->assertOk()->assertSee($jobApplicants[0]->firstname);
+        $response->assertOk()->assertSee($applicants[0]->firstname);
     }
 
     /**
      * @test
      */
-    public function it_stores_the_job_job_applicants()
+    public function it_stores_the_job_applicants()
     {
         $job = Job::factory()->create();
-        $data = JobApplicant::factory()
+        $data = Applicant::factory()
             ->make([
                 'job_id' => $job->id,
             ])
@@ -57,12 +57,12 @@ class JobJobApplicantsTest extends TestCase
             $data
         );
 
-        $this->assertDatabaseHas('job_applicants', $data);
+        $this->assertDatabaseHas('applicants', $data);
 
         $response->assertStatus(201)->assertJsonFragment($data);
 
-        $jobApplicant = JobApplicant::latest('id')->first();
+        $applicant = Applicant::latest('id')->first();
 
-        $this->assertEquals($job->id, $jobApplicant->job_id);
+        $this->assertEquals($job->id, $applicant->job_id);
     }
 }

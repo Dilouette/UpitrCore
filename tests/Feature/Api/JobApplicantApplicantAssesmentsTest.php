@@ -3,7 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\Models\User;
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 use App\Models\ApplicantAssesment;
 
 use Tests\TestCase;
@@ -26,17 +26,17 @@ class JobApplicantApplicantAssesmentsTest extends TestCase
      */
     public function it_gets_job_applicant_applicant_assesments()
     {
-        $jobApplicant = JobApplicant::factory()->create();
+        $applicant = Applicant::factory()->create();
         $applicantAssesments = ApplicantAssesment::factory()
             ->count(2)
             ->create([
-                'job_applicant_id' => $jobApplicant->id,
+                'applicant_id' => $applicant->id,
             ]);
 
         $response = $this->getJson(
             route(
                 'api.job-applicants.applicant-assesments.index',
-                $jobApplicant
+                $applicant
             )
         );
 
@@ -48,17 +48,17 @@ class JobApplicantApplicantAssesmentsTest extends TestCase
      */
     public function it_stores_the_job_applicant_applicant_assesments()
     {
-        $jobApplicant = JobApplicant::factory()->create();
+        $applicant = Applicant::factory()->create();
         $data = ApplicantAssesment::factory()
             ->make([
-                'job_applicant_id' => $jobApplicant->id,
+                'applicant_id' => $applicant->id,
             ])
             ->toArray();
 
         $response = $this->postJson(
             route(
                 'api.job-applicants.applicant-assesments.store',
-                $jobApplicant
+                $applicant
             ),
             $data
         );
@@ -70,8 +70,8 @@ class JobApplicantApplicantAssesmentsTest extends TestCase
         $applicantAssesment = ApplicantAssesment::latest('id')->first();
 
         $this->assertEquals(
-            $jobApplicant->id,
-            $applicantAssesment->job_applicant_id
+            $applicant->id,
+            $applicantAssesment->applicant_id
         );
     }
 }

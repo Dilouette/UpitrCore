@@ -29,7 +29,7 @@ class NoteFactory extends Factory
             'created_by' => $this->faker->randomNumber,
             'updated_by' => $this->faker->randomNumber,
             'job_id' => \App\Models\Job::factory(),
-            'job_applicant_id' => \App\Models\JobApplicant::factory(),
+            'applicant_id' => \App\Models\Applicant::factory(),
         ];
     }
 }

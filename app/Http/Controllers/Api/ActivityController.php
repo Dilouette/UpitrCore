@@ -47,11 +47,15 @@ class ActivityController extends ServiceController
             });
 
             $query->when($request->filled('candidate'), function ($q) use($request){
-                return $q->where("job_applicant_id", $request->candidate);
+                return $q->where("candidate_id", $request->candidate);
+            });
+
+            $query->when($request->filled('applicant'), function ($q) use($request){
+                return $q->where("applicant_id", $request->applicant);
             });
 
             $activities = $query->paginate($page_size);
-            $activities->load('job', 'jobApplicant');
+            $activities->load('job', 'applicant');
 
             return $this->success($activities);
         } catch (\Throwable $th) {
@@ -77,7 +81,7 @@ class ActivityController extends ServiceController
                 $activity->assignees()->attach($value);
             }
 
-            $activity->load('job', 'jobApplicant', 'creator', 'editor', 'assignees');
+            $activity->load('job', 'applicant', 'creator', 'editor', 'assignees');
             
             return $this->success($activity);
         } catch (\Throwable $th) {
@@ -98,7 +102,7 @@ class ActivityController extends ServiceController
                 return $this->not_found();
             }
 
-            $activity->load('job', 'jobApplicant', 'creator', 'editor', 'assignees');
+            $activity->load('job', 'applicant', 'creator', 'editor', 'assignees');
 
             return $this->success(new ActivityResource($activity));
         } catch (\Throwable $th) {
@@ -127,7 +131,7 @@ class ActivityController extends ServiceController
             $activity->update($validated);
             $activity->assignees()->sync($validated['assignees']);
 
-            $activity->load('job', 'jobApplicant', 'creator', 'editor', 'assignees');
+            $activity->load('job', 'applicant', 'creator', 'editor', 'assignees');
             
             return $this->success($activity);
         } catch (\Throwable $th) {

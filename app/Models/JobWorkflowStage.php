@@ -21,6 +21,14 @@ class JobWorkflowStage extends Model
         'job_workflow_id',
     ];
 
+    protected $hidden = [        
+        "stage_type_id",
+        "job_workflow_id",
+        "created_at",
+        "updated_at",
+        "deleted_at"
+    ];
+
     protected $searchableFields = ['*'];
 
     protected $table = 'job_workflow_stages';
@@ -30,8 +38,8 @@ class JobWorkflowStage extends Model
         return $this->belongsTo(JobWorkflow::class);
     }
 
-    public function jobApplicants()
+    public function applicants()
     {
-        return $this->hasMany(JobApplicant::class);
+        return $this->hasMany(Applicant::class);
     }
 }

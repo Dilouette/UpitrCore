@@ -56,11 +56,11 @@ use App\Http\Controllers\Api\AssesmentResponseController;
 use App\Http\Controllers\Api\JobApplicantNotesController;
 use App\Http\Controllers\Api\JobQuestionOptionController;
 use App\Http\Controllers\Api\ApplicantAssesmentController;
-use App\Http\Controllers\Api\ApplicantEducationController;
+use App\Http\Controllers\Api\CandidateEducationController;
 use App\Http\Controllers\Api\ApplicantInterviewController;
 use App\Http\Controllers\Api\EducationLevelJobsController;
 use App\Http\Controllers\Api\EmploymentTypeJobsController;
-use App\Http\Controllers\Api\ApplicantExperienceController;
+use App\Http\Controllers\Api\CandidateExperienceController;
 use App\Http\Controllers\Api\ExperienceLevelJobsController;
 use App\Http\Controllers\Api\JobApplicantActivitiesController;
 use App\Http\Controllers\Api\AssesmentQuestionOptionController;
@@ -183,44 +183,44 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
     )->name('applicant-assesments.assesment-responses.store');
 
     Route::get('/applicant-educations', [
-        ApplicantEducationController::class,
+        CandidateEducationController::class,
         'index',
     ])->name('applicant-educations.index');
     Route::post('/applicant-educations', [
-        ApplicantEducationController::class,
+        CandidateEducationController::class,
         'store',
     ])->name('applicant-educations.store');
     Route::get('/applicant-educations/{applicantEducation}', [
-        ApplicantEducationController::class,
+        CandidateEducationController::class,
         'show',
     ])->name('applicant-educations.show');
     Route::put('/applicant-educations/{applicantEducation}', [
-        ApplicantEducationController::class,
+        CandidateEducationController::class,
         'update',
     ])->name('applicant-educations.update');
     Route::delete('/applicant-educations/{applicantEducation}', [
-        ApplicantEducationController::class,
+        CandidateEducationController::class,
         'destroy',
     ])->name('applicant-educations.destroy');
 
     Route::get('/applicant-experiences', [
-        ApplicantExperienceController::class,
+        CandidateExperienceController::class,
         'index',
     ])->name('applicant-experiences.index');
     Route::post('/applicant-experiences', [
-        ApplicantExperienceController::class,
+        CandidateExperienceController::class,
         'store',
     ])->name('applicant-experiences.store');
     Route::get('/applicant-experiences/{applicantExperience}', [
-        ApplicantExperienceController::class,
+        CandidateExperienceController::class,
         'show',
     ])->name('applicant-experiences.show');
     Route::put('/applicant-experiences/{applicantExperience}', [
-        ApplicantExperienceController::class,
+        CandidateExperienceController::class,
         'update',
     ])->name('applicant-experiences.update');
     Route::delete('/applicant-experiences/{applicantExperience}', [
-        ApplicantExperienceController::class,
+        CandidateExperienceController::class,
         'destroy',
     ])->name('applicant-experiences.destroy');
 
@@ -587,85 +587,85 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         JobApplicantController::class,
         'store',
     ])->name('job-applicants.store');
-    Route::get('/job-applicants/{jobApplicant}', [
+    Route::get('/job-applicants/{applicant}', [
         JobApplicantController::class,
         'show',
     ])->name('job-applicants.show');
-    Route::put('/job-applicants/{jobApplicant}', [
+    Route::put('/job-applicants/{applicant}', [
         JobApplicantController::class,
         'update',
     ])->name('job-applicants.update');
-    Route::delete('/job-applicants/{jobApplicant}', [
+    Route::delete('/job-applicants/{applicant}', [
         JobApplicantController::class,
         'destroy',
     ])->name('job-applicants.destroy');
 
     // JobApplicant Applicant Experiences
-    Route::get('/job-applicants/{jobApplicant}/applicant-experiences', [
+    Route::get('/job-applicants/{applicant}/applicant-experiences', [
         JobApplicantApplicantExperiencesController::class,
         'index',
     ])->name('job-applicants.applicant-experiences.index');
-    Route::post('/job-applicants/{jobApplicant}/applicant-experiences', [
+    Route::post('/job-applicants/{applicant}/applicant-experiences', [
         JobApplicantApplicantExperiencesController::class,
         'store',
     ])->name('job-applicants.applicant-experiences.store');
 
     // JobApplicant Applicant Educations
-    Route::get('/job-applicants/{jobApplicant}/applicant-educations', [
+    Route::get('/job-applicants/{applicant}/applicant-educations', [
         JobApplicantApplicantEducationsController::class,
         'index',
     ])->name('job-applicants.applicant-educations.index');
-    Route::post('/job-applicants/{jobApplicant}/applicant-educations', [
+    Route::post('/job-applicants/{applicant}/applicant-educations', [
         JobApplicantApplicantEducationsController::class,
         'store',
     ])->name('job-applicants.applicant-educations.store');
 
     // JobApplicant Applicant Responses
-    Route::get('/job-applicants/{jobApplicant}/applicant-responses', [
+    Route::get('/job-applicants/{applicant}/applicant-responses', [
         JobApplicantApplicantResponsesController::class,
         'index',
     ])->name('job-applicants.applicant-responses.index');
-    Route::post('/job-applicants/{jobApplicant}/applicant-responses', [
+    Route::post('/job-applicants/{applicant}/applicant-responses', [
         JobApplicantApplicantResponsesController::class,
         'store',
     ])->name('job-applicants.applicant-responses.store');
 
     // JobApplicant Applicant Assesments
-    Route::get('/job-applicants/{jobApplicant}/applicant-assesments', [
+    Route::get('/job-applicants/{applicant}/applicant-assesments', [
         JobApplicantApplicantAssesmentsController::class,
         'index',
     ])->name('job-applicants.applicant-assesments.index');
-    Route::post('/job-applicants/{jobApplicant}/applicant-assesments', [
+    Route::post('/job-applicants/{applicant}/applicant-assesments', [
         JobApplicantApplicantAssesmentsController::class,
         'store',
     ])->name('job-applicants.applicant-assesments.store');
 
     // JobApplicant Applicant Interviews
-    Route::get('/job-applicants/{jobApplicant}/applicant-interviews', [
+    Route::get('/job-applicants/{applicant}/applicant-interviews', [
         JobApplicantApplicantInterviewsController::class,
         'index',
     ])->name('job-applicants.applicant-interviews.index');
-    Route::post('/job-applicants/{jobApplicant}/applicant-interviews', [
+    Route::post('/job-applicants/{applicant}/applicant-interviews', [
         JobApplicantApplicantInterviewsController::class,
         'store',
     ])->name('job-applicants.applicant-interviews.store');
 
     // JobApplicant Activities
-    Route::get('/job-applicants/{jobApplicant}/activities', [
+    Route::get('/job-applicants/{applicant}/activities', [
         JobApplicantActivitiesController::class,
         'index',
     ])->name('job-applicants.activities.index');
-    Route::post('/job-applicants/{jobApplicant}/activities', [
+    Route::post('/job-applicants/{applicant}/activities', [
         JobApplicantActivitiesController::class,
         'store',
     ])->name('job-applicants.activities.store');
 
     // JobApplicant Notes
-    Route::get('/job-applicants/{jobApplicant}/notes', [
+    Route::get('/job-applicants/{applicant}/notes', [
         JobApplicantNotesController::class,
         'index',
     ])->name('job-applicants.notes.index');
-    Route::post('/job-applicants/{jobApplicant}/notes', [
+    Route::post('/job-applicants/{applicant}/notes', [
         JobApplicantNotesController::class,
         'store',
     ])->name('job-applicants.notes.store');

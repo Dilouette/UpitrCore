@@ -46,6 +46,11 @@ class User extends Authenticatable
         'pivot'
     ];
 
+    protected $with = [
+        'department', 
+        'designation', 
+    ];
+
     protected $casts = [
         'email_verified_at' => 'datetime',
         'reset_login' => 'boolean',
@@ -72,6 +77,11 @@ class User extends Authenticatable
     public function updatedActivities()
     {
         return $this->hasMany(Activity::class, 'updated_by');
+    }
+
+    public function applicantInterviews()
+    {
+        return $this->hasMany(ApplicantInterview::class, 'created_by');
     }
 
     public function activities()

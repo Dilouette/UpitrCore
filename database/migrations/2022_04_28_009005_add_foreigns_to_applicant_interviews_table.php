@@ -14,9 +14,23 @@ return new class extends Migration {
     {
         Schema::table('applicant_interviews', function (Blueprint $table) {
             $table
-                ->foreign('job_applicant_id')
+                ->foreign('applicant_id')
                 ->references('id')
-                ->on('job_applicants')
+                ->on('applicants')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
+
+            $table
+                ->foreign('interview_id')
+                ->references('id')
+                ->on('interviews')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
+
+            $table
+                ->foreign('created_by')
+                ->references('id')
+                ->on('users')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
         });
@@ -30,7 +44,9 @@ return new class extends Migration {
     public function down()
     {
         Schema::table('applicant_interviews', function (Blueprint $table) {
-            $table->dropForeign(['job_applicant_id']);
+            $table->dropForeign(['applicant_id']);
+            $table->dropForeign(['interview_id']);
+            $table->dropForeign(['created_by']);
         });
     }
 };

@@ -13,5 +13,6 @@ use BenSampo\Enum\Contracts\LocalizedEnum;
 final class ActivityRelations extends Enum implements LocalizedEnum
 {
     const Candidate =   0;
-    const Vacancy =   1;
+    const Application =   1;
+    const Vacancy =   2;
 }

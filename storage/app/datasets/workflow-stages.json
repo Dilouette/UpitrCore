@@ -10,23 +10,28 @@
         "order": 2
     },
     {
+        "name": "Shortlisted",
+        "description": "Shortlisted Candidates",
+        "order": 3
+    },
+    {
         "name": "Assessment",
         "description": "Candidates' assessment",
-        "order": 3
+        "order": 4
     },
     {
         "name": "Interview",
         "description": "Candidates'  interview",
-        "order": 4
+        "order": 5
     },
     {
         "name": "Offer",
         "description": "Candidates' offer",
-        "order": 5
+        "order": 6
     },
     {
         "name": "Hired",
         "description": "Candidates' hired",
-        "order": 5
+        "order": 7
     }
 ]

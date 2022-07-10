@@ -3,7 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\Models\User;
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 use App\Models\JobWorkflowStage;
 
 use Tests\TestCase;
@@ -24,10 +24,10 @@ class JobWorkflowStageJobApplicantsTest extends TestCase
     /**
      * @test
      */
-    public function it_gets_job_workflow_stage_job_applicants()
+    public function it_gets_job_workflow_stage_applicants()
     {
         $jobWorkflowStage = JobWorkflowStage::factory()->create();
-        $jobApplicants = JobApplicant::factory()
+        $applicants = Applicant::factory()
             ->count(2)
             ->create([
                 'job_workflow_stage_id' => $jobWorkflowStage->id,
@@ -40,16 +40,16 @@ class JobWorkflowStageJobApplicantsTest extends TestCase
             )
         );
 
-        $response->assertOk()->assertSee($jobApplicants[0]->firstname);
+        $response->assertOk()->assertSee($applicants[0]->firstname);
     }
 
     /**
      * @test
      */
-    public function it_stores_the_job_workflow_stage_job_applicants()
+    public function it_stores_the_job_workflow_stage_applicants()
     {
         $jobWorkflowStage = JobWorkflowStage::factory()->create();
-        $data = JobApplicant::factory()
+        $data = Applicant::factory()
             ->make([
                 'job_workflow_stage_id' => $jobWorkflowStage->id,
             ])
@@ -63,15 +63,15 @@ class JobWorkflowStageJobApplicantsTest extends TestCase
             $data
         );
 
-        $this->assertDatabaseHas('job_applicants', $data);
+        $this->assertDatabaseHas('applicants', $data);
 
         $response->assertStatus(201)->assertJsonFragment($data);
 
-        $jobApplicant = JobApplicant::latest('id')->first();
+        $applicant = Applicant::latest('id')->first();
 
         $this->assertEquals(
             $jobWorkflowStage->id,
-            $jobApplicant->job_workflow_stage_id
+            $applicant->job_workflow_stage_id
         );
     }
 }

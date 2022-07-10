@@ -45,7 +45,7 @@ class JobNotesController extends Controller
             'related_to_id' => ['required', 'max:255'],
             'created_by' => ['required', 'max:255'],
             'updated_by' => ['required', 'max:255'],
-            'job_applicant_id' => ['required', 'exists:job_applicants,id'],
+            'applicant_id' => ['required', 'exists:applicants,id'],
         ]);
 
         $note = $job->notes()->create($validated);

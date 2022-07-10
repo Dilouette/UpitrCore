@@ -23,7 +23,7 @@ class ApplicantResponseFactory extends Factory
     public function definition()
     {
         return [
-            'job_applicant_id' => \App\Models\JobApplicant::factory(),
+            'applicant_id' => \App\Models\Applicant::factory(),
             'job_question_id' => \App\Models\JobQuestion::factory(),
             'response' => $this->faker->text(64),
             'job_question_option_id' => \App\Models\JobQuestionOption::factory(),

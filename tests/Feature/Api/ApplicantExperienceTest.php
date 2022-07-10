@@ -3,9 +3,9 @@
 namespace Tests\Feature\Api;
 
 use App\Models\User;
-use App\Models\ApplicantExperience;
+use App\Models\Experience;
 
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -27,7 +27,7 @@ class ApplicantExperienceTest extends TestCase
      */
     public function it_gets_applicant_experiences_list()
     {
-        $applicantExperiences = ApplicantExperience::factory()
+        $applicantExperiences = Experience::factory()
             ->count(5)
             ->create();
 
@@ -41,7 +41,7 @@ class ApplicantExperienceTest extends TestCase
      */
     public function it_stores_the_applicant_experience()
     {
-        $data = ApplicantExperience::factory()
+        $data = Experience::factory()
             ->make()
             ->toArray();
 
@@ -60,9 +60,9 @@ class ApplicantExperienceTest extends TestCase
      */
     public function it_updates_the_applicant_experience()
     {
-        $applicantExperience = ApplicantExperience::factory()->create();
+        $applicantExperience = Experience::factory()->create();
 
-        $jobApplicant = JobApplicant::factory()->create();
+        $applicant = Applicant::factory()->create();
 
         $data = [
             'title' => $this->faker->text(255),
@@ -71,7 +71,7 @@ class ApplicantExperienceTest extends TestCase
             'summary' => $this->faker->text,
             'start_date' => $this->faker->date,
             'end_date' => $this->faker->date,
-            'job_applicant_id' => $jobApplicant->id,
+            'applicant_id' => $applicant->id,
         ];
 
         $response = $this->putJson(
@@ -91,7 +91,7 @@ class ApplicantExperienceTest extends TestCase
      */
     public function it_deletes_the_applicant_experience()
     {
-        $applicantExperience = ApplicantExperience::factory()->create();
+        $applicantExperience = Experience::factory()->create();
 
         $response = $this->deleteJson(
             route('api.applicant-experiences.destroy', $applicantExperience)

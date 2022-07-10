@@ -5,7 +5,7 @@ namespace Tests\Feature\Api;
 use App\Models\User;
 use App\Models\ApplicantAssesment;
 
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -62,7 +62,7 @@ class ApplicantAssesmentTest extends TestCase
     {
         $applicantAssesment = ApplicantAssesment::factory()->create();
 
-        $jobApplicant = JobApplicant::factory()->create();
+        $applicant = Applicant::factory()->create();
 
         $data = [
             'status_id' => $this->faker->numberBetween(0, 127),
@@ -71,7 +71,7 @@ class ApplicantAssesmentTest extends TestCase
             'end_time' => $this->faker->dateTime,
             'ip' => $this->faker->ipv4,
             'user_agent' => $this->faker->userAgent,
-            'job_applicant_id' => $jobApplicant->id,
+            'applicant_id' => $applicant->id,
         ];
 
         $response = $this->putJson(

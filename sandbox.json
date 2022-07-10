@@ -1,0 +1,1357 @@
+{
+    "SchemaVersion": 2,
+    "ArtifactName": "docker/getting-started",
+    "ArtifactType": "container_image",
+    "Metadata": {
+      "OS": {
+        "Family": "alpine",
+        "Name": "3.15.4"
+      },
+      "ImageID": "sha256:cb90f98fd791dd49f09903cef3eb2245646b4d76b093825ea78e0f7bb8fb3403",
+      "DiffIDs": [
+        "sha256:4fc242d58285699eca05db3cc7c7122a2b8e014d9481f323bd9277baacfa0628",
+        "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570",
+        "sha256:c0b09410617a2a08c34804b5b7831f74c89e11f4d05350c64b1e32e2470bca63",
+        "sha256:d63b53686463856fa959fe99bc6ae02f00dd0afa7f2cb91a1e6c13b39d83aa2c",
+        "sha256:8df6b63c60d47188f987ef2b5efdc442f9d81650cebdc0e9f7fa8cd4a9012dd3",
+        "sha256:b991c80c3ef2663f4070e668193bc2bb543a77efc2801ebc7f6c2c1bfdb39e5e",
+        "sha256:c28132dd9eb88357b7eb17866b76c02aa705d8ced6eda6f0816370f620901b2b",
+        "sha256:d7c8e7cb887c98ea943f2a97a21a134d8026fe37537521f1db5d146a90d09ee1"
+      ],
+      "RepoTags": [
+        "docker/getting-started:latest"
+      ],
+      "RepoDigests": [
+        "docker/getting-started@sha256:b558be874169471bd4e65bd6eac8c303b271a7ee8553ba47481b73b2bf597aae"
+      ],
+      "ImageConfig": {
+        "architecture": "amd64",
+        "created": "2022-04-11T15:23:08.189460029Z",
+        "history": [
+          {
+            "created": "2022-04-05T00:19:59Z",
+            "created_by": "/bin/sh -c #(nop) ADD file:5d673d25da3a14ce1f6cf66e4c7fd4f4b85a3759a9d93efb3fd9ff852b5b56e4 in / "
+          },
+          {
+            "created": "2022-04-05T00:19:59Z",
+            "created_by": "/bin/sh -c #(nop)  CMD [\"/bin/sh\"]",
+            "empty_layer": true
+          },
+          {
+            "created": "2022-04-05T07:21:55Z",
+            "created_by": "/bin/sh -c #(nop)  LABEL maintainer=NGINX Docker Maintainers \u003cdocker-maint@nginx.com\u003e",
+            "empty_layer": true
+          },
+          {
+            "created": "2022-04-05T07:21:55Z",
+            "created_by": "/bin/sh -c #(nop)  ENV NGINX_VERSION=1.21.6",
+            "empty_layer": true
+          },
+          {
+            "created": "2022-04-05T07:21:55Z",
+            "created_by": "/bin/sh -c #(nop)  ENV NJS_VERSION=0.7.2",
+            "empty_layer": true
+          },
+          {
+            "created": "2022-04-05T07:21:55Z",
+            "created_by": "/bin/sh -c #(nop)  ENV PKG_RELEASE=1",
+            "empty_layer": true
+          },
+          {
+            "created": "2022-04-05T07:22:02Z",
+            "created_by": "/bin/sh -c set -x     \u0026\u0026 addgroup -g 101 -S nginx     \u0026\u0026 adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx     \u0026\u0026 apkArch=\"$(cat /etc/apk/arch)\"     \u0026\u0026 nginxPackages=\"         nginx=${NGINX_VERSION}-r${PKG_RELEASE}         nginx-module-xslt=${NGINX_VERSION}-r${PKG_RELEASE}         nginx-module-geoip=${NGINX_VERSION}-r${PKG_RELEASE}         nginx-module-image-filter=${NGINX_VERSION}-r${PKG_RELEASE}         nginx-module-njs=${NGINX_VERSION}.${NJS_VERSION}-r${PKG_RELEASE}     \"     \u0026\u0026 apk add --no-cache --virtual .checksum-deps         openssl     \u0026\u0026 case \"$apkArch\" in         x86_64|aarch64)             set -x             \u0026\u0026 KEY_SHA512=\"e7fa8303923d9b95db37a77ad46c68fd4755ff935d0a534d26eba83de193c76166c68bfe7f65471bf8881004ef4aa6df3e34689c305662750c0172fca5d8552a *stdin\"             \u0026\u0026 wget -O /tmp/nginx_signing.rsa.pub https://nginx.org/keys/nginx_signing.rsa.pub             \u0026\u0026 if [ \"$(openssl rsa -pubin -in /tmp/nginx_signing.rsa.pub -text -noout | openssl sha512 -r)\" = \"$KEY_SHA512\" ]; then                 echo \"key verification succeeded!\";                 mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/;             else                 echo \"key verification failed!\";                 exit 1;             fi             \u0026\u0026 apk add -X \"https://nginx.org/packages/mainline/alpine/v$(egrep -o '^[0-9]+\\.[0-9]+' /etc/alpine-release)/main\" --no-cache $nginxPackages             ;;         *)             set -x             \u0026\u0026 tempDir=\"$(mktemp -d)\"             \u0026\u0026 chown nobody:nobody $tempDir             \u0026\u0026 apk add --no-cache --virtual .build-deps                 gcc                 libc-dev                 make                 openssl-dev                 pcre2-dev                 zlib-dev                 linux-headers                 libxslt-dev                 gd-dev                 geoip-dev                 perl-dev                 libedit-dev                 bash                 alpine-sdk                 findutils             \u0026\u0026 su nobody -s /bin/sh -c \"                 export HOME=${tempDir}                 \u0026\u0026 cd ${tempDir}                 \u0026\u0026 curl -f -O https://hg.nginx.org/pkg-oss/archive/${NGINX_VERSION}-${PKG_RELEASE}.tar.gz                 \u0026\u0026 PKGOSSCHECKSUM=\\\"29ec1c635da36b7727953544e1a20e9d75bd9d2050e063b9f81f88ca07bb7ea0b65cef46d0f3cb7134b38ce9b94ecada631619f233231845a3d8a16b6ad0db82 *${NGINX_VERSION}-${PKG_RELEASE}.tar.gz\\\"                 \u0026\u0026 if [ \\\"\\$(openssl sha512 -r ${NGINX_VERSION}-${PKG_RELEASE}.tar.gz)\\\" = \\\"\\$PKGOSSCHECKSUM\\\" ]; then                     echo \\\"pkg-oss tarball checksum verification succeeded!\\\";                 else                     echo \\\"pkg-oss tarball checksum verification failed!\\\";                     exit 1;                 fi                 \u0026\u0026 tar xzvf ${NGINX_VERSION}-${PKG_RELEASE}.tar.gz                 \u0026\u0026 cd pkg-oss-${NGINX_VERSION}-${PKG_RELEASE}                 \u0026\u0026 cd alpine                 \u0026\u0026 make all                 \u0026\u0026 apk index -o ${tempDir}/packages/alpine/${apkArch}/APKINDEX.tar.gz ${tempDir}/packages/alpine/${apkArch}/*.apk                 \u0026\u0026 abuild-sign -k ${tempDir}/.abuild/abuild-key.rsa ${tempDir}/packages/alpine/${apkArch}/APKINDEX.tar.gz                 \"             \u0026\u0026 cp ${tempDir}/.abuild/abuild-key.rsa.pub /etc/apk/keys/             \u0026\u0026 apk del .build-deps             \u0026\u0026 apk add -X ${tempDir}/packages/alpine/ --no-cache $nginxPackages             ;;     esac     \u0026\u0026 apk del .checksum-deps     \u0026\u0026 if [ -n \"$tempDir\" ]; then rm -rf \"$tempDir\"; fi     \u0026\u0026 if [ -n \"/etc/apk/keys/abuild-key.rsa.pub\" ]; then rm -f /etc/apk/keys/abuild-key.rsa.pub; fi     \u0026\u0026 if [ -n \"/etc/apk/keys/nginx_signing.rsa.pub\" ]; then rm -f /etc/apk/keys/nginx_signing.rsa.pub; fi     \u0026\u0026 apk add --no-cache --virtual .gettext gettext     \u0026\u0026 mv /usr/bin/envsubst /tmp/         \u0026\u0026 runDeps=\"$(         scanelf --needed --nobanner /tmp/envsubst             | awk '{ gsub(/,/, \"\\nso:\", $2); print \"so:\" $2 }'             | sort -u             | xargs -r apk info --installed             | sort -u     )\"     \u0026\u0026 apk add --no-cache $runDeps     \u0026\u0026 apk del .gettext     \u0026\u0026 mv /tmp/envsubst /usr/local/bin/     \u0026\u0026 apk add --no-cache tzdata     \u0026\u0026 apk add --no-cache curl ca-certificates     \u0026\u0026 ln -sf /dev/stdout /var/log/nginx/access.log     \u0026\u0026 ln -sf /dev/stderr /var/log/nginx/error.log     \u0026\u0026 mkdir /docker-entrypoint.d"
+          },
+          {
+            "created": "2022-04-05T07:22:02Z",
+            "created_by": "/bin/sh -c #(nop) COPY file:65504f71f5855ca017fb64d502ce873a31b2e0decd75297a8fb0a287f97acf92 in / "
+          },
+          {
+            "created": "2022-04-05T07:22:02Z",
+            "created_by": "/bin/sh -c #(nop) COPY file:0b866ff3fc1ef5b03c4e6c8c513ae014f691fb05d530257dfffd07035c1b75da in /docker-entrypoint.d "
+          },
+          {
+            "created": "2022-04-05T07:22:03Z",
+            "created_by": "/bin/sh -c #(nop) COPY file:0fd5fca330dcd6a7de297435e32af634f29f7132ed0550d342cad9fd20158258 in /docker-entrypoint.d "
+          },
+          {
+            "created": "2022-04-05T07:22:03Z",
+            "created_by": "/bin/sh -c #(nop) COPY file:09a214a3e07c919af2fb2d7c749ccbc446b8c10eb217366e5a65640ee9edcc25 in /docker-entrypoint.d "
+          },
+          {
+            "created": "2022-04-05T07:22:03Z",
+            "created_by": "/bin/sh -c #(nop)  ENTRYPOINT [\"/docker-entrypoint.sh\"]",
+            "empty_layer": true
+          },
+          {
+            "created": "2022-04-05T07:22:03Z",
+            "created_by": "/bin/sh -c #(nop)  EXPOSE 80",
+            "empty_layer": true
+          },
+          {
+            "created": "2022-04-05T07:22:03Z",
+            "created_by": "/bin/sh -c #(nop)  STOPSIGNAL SIGQUIT",
+            "empty_layer": true
+          },
+          {
+            "created": "2022-04-05T07:22:03Z",
+            "created_by": "/bin/sh -c #(nop)  CMD [\"nginx\" \"-g\" \"daemon off;\"]",
+            "empty_layer": true
+          },
+          {
+            "created": "2022-04-11T15:22:53Z",
+            "created_by": "COPY /app.zip /usr/share/nginx/html/assets/app.zip # buildkit",
+            "comment": "buildkit.dockerfile.v0"
+          },
+          {
+            "created": "2022-04-11T15:23:08Z",
+            "created_by": "COPY /app/site /usr/share/nginx/html # buildkit",
+            "comment": "buildkit.dockerfile.v0"
+          }
+        ],
+        "os": "linux",
+        "rootfs": {
+          "type": "layers",
+          "diff_ids": [
+            "sha256:4fc242d58285699eca05db3cc7c7122a2b8e014d9481f323bd9277baacfa0628",
+            "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570",
+            "sha256:c0b09410617a2a08c34804b5b7831f74c89e11f4d05350c64b1e32e2470bca63",
+            "sha256:d63b53686463856fa959fe99bc6ae02f00dd0afa7f2cb91a1e6c13b39d83aa2c",
+            "sha256:8df6b63c60d47188f987ef2b5efdc442f9d81650cebdc0e9f7fa8cd4a9012dd3",
+            "sha256:b991c80c3ef2663f4070e668193bc2bb543a77efc2801ebc7f6c2c1bfdb39e5e",
+            "sha256:c28132dd9eb88357b7eb17866b76c02aa705d8ced6eda6f0816370f620901b2b",
+            "sha256:d7c8e7cb887c98ea943f2a97a21a134d8026fe37537521f1db5d146a90d09ee1"
+          ]
+        },
+        "config": {
+          "Cmd": [
+            "nginx",
+            "-g",
+            "daemon off;"
+          ],
+          "Entrypoint": [
+            "/docker-entrypoint.sh"
+          ],
+          "Env": [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "NGINX_VERSION=1.21.6",
+            "NJS_VERSION=0.7.2",
+            "PKG_RELEASE=1"
+          ],
+          "Labels": {
+            "maintainer": "NGINX Docker Maintainers \u003cdocker-maint@nginx.com\u003e"
+          },
+          "StopSignal": "SIGQUIT"
+        }
+      }
+    },
+    "Results": [
+      {
+        "Target": "docker/getting-started (alpine 3.15.4)",
+        "Class": "os-pkgs",
+        "Type": "alpine",
+        "Vulnerabilities": [
+          {
+            "VulnerabilityID": "CVE-2022-22576",
+            "PkgName": "curl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r1",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-22576",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: OAUTH2 bearer bypass in connection re-use",
+            "Description": "An improper authentication vulnerability exists in curl 7.33.0 to and including 7.82.0 which might allow reuse OAUTH2-authenticated connections without properly making sure that the connection was authenticated with the same credentials as set for this transfer. This affects SASL-enabled protocols: SMPTP(S), IMAP(S), POP3(S) and LDAP(S) (openldap only).",
+            "Severity": "HIGH",
+            "CweIDs": [
+              "CWE-287"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:L/Au:S/C:P/I:P/A:N",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N",
+                "V2Score": 5.5,
+                "V3Score": 8.1
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N",
+                "V3Score": 4.6
+              }
+            },
+            "References": [
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-22576.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27774.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27776.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27782.json",
+              "https://access.redhat.com/security/cve/CVE-2022-22576",
+              "https://curl.se/docs/CVE-2022-22576.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-22576",
+              "https://hackerone.com/reports/1526328",
+              "https://linux.oracle.com/cve/CVE-2022-22576.html",
+              "https://linux.oracle.com/errata/ELSA-2022-5313.html",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-22576",
+              "https://security.netapp.com/advisory/ntap-20220609-0008/",
+              "https://ubuntu.com/security/notices/USN-5397-1"
+            ],
+            "PublishedDate": "2022-05-26T17:15:00Z",
+            "LastModifiedDate": "2022-06-09T19:15:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-27775",
+            "PkgName": "curl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r1",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-27775",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: bad local IPv6 connection reuse",
+            "Description": "An information disclosure vulnerability exists in curl 7.65.0 to 7.82.0 are vulnerable that by using an IPv6 address that was in the connection pool but with a different zone id it could reuse a connection instead.",
+            "Severity": "HIGH",
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+                "V2Score": 5,
+                "V3Score": 7.5
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:L/I:N/A:N",
+                "V3Score": 2.6
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-27775",
+              "https://curl.se/docs/CVE-2022-27775.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-27775",
+              "https://hackerone.com/reports/1546268",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-27775",
+              "https://security.netapp.com/advisory/ntap-20220609-0008/",
+              "https://ubuntu.com/security/notices/USN-5397-1"
+            ],
+            "PublishedDate": "2022-06-02T14:15:00Z",
+            "LastModifiedDate": "2022-06-13T18:37:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-27780",
+            "PkgName": "curl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-27780",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: percent-encoded path separator in URL host",
+            "Description": "The curl URL parser wrongly accepts percent-encoded URL separators like '/'when decoding the host name part of a URL, making it a *different* URL usingthe wrong host name when it is later retrieved.For example, a URL like `http://example.com%2F127.0.0.1/`, would be allowed bythe parser and get transposed into `http://example.com/127.0.0.1/`. This flawcan be used to circumvent filters, checks and more.",
+            "Severity": "HIGH",
+            "CweIDs": [
+              "CWE-918"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:L/Au:N/C:N/I:P/A:N",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+                "V2Score": 5,
+                "V3Score": 7.5
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
+                "V3Score": 6.3
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-27780",
+              "https://curl.se/docs/CVE-2022-27780.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-27780",
+              "https://hackerone.com/reports/1553841",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-27780",
+              "https://security.netapp.com/advisory/ntap-20220609-0009/",
+              "https://ubuntu.com/security/notices/USN-5412-1"
+            ],
+            "PublishedDate": "2022-06-02T14:15:00Z",
+            "LastModifiedDate": "2022-06-22T13:48:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-27781",
+            "PkgName": "curl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-27781",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: CERTINFO never-ending busy-loop",
+            "Description": "libcurl provides the `CURLOPT_CERTINFO` option to allow applications torequest details to be returned about a server's certificate chain.Due to an erroneous function, a malicious server could make libcurl built withNSS get stuck in a never-ending busy-loop when trying to retrieve thatinformation.",
+            "Severity": "HIGH",
+            "CweIDs": [
+              "CWE-835"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "V2Score": 5,
+                "V3Score": 7.5
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:H",
+                "V3Score": 5.3
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-27781",
+              "https://curl.se/docs/CVE-2022-27781.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-27781",
+              "https://github.com/curl/curl/commit/f6c335d63f",
+              "https://hackerone.com/reports/1555441",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-27781",
+              "https://security.netapp.com/advisory/ntap-20220609-0009/",
+              "https://ubuntu.com/security/notices/USN-5412-1",
+              "https://ubuntu.com/security/notices/USN-5499-1"
+            ],
+            "PublishedDate": "2022-06-02T14:15:00Z",
+            "LastModifiedDate": "2022-06-13T18:38:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-27782",
+            "PkgName": "curl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-27782",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: TLS and SSH connection too eager reuse",
+            "Description": "libcurl would reuse a previously created connection even when a TLS or SSHrelated option had been changed that should have prohibited reuse.libcurl keeps previously used connections in a connection pool for subsequenttransfers to reuse if one of them matches the setup. However, several TLS andSSH settings were left out from the configuration match checks, making themmatch too easily.",
+            "Severity": "HIGH",
+            "CweIDs": [
+              "CWE-295"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:L/Au:N/C:N/I:P/A:N",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+                "V2Score": 5,
+                "V3Score": 7.5
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:L/I:L/A:L",
+                "V3Score": 6
+              }
+            },
+            "References": [
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-22576.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27774.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27776.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27782.json",
+              "https://access.redhat.com/security/cve/CVE-2022-27782",
+              "https://curl.se/docs/CVE-2022-27782.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-27782",
+              "https://hackerone.com/reports/1555796",
+              "https://linux.oracle.com/cve/CVE-2022-27782.html",
+              "https://linux.oracle.com/errata/ELSA-2022-5313.html",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-27782",
+              "https://security.netapp.com/advisory/ntap-20220609-0009/",
+              "https://ubuntu.com/security/notices/USN-5412-1"
+            ],
+            "PublishedDate": "2022-06-02T14:15:00Z",
+            "LastModifiedDate": "2022-06-10T18:33:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-27774",
+            "PkgName": "curl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r1",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-27774",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: credential leak on redirect",
+            "Description": "An insufficiently protected credentials vulnerability exists in curl 4.9 to and include curl 7.82.0 are affected that could allow an attacker to extract credentials when follows HTTP(S) redirects is used with authentication could leak credentials to other services that exist on different protocols or port numbers.",
+            "Severity": "MEDIUM",
+            "CweIDs": [
+              "CWE-522"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:M/Au:S/C:P/I:N/A:N",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:N/A:N",
+                "V2Score": 3.5,
+                "V3Score": 5.7
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L",
+                "V3Score": 5
+              }
+            },
+            "References": [
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-22576.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27774.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27776.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27782.json",
+              "https://access.redhat.com/security/cve/CVE-2022-27774",
+              "https://curl.se/docs/CVE-2022-27774.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-27774",
+              "https://hackerone.com/reports/1543773",
+              "https://linux.oracle.com/cve/CVE-2022-27774.html",
+              "https://linux.oracle.com/errata/ELSA-2022-5313.html",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-27774",
+              "https://security.netapp.com/advisory/ntap-20220609-0008/",
+              "https://ubuntu.com/security/notices/USN-5397-1"
+            ],
+            "PublishedDate": "2022-06-02T14:15:00Z",
+            "LastModifiedDate": "2022-06-14T18:11:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-27776",
+            "PkgName": "curl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r1",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-27776",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: auth/cookie leak on redirect",
+            "Description": "A insufficiently protected credentials vulnerability in fixed in curl 7.83.0 might leak authentication or cookie header data on HTTP redirects to the same host but another port number.",
+            "Severity": "MEDIUM",
+            "CweIDs": [
+              "CWE-522"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:M/Au:N/C:P/I:N/A:N",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+                "V2Score": 4.3,
+                "V3Score": 6.5
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
+                "V3Score": 4.3
+              }
+            },
+            "References": [
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-22576.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27774.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27776.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27782.json",
+              "https://access.redhat.com/security/cve/CVE-2022-27776",
+              "https://curl.se/docs/CVE-2022-27776.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-27776",
+              "https://hackerone.com/reports/1547048",
+              "https://linux.oracle.com/cve/CVE-2022-27776.html",
+              "https://linux.oracle.com/errata/ELSA-2022-5313.html",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-27776",
+              "https://security.netapp.com/advisory/ntap-20220609-0008/",
+              "https://ubuntu.com/security/notices/USN-5397-1"
+            ],
+            "PublishedDate": "2022-06-02T14:15:00Z",
+            "LastModifiedDate": "2022-06-14T17:53:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-32205",
+            "PkgName": "curl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-32205",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: Set-Cookie denial of service",
+            "Description": "A malicious server can serve excessive amounts of `Set-Cookie:` headers in a HTTP response to curl and curl \u003c 7.84.0 stores all of them. A sufficiently large amount of (big) cookies make subsequent HTTP requests to this, or other servers to which the cookies match, create requests that become larger than the threshold that curl uses internally to avoid sending crazy large requests (1048576 bytes) and instead returns an error.This denial state might remain for as long as the same cookies are kept, match and haven't expired. Due to cookie matching rules, a server on `foo.example.com` can set cookies that also would match for `bar.example.com`, making it it possible for a \"sister server\" to effectively cause a denial of service for a sibling site on the same second level domain using this method.",
+            "Severity": "MEDIUM",
+            "CVSS": {
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "V3Score": 5.9
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-32205",
+              "https://curl.se/docs/CVE-2022-32205.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32205",
+              "https://hackerone.com/reports/1569946",
+              "https://ubuntu.com/security/notices/USN-5495-1"
+            ],
+            "PublishedDate": "2022-07-07T13:15:00Z",
+            "LastModifiedDate": "2022-07-07T13:17:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-32206",
+            "PkgName": "curl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-32206",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: HTTP compression denial of service",
+            "Description": "curl \u003c 7.84.0 supports \"chained\" HTTP compression algorithms, meaning that a serverresponse can be compressed multiple times and potentially with different algorithms. The number of acceptable \"links\" in this \"decompression chain\" was unbounded, allowing a malicious server to insert a virtually unlimited number of compression steps.The use of such a decompression chain could result in a \"malloc bomb\", makingcurl end up spending enormous amounts of allocated heap memory, or trying toand returning out of memory errors.",
+            "Severity": "MEDIUM",
+            "CVSS": {
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+                "V3Score": 6.5
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-32206",
+              "https://curl.se/docs/CVE-2022-32206.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32206",
+              "https://hackerone.com/reports/1570651",
+              "https://ubuntu.com/security/notices/USN-5495-1"
+            ],
+            "PublishedDate": "2022-07-07T13:15:00Z",
+            "LastModifiedDate": "2022-07-07T13:17:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-32207",
+            "PkgName": "curl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-32207",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: Unpreserved file permissions",
+            "Description": "When curl \u003c 7.84.0 saves cookies, alt-svc and hsts data to local files, it makes the operation atomic by finalizing the operation with a rename from a temporary name to the final target file name.In that rename operation, it might accidentally *widen* the permissions for the target file, leaving the updated file accessible to more users than intended.",
+            "Severity": "MEDIUM",
+            "CVSS": {
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+                "V3Score": 4.8
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-32207",
+              "https://curl.se/docs/CVE-2022-32207.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32207",
+              "https://hackerone.com/reports/1573634",
+              "https://ubuntu.com/security/notices/USN-5495-1"
+            ],
+            "PublishedDate": "2022-07-07T13:15:00Z",
+            "LastModifiedDate": "2022-07-07T13:17:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-32208",
+            "PkgName": "curl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-32208",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: FTP-KRB bad message verification",
+            "Description": "When curl \u003c 7.84.0 does FTP transfers secured by krb5, it handles message verification failures wrongly. This flaw makes it possible for a Man-In-The-Middle attack to go unnoticed and even allows it to inject data to the client.",
+            "Severity": "MEDIUM",
+            "CVSS": {
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:H/A:N",
+                "V3Score": 5.3
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-32208",
+              "https://curl.se/docs/CVE-2022-32208.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32208",
+              "https://hackerone.com/reports/1590071",
+              "https://ubuntu.com/security/notices/USN-5495-1",
+              "https://ubuntu.com/security/notices/USN-5499-1"
+            ],
+            "PublishedDate": "2022-07-07T13:15:00Z",
+            "LastModifiedDate": "2022-07-07T13:17:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-27405",
+            "PkgName": "freetype",
+            "InstalledVersion": "2.11.1-r0",
+            "FixedVersion": "2.11.1-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-27405",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "FreeType: Segementation Fault",
+            "Description": "FreeType commit 53dfdcd8198d2b3201a23c4bad9190519ba918db was discovered to contain a segmentation violation via the function FNT_Size_Request.",
+            "Severity": "HIGH",
+            "CweIDs": [
+              "CWE-125"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "V2Score": 5,
+                "V3Score": 7.5
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:H",
+                "V3Score": 7.1
+              }
+            },
+            "References": [
+              "http://freetype.com",
+              "https://access.redhat.com/security/cve/CVE-2022-27405",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-27405",
+              "https://gitlab.freedesktop.org/freetype/freetype/-/commit/22a0cccb4d9d002f33c1ba7a4b36812c7d4f46b5",
+              "https://gitlab.freedesktop.org/freetype/freetype/-/issues/1139",
+              "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/EFPNRKDLCXHZVYYQLQMP44UHLU32GA6Z/",
+              "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/FDU2FOEMCEF6WVR6ZBIH5MT5O7FAK6UP/",
+              "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/IWQ7IB2A75MEHM63WEUXBYEC7OR5SGDY/",
+              "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/NYVC2NPKKXKP3TWJWG4ONYWNO6ZPHLA5/",
+              "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/TCEMWCM46PKM4U5ENRASPKQD6JDOLKRU/",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-27405"
+            ],
+            "PublishedDate": "2022-04-22T14:15:00Z",
+            "LastModifiedDate": "2022-05-20T04:15:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-27406",
+            "PkgName": "freetype",
+            "InstalledVersion": "2.11.1-r0",
+            "FixedVersion": "2.11.1-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-27406",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "Freetype: Segmentation violation",
+            "Description": "FreeType commit 22a0cccb4d9d002f33c1ba7a4b36812c7d4f46b5 was discovered to contain a segmentation violation via the function FT_Request_Size.",
+            "Severity": "HIGH",
+            "CweIDs": [
+              "CWE-125"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "V2Score": 5,
+                "V3Score": 7.5
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:H",
+                "V3Score": 7.1
+              }
+            },
+            "References": [
+              "http://freetype.com",
+              "https://access.redhat.com/security/cve/CVE-2022-27406",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-27406",
+              "https://gitlab.freedesktop.org/freetype/freetype/-/commit/0c2bdb01a2e1d24a3e592377a6d0822856e10df2",
+              "https://gitlab.freedesktop.org/freetype/freetype/-/issues/1140",
+              "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/EFPNRKDLCXHZVYYQLQMP44UHLU32GA6Z/",
+              "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/FDU2FOEMCEF6WVR6ZBIH5MT5O7FAK6UP/",
+              "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/IWQ7IB2A75MEHM63WEUXBYEC7OR5SGDY/",
+              "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/NYVC2NPKKXKP3TWJWG4ONYWNO6ZPHLA5/",
+              "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/TCEMWCM46PKM4U5ENRASPKQD6JDOLKRU/",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-27406",
+              "https://ubuntu.com/security/notices/USN-5453-1"
+            ],
+            "PublishedDate": "2022-04-22T14:15:00Z",
+            "LastModifiedDate": "2022-05-20T04:15:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-2097",
+            "PkgName": "libcrypto1.1",
+            "InstalledVersion": "1.1.1n-r0",
+            "FixedVersion": "1.1.1q-r0",
+            "Layer": {
+              "DiffID": "sha256:4fc242d58285699eca05db3cc7c7122a2b8e014d9481f323bd9277baacfa0628"
+            },
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-2097",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "openssl: AES OCB fails to encrypt some bytes",
+            "Description": "AES OCB mode for 32-bit x86 platforms using the AES-NI assembly optimised implementation will not encrypt the entirety of the data under some circumstances. This could reveal sixteen bytes of data that was preexisting in the memory that wasn't written. In the special case of \"in place\" encryption, sixteen bytes of the plaintext would be revealed. Since OpenSSL does not support OCB based cipher suites for TLS and DTLS, they are both unaffected. Fixed in OpenSSL 3.0.5 (Affected 3.0.0-3.0.4). Fixed in OpenSSL 1.1.1q (Affected 1.1.1-1.1.1p).",
+            "Severity": "LOW",
+            "CVSS": {
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+                "V3Score": 3.7
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-2097",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-2097",
+              "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=919925673d6c9cfed3c1085497f5dfbbed5fc431",
+              "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=a98f339ddd7e8f487d6e0088d4a9a42324885a93",
+              "https://ubuntu.com/security/notices/USN-5502-1",
+              "https://www.openssl.org/news/secadv/20220705.txt"
+            ],
+            "PublishedDate": "2022-07-05T11:15:00Z",
+            "LastModifiedDate": "2022-07-05T12:53:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-22576",
+            "PkgName": "libcurl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r1",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-22576",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: OAUTH2 bearer bypass in connection re-use",
+            "Description": "An improper authentication vulnerability exists in curl 7.33.0 to and including 7.82.0 which might allow reuse OAUTH2-authenticated connections without properly making sure that the connection was authenticated with the same credentials as set for this transfer. This affects SASL-enabled protocols: SMPTP(S), IMAP(S), POP3(S) and LDAP(S) (openldap only).",
+            "Severity": "HIGH",
+            "CweIDs": [
+              "CWE-287"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:L/Au:S/C:P/I:P/A:N",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N",
+                "V2Score": 5.5,
+                "V3Score": 8.1
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N",
+                "V3Score": 4.6
+              }
+            },
+            "References": [
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-22576.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27774.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27776.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27782.json",
+              "https://access.redhat.com/security/cve/CVE-2022-22576",
+              "https://curl.se/docs/CVE-2022-22576.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-22576",
+              "https://hackerone.com/reports/1526328",
+              "https://linux.oracle.com/cve/CVE-2022-22576.html",
+              "https://linux.oracle.com/errata/ELSA-2022-5313.html",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-22576",
+              "https://security.netapp.com/advisory/ntap-20220609-0008/",
+              "https://ubuntu.com/security/notices/USN-5397-1"
+            ],
+            "PublishedDate": "2022-05-26T17:15:00Z",
+            "LastModifiedDate": "2022-06-09T19:15:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-27775",
+            "PkgName": "libcurl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r1",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-27775",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: bad local IPv6 connection reuse",
+            "Description": "An information disclosure vulnerability exists in curl 7.65.0 to 7.82.0 are vulnerable that by using an IPv6 address that was in the connection pool but with a different zone id it could reuse a connection instead.",
+            "Severity": "HIGH",
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+                "V2Score": 5,
+                "V3Score": 7.5
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:L/I:N/A:N",
+                "V3Score": 2.6
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-27775",
+              "https://curl.se/docs/CVE-2022-27775.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-27775",
+              "https://hackerone.com/reports/1546268",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-27775",
+              "https://security.netapp.com/advisory/ntap-20220609-0008/",
+              "https://ubuntu.com/security/notices/USN-5397-1"
+            ],
+            "PublishedDate": "2022-06-02T14:15:00Z",
+            "LastModifiedDate": "2022-06-13T18:37:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-27780",
+            "PkgName": "libcurl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-27780",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: percent-encoded path separator in URL host",
+            "Description": "The curl URL parser wrongly accepts percent-encoded URL separators like '/'when decoding the host name part of a URL, making it a *different* URL usingthe wrong host name when it is later retrieved.For example, a URL like `http://example.com%2F127.0.0.1/`, would be allowed bythe parser and get transposed into `http://example.com/127.0.0.1/`. This flawcan be used to circumvent filters, checks and more.",
+            "Severity": "HIGH",
+            "CweIDs": [
+              "CWE-918"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:L/Au:N/C:N/I:P/A:N",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+                "V2Score": 5,
+                "V3Score": 7.5
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
+                "V3Score": 6.3
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-27780",
+              "https://curl.se/docs/CVE-2022-27780.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-27780",
+              "https://hackerone.com/reports/1553841",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-27780",
+              "https://security.netapp.com/advisory/ntap-20220609-0009/",
+              "https://ubuntu.com/security/notices/USN-5412-1"
+            ],
+            "PublishedDate": "2022-06-02T14:15:00Z",
+            "LastModifiedDate": "2022-06-22T13:48:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-27781",
+            "PkgName": "libcurl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-27781",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: CERTINFO never-ending busy-loop",
+            "Description": "libcurl provides the `CURLOPT_CERTINFO` option to allow applications torequest details to be returned about a server's certificate chain.Due to an erroneous function, a malicious server could make libcurl built withNSS get stuck in a never-ending busy-loop when trying to retrieve thatinformation.",
+            "Severity": "HIGH",
+            "CweIDs": [
+              "CWE-835"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "V2Score": 5,
+                "V3Score": 7.5
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:H",
+                "V3Score": 5.3
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-27781",
+              "https://curl.se/docs/CVE-2022-27781.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-27781",
+              "https://github.com/curl/curl/commit/f6c335d63f",
+              "https://hackerone.com/reports/1555441",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-27781",
+              "https://security.netapp.com/advisory/ntap-20220609-0009/",
+              "https://ubuntu.com/security/notices/USN-5412-1",
+              "https://ubuntu.com/security/notices/USN-5499-1"
+            ],
+            "PublishedDate": "2022-06-02T14:15:00Z",
+            "LastModifiedDate": "2022-06-13T18:38:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-27782",
+            "PkgName": "libcurl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-27782",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: TLS and SSH connection too eager reuse",
+            "Description": "libcurl would reuse a previously created connection even when a TLS or SSHrelated option had been changed that should have prohibited reuse.libcurl keeps previously used connections in a connection pool for subsequenttransfers to reuse if one of them matches the setup. However, several TLS andSSH settings were left out from the configuration match checks, making themmatch too easily.",
+            "Severity": "HIGH",
+            "CweIDs": [
+              "CWE-295"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:L/Au:N/C:N/I:P/A:N",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+                "V2Score": 5,
+                "V3Score": 7.5
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:L/I:L/A:L",
+                "V3Score": 6
+              }
+            },
+            "References": [
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-22576.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27774.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27776.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27782.json",
+              "https://access.redhat.com/security/cve/CVE-2022-27782",
+              "https://curl.se/docs/CVE-2022-27782.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-27782",
+              "https://hackerone.com/reports/1555796",
+              "https://linux.oracle.com/cve/CVE-2022-27782.html",
+              "https://linux.oracle.com/errata/ELSA-2022-5313.html",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-27782",
+              "https://security.netapp.com/advisory/ntap-20220609-0009/",
+              "https://ubuntu.com/security/notices/USN-5412-1"
+            ],
+            "PublishedDate": "2022-06-02T14:15:00Z",
+            "LastModifiedDate": "2022-06-10T18:33:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-27774",
+            "PkgName": "libcurl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r1",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-27774",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: credential leak on redirect",
+            "Description": "An insufficiently protected credentials vulnerability exists in curl 4.9 to and include curl 7.82.0 are affected that could allow an attacker to extract credentials when follows HTTP(S) redirects is used with authentication could leak credentials to other services that exist on different protocols or port numbers.",
+            "Severity": "MEDIUM",
+            "CweIDs": [
+              "CWE-522"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:M/Au:S/C:P/I:N/A:N",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:N/A:N",
+                "V2Score": 3.5,
+                "V3Score": 5.7
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:L",
+                "V3Score": 5
+              }
+            },
+            "References": [
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-22576.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27774.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27776.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27782.json",
+              "https://access.redhat.com/security/cve/CVE-2022-27774",
+              "https://curl.se/docs/CVE-2022-27774.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-27774",
+              "https://hackerone.com/reports/1543773",
+              "https://linux.oracle.com/cve/CVE-2022-27774.html",
+              "https://linux.oracle.com/errata/ELSA-2022-5313.html",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-27774",
+              "https://security.netapp.com/advisory/ntap-20220609-0008/",
+              "https://ubuntu.com/security/notices/USN-5397-1"
+            ],
+            "PublishedDate": "2022-06-02T14:15:00Z",
+            "LastModifiedDate": "2022-06-14T18:11:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-27776",
+            "PkgName": "libcurl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r1",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-27776",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: auth/cookie leak on redirect",
+            "Description": "A insufficiently protected credentials vulnerability in fixed in curl 7.83.0 might leak authentication or cookie header data on HTTP redirects to the same host but another port number.",
+            "Severity": "MEDIUM",
+            "CweIDs": [
+              "CWE-522"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:M/Au:N/C:P/I:N/A:N",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+                "V2Score": 4.3,
+                "V3Score": 6.5
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
+                "V3Score": 4.3
+              }
+            },
+            "References": [
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-22576.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27774.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27776.json",
+              "https://access.redhat.com/hydra/rest/securitydata/cve/CVE-2022-27782.json",
+              "https://access.redhat.com/security/cve/CVE-2022-27776",
+              "https://curl.se/docs/CVE-2022-27776.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-27776",
+              "https://hackerone.com/reports/1547048",
+              "https://linux.oracle.com/cve/CVE-2022-27776.html",
+              "https://linux.oracle.com/errata/ELSA-2022-5313.html",
+              "https://nvd.nist.gov/vuln/detail/CVE-2022-27776",
+              "https://security.netapp.com/advisory/ntap-20220609-0008/",
+              "https://ubuntu.com/security/notices/USN-5397-1"
+            ],
+            "PublishedDate": "2022-06-02T14:15:00Z",
+            "LastModifiedDate": "2022-06-14T17:53:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-32205",
+            "PkgName": "libcurl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-32205",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: Set-Cookie denial of service",
+            "Description": "A malicious server can serve excessive amounts of `Set-Cookie:` headers in a HTTP response to curl and curl \u003c 7.84.0 stores all of them. A sufficiently large amount of (big) cookies make subsequent HTTP requests to this, or other servers to which the cookies match, create requests that become larger than the threshold that curl uses internally to avoid sending crazy large requests (1048576 bytes) and instead returns an error.This denial state might remain for as long as the same cookies are kept, match and haven't expired. Due to cookie matching rules, a server on `foo.example.com` can set cookies that also would match for `bar.example.com`, making it it possible for a \"sister server\" to effectively cause a denial of service for a sibling site on the same second level domain using this method.",
+            "Severity": "MEDIUM",
+            "CVSS": {
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "V3Score": 5.9
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-32205",
+              "https://curl.se/docs/CVE-2022-32205.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32205",
+              "https://hackerone.com/reports/1569946",
+              "https://ubuntu.com/security/notices/USN-5495-1"
+            ],
+            "PublishedDate": "2022-07-07T13:15:00Z",
+            "LastModifiedDate": "2022-07-07T13:17:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-32206",
+            "PkgName": "libcurl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-32206",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: HTTP compression denial of service",
+            "Description": "curl \u003c 7.84.0 supports \"chained\" HTTP compression algorithms, meaning that a serverresponse can be compressed multiple times and potentially with different algorithms. The number of acceptable \"links\" in this \"decompression chain\" was unbounded, allowing a malicious server to insert a virtually unlimited number of compression steps.The use of such a decompression chain could result in a \"malloc bomb\", makingcurl end up spending enormous amounts of allocated heap memory, or trying toand returning out of memory errors.",
+            "Severity": "MEDIUM",
+            "CVSS": {
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+                "V3Score": 6.5
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-32206",
+              "https://curl.se/docs/CVE-2022-32206.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32206",
+              "https://hackerone.com/reports/1570651",
+              "https://ubuntu.com/security/notices/USN-5495-1"
+            ],
+            "PublishedDate": "2022-07-07T13:15:00Z",
+            "LastModifiedDate": "2022-07-07T13:17:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-32207",
+            "PkgName": "libcurl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-32207",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: Unpreserved file permissions",
+            "Description": "When curl \u003c 7.84.0 saves cookies, alt-svc and hsts data to local files, it makes the operation atomic by finalizing the operation with a rename from a temporary name to the final target file name.In that rename operation, it might accidentally *widen* the permissions for the target file, leaving the updated file accessible to more users than intended.",
+            "Severity": "MEDIUM",
+            "CVSS": {
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+                "V3Score": 4.8
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-32207",
+              "https://curl.se/docs/CVE-2022-32207.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32207",
+              "https://hackerone.com/reports/1573634",
+              "https://ubuntu.com/security/notices/USN-5495-1"
+            ],
+            "PublishedDate": "2022-07-07T13:15:00Z",
+            "LastModifiedDate": "2022-07-07T13:17:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-32208",
+            "PkgName": "libcurl",
+            "InstalledVersion": "7.80.0-r0",
+            "FixedVersion": "7.80.0-r2",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-32208",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "curl: FTP-KRB bad message verification",
+            "Description": "When curl \u003c 7.84.0 does FTP transfers secured by krb5, it handles message verification failures wrongly. This flaw makes it possible for a Man-In-The-Middle attack to go unnoticed and even allows it to inject data to the client.",
+            "Severity": "MEDIUM",
+            "CVSS": {
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:H/A:N",
+                "V3Score": 5.3
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-32208",
+              "https://curl.se/docs/CVE-2022-32208.html",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32208",
+              "https://hackerone.com/reports/1590071",
+              "https://ubuntu.com/security/notices/USN-5495-1",
+              "https://ubuntu.com/security/notices/USN-5499-1"
+            ],
+            "PublishedDate": "2022-07-07T13:15:00Z",
+            "LastModifiedDate": "2022-07-07T13:17:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-2097",
+            "PkgName": "libssl1.1",
+            "InstalledVersion": "1.1.1n-r0",
+            "FixedVersion": "1.1.1q-r0",
+            "Layer": {
+              "DiffID": "sha256:4fc242d58285699eca05db3cc7c7122a2b8e014d9481f323bd9277baacfa0628"
+            },
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-2097",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "openssl: AES OCB fails to encrypt some bytes",
+            "Description": "AES OCB mode for 32-bit x86 platforms using the AES-NI assembly optimised implementation will not encrypt the entirety of the data under some circumstances. This could reveal sixteen bytes of data that was preexisting in the memory that wasn't written. In the special case of \"in place\" encryption, sixteen bytes of the plaintext would be revealed. Since OpenSSL does not support OCB based cipher suites for TLS and DTLS, they are both unaffected. Fixed in OpenSSL 3.0.5 (Affected 3.0.0-3.0.4). Fixed in OpenSSL 1.1.1q (Affected 1.1.1-1.1.1p).",
+            "Severity": "LOW",
+            "CVSS": {
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+                "V3Score": 3.7
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-2097",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-2097",
+              "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=919925673d6c9cfed3c1085497f5dfbbed5fc431",
+              "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=a98f339ddd7e8f487d6e0088d4a9a42324885a93",
+              "https://ubuntu.com/security/notices/USN-5502-1",
+              "https://www.openssl.org/news/secadv/20220705.txt"
+            ],
+            "PublishedDate": "2022-07-05T11:15:00Z",
+            "LastModifiedDate": "2022-07-05T12:53:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-29824",
+            "PkgName": "libxml2",
+            "InstalledVersion": "2.9.13-r0",
+            "FixedVersion": "2.9.14-r0",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "SeveritySource": "nvd",
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-29824",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "libxml2: integer overflows in xmlBuf and xmlBuffer lead to out-of-bounds write",
+            "Description": "In libxml2 before 2.9.14, several buffer handling functions in buf.c (xmlBuf*) and tree.c (xmlBuffer*) don't check for integer overflows. This can result in out-of-bounds memory writes. Exploitation requires a victim to open a crafted, multi-gigabyte XML file. Other software using libxml2's buffer functions, for example libxslt through 1.1.35, is affected as well.",
+            "Severity": "MEDIUM",
+            "CweIDs": [
+              "CWE-190"
+            ],
+            "CVSS": {
+              "nvd": {
+                "V2Vector": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+                "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+                "V2Score": 4.3,
+                "V3Score": 6.5
+              },
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:H",
+                "V3Score": 7.4
+              }
+            },
+            "References": [
+              "http://packetstormsecurity.com/files/167345/libxml2-xmlBufAdd-Heap-Buffer-Overflow.html",
+              "https://access.redhat.com/security/cve/CVE-2022-29824",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-29824",
+              "https://gitlab.gnome.org/GNOME/libxml2/-/commit/2554a2408e09f13652049e5ffb0d26196b02ebab",
+              "https://gitlab.gnome.org/GNOME/libxml2/-/commit/2554a2408e09f13652049e5ffb0d26196b02ebab (v2.9.14)",
+              "https://gitlab.gnome.org/GNOME/libxml2/-/commit/6c283d83eccd940bcde15634ac8c7f100e3caefd",
+              "https://gitlab.gnome.org/GNOME/libxml2/-/commit/6c283d83eccd940bcde15634ac8c7f100e3caefd (master)",
+              "https://gitlab.gnome.org/GNOME/libxml2/-/tags/v2.9.14",
+              "https://gitlab.gnome.org/GNOME/libxslt/-/tags",
+              "https://linux.oracle.com/cve/CVE-2022-29824.html",
+              "https://linux.oracle.com/errata/ELSA-2022-5317.html",
+              "https://lists.debian.org/debian-lts-announce/2022/05/msg00023.html",
+              "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/FZOBT5Y6Y2QLDDX2HZGMV7MJMWGXORKK/",
+              "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/P3NVZVWFRBXBI3AKZZWUWY6INQQPQVSF/",
+              "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/P5363EDV5VHZ5C77ODA43RYDCPMA7ARM/",
+              "https://ubuntu.com/security/notices/USN-5422-1",
+              "https://www.debian.org/security/2022/dsa-5142"
+            ],
+            "PublishedDate": "2022-05-03T03:15:00Z",
+            "LastModifiedDate": "2022-06-02T14:15:00Z"
+          },
+          {
+            "VulnerabilityID": "CVE-2022-1271",
+            "PkgName": "xz-libs",
+            "InstalledVersion": "5.2.5-r0",
+            "FixedVersion": "5.2.5-r1",
+            "Layer": {
+              "DiffID": "sha256:be9057e6dae465a3dd10306bd5398b445a51ede456e250bf9821a346ff5b3570"
+            },
+            "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2022-1271",
+            "DataSource": {
+              "ID": "alpine",
+              "Name": "Alpine Secdb",
+              "URL": "https://secdb.alpinelinux.org/"
+            },
+            "Title": "gzip: arbitrary-file-write vulnerability",
+            "Description": "An arbitrary file write vulnerability was found in GNU gzip's zgrep utility. When zgrep is applied on the attacker's chosen file name (for example, a crafted file name), this can overwrite an attacker's content to an arbitrary attacker-selected file. This flaw occurs due to insufficient validation when processing filenames with two or more newlines where selected content and the target file names are embedded in crafted multi-line file names. This flaw allows a remote, low privileged attacker to force zgrep to write arbitrary files on the system.",
+            "Severity": "HIGH",
+            "CVSS": {
+              "redhat": {
+                "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:H/I:H/A:H",
+                "V3Score": 7.1
+              }
+            },
+            "References": [
+              "https://access.redhat.com/security/cve/CVE-2022-1271",
+              "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-1271",
+              "https://errata.almalinux.org/8/ALSA-2022-1537.html",
+              "https://linux.oracle.com/cve/CVE-2022-1271.html",
+              "https://linux.oracle.com/errata/ELSA-2022-5052.html",
+              "https://lists.gnu.org/r/bug-gzip/2022-04/msg00011.html",
+              "https://ubuntu.com/security/notices/USN-5378-1",
+              "https://ubuntu.com/security/notices/USN-5378-2",
+              "https://ubuntu.com/security/notices/USN-5378-3",
+              "https://ubuntu.com/security/notices/USN-5378-4",
+              "https://www.openwall.com/lists/oss-security/2022/04/07/8"
+            ]
+          }
+        ]
+      }
+    ]
+  }

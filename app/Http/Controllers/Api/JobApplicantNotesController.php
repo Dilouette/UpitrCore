@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 use Illuminate\Http\Request;
 use App\Http\Resources\NoteResource;
 use App\Http\Controllers\Controller;
@@ -12,16 +12,16 @@ class JobApplicantNotesController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\JobApplicant $jobApplicant
+     * @param \App\Models\Applicant $applicant
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, JobApplicant $jobApplicant)
+    public function index(Request $request, Applicant $applicant)
     {
-        $this->authorize('view', $jobApplicant);
+        $this->authorize('view', $applicant);
 
         $search = $request->get('search', '');
 
-        $notes = $jobApplicant
+        $notes = $applicant
             ->notes()
             ->search($search)
             ->latest()
@@ -32,10 +32,10 @@ class JobApplicantNotesController extends Controller
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\JobApplicant $jobApplicant
+     * @param \App\Models\Applicant $applicant
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, JobApplicant $jobApplicant)
+    public function store(Request $request, Applicant $applicant)
     {
         $this->authorize('create', Note::class);
 
@@ -48,7 +48,7 @@ class JobApplicantNotesController extends Controller
             'updated_by' => ['required', 'max:255'],
         ]);
 
-        $note = $jobApplicant->notes()->create($validated);
+        $note = $applicant->notes()->create($validated);
 
         return new NoteResource($note);
     }

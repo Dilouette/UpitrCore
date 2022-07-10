@@ -44,16 +44,6 @@ class UserController extends ServiceController
                 $users = $query->paginate($page_size);
             }
             
-            $users->load(
-                'department', 
-                'designation', 
-            );
-
-            $users->makeHidden([
-                'department_id',
-                'designation_id',             
-            ]);           
-
             return $this->success($users);
         } catch (\Throwable $th) {
             return $this->server_error($th);
@@ -87,17 +77,6 @@ class UserController extends ServiceController
             if (!$user) {
                 return $this->not_found();
             }
-
-            $user->load(
-                'department', 
-                'designation', 
-            );
-
-            $user->makeHidden([
-                'department_id',
-                'designation_id',             
-            ]);    
-
             return $this->success(new UserResource($user));
         } catch (\Throwable $th) {
             return $this->server_error($th);

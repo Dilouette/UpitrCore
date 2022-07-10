@@ -12,7 +12,7 @@ class ApplicantResponse extends Model
     use Searchable;
 
     protected $fillable = [
-        'job_applicant_id',
+        'applicant_id',
         'job_question_id',
         'response',
         'job_question_option_id',
@@ -32,9 +32,9 @@ class ApplicantResponse extends Model
 
     protected $table = 'applicant_responses';
 
-    public function jobApplicant()
+    public function applicant()
     {
-        return $this->belongsTo(JobApplicant::class);
+        return $this->belongsTo(Applicant::class);
     }
 
     public function jobQuestion()

@@ -6,7 +6,7 @@ use App\Models\Job;
 use App\Models\User;
 use App\Models\Activity;
 use Illuminate\Support\Str;
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ActivityFactory extends Factory
@@ -39,7 +39,7 @@ class ActivityFactory extends Factory
             'created_by' => $this->faker->randomElement(User::pluck('id')->toArray()),
             'updated_by' => $this->faker->randomElement(User::pluck('id')->toArray()),
             'job_id' => $this->faker->randomElement(Job::pluck('id')->toArray()),
-            'job_applicant_id' => $this->faker->randomElement(JobApplicant::pluck('id')->toArray()),
+            'applicant_id' => $this->faker->randomElement(Applicant::pluck('id')->toArray()),
         ];
     }
 }

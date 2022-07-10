@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('applicant_responses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('job_applicant_id');
+            $table->unsignedBigInteger('applicant_id');
             $table->unsignedBigInteger('job_question_id');
             $table->text('response')->nullable();
             $table->unsignedBigInteger('job_question_option_id')->nullable();

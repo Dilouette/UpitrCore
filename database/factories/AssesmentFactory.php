@@ -25,6 +25,8 @@ class AssesmentFactory extends Factory
         return [
             'is_timed' => $this->faker->boolean,
             'duration' => $this->faker->randomNumber(0),
+            'questions_per_candidate' => $this->faker->randomNumber(0),
+            'pass_score' => $this->faker->randomNumber(0),
             'job_id' => \App\Models\Job::factory(),
         ];
     }

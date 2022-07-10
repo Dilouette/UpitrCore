@@ -24,7 +24,7 @@ class ApplicantAssesmentStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'job_applicant_id' => ['required', 'exists:job_applicants,id'],
+            'applicant_id' => ['required', 'exists:applicants,id'],
             'status_id' => ['nullable', 'max:255'],
             'score' => ['nullable', 'numeric'],
             'start_time' => ['required', 'date'],

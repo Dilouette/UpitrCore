@@ -21,13 +21,13 @@ class JobWorkflowStageJobApplicantsController extends Controller
 
         $search = $request->get('search', '');
 
-        $jobApplicants = $jobWorkflowStage
-            ->jobApplicants()
+        $applicants = $jobWorkflowStage
+            ->applicants()
             ->search($search)
             ->latest()
             ->paginate();
 
-        return new JobApplicantCollection($jobApplicants);
+        return new JobApplicantCollection($applicants);
     }
 
     /**
@@ -59,8 +59,8 @@ class JobWorkflowStageJobApplicantsController extends Controller
             $validated['photo'] = $request->file('photo')->store('public');
         }
 
-        $jobApplicant = $jobWorkflowStage->jobApplicants()->create($validated);
+        $applicant = $jobWorkflowStage->applicants()->create($validated);
 
-        return new JobApplicantResource($jobApplicant);
+        return new JobApplicantResource($applicant);
     }
 }

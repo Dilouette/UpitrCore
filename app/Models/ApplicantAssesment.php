@@ -12,7 +12,7 @@ class ApplicantAssesment extends Model
     use Searchable;
 
     protected $fillable = [
-        'job_applicant_id',
+        'applicant_id',
         'status_id',
         'score',
         'start_time',
@@ -30,9 +30,9 @@ class ApplicantAssesment extends Model
         'end_time' => 'datetime',
     ];
 
-    public function jobApplicant()
+    public function applicant()
     {
-        return $this->belongsTo(JobApplicant::class);
+        return $this->belongsTo(Applicant::class);
     }
 
     public function assesmentResponses()

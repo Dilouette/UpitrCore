@@ -13,23 +13,6 @@ use App\Http\Requests\ApplicantInterviewUpdateRequest;
 class ApplicantInterviewController extends Controller
 {
     /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $this->authorize('view-any', ApplicantInterview::class);
-
-        $search = $request->get('search', '');
-
-        $applicantInterviews = ApplicantInterview::search($search)
-            ->latest()
-            ->paginate();
-
-        return new ApplicantInterviewCollection($applicantInterviews);
-    }
-
-    /**
      * @param \App\Http\Requests\ApplicantInterviewStoreRequest $request
      * @return \Illuminate\Http\Response
      */
@@ -74,21 +57,5 @@ class ApplicantInterviewController extends Controller
         $applicantInterview->update($validated);
 
         return new ApplicantInterviewResource($applicantInterview);
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\ApplicantInterview $applicantInterview
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(
-        Request $request,
-        ApplicantInterview $applicantInterview
-    ) {
-        $this->authorize('delete', $applicantInterview);
-
-        $applicantInterview->delete();
-
-        return response()->noContent();
     }
 }

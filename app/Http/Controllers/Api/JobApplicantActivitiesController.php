@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ActivityResource;
@@ -12,16 +12,16 @@ class JobApplicantActivitiesController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\JobApplicant $jobApplicant
+     * @param \App\Models\Applicant $applicant
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, JobApplicant $jobApplicant)
+    public function index(Request $request, Applicant $applicant)
     {
-        $this->authorize('view', $jobApplicant);
+        $this->authorize('view', $applicant);
 
         $search = $request->get('search', '');
 
-        $activities = $jobApplicant
+        $activities = $applicant
             ->activities()
             ->search($search)
             ->latest()
@@ -32,10 +32,10 @@ class JobApplicantActivitiesController extends Controller
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\JobApplicant $jobApplicant
+     * @param \App\Models\Applicant $applicant
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, JobApplicant $jobApplicant)
+    public function store(Request $request, Applicant $applicant)
     {
         $this->authorize('create', Activity::class);
 
@@ -54,7 +54,7 @@ class JobApplicantActivitiesController extends Controller
             'job_id' => ['nullable', 'exists:jobs,id'],
         ]);
 
-        $activity = $jobApplicant->activities()->create($validated);
+        $activity = $applicant->activities()->create($validated);
 
         return new ActivityResource($activity);
     }

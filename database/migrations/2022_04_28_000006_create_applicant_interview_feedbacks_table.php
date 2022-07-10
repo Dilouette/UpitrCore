@@ -17,7 +17,7 @@ return new class extends Migration {
         ) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('applicant_interview_id');
-            $table->unsignedBigInteger('interview_question_id');
+            $table->unsignedBigInteger('interview_section_id');
             $table->tinyInteger('rating');
 
             $table->timestamps();

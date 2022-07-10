@@ -18,7 +18,7 @@ class InterviewSectionSeeder extends Seeder
         $interviews = Interview::all();
         foreach ($interviews as $i => $interview) {
             InterviewSection::factory()
-            ->count(7)
+            ->count(5)
             ->create([
                 'interview_id' => $interview->id,
             ]);

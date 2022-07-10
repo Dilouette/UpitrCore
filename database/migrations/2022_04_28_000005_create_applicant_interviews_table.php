@@ -14,11 +14,13 @@ return new class extends Migration {
     {
         Schema::create('applicant_interviews', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('job_applicant_id');
+            $table->unsignedBigInteger('applicant_id');
+            $table->unsignedBigInteger('interview_id');
             $table->smallInteger('score');
             $table->text('feedback');
             $table->dateTime('start_time');
             $table->dateTime('end_time');
+            $table->unsignedBigInteger('created_by');
 
             $table->timestamps();
             $table->softDeletes();

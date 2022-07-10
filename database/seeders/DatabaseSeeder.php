@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\PermissionGroup;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -37,19 +35,21 @@ class DatabaseSeeder extends Seeder
         $this->call(JobSettingSeeder::class);
         $this->call(JobQuestionSeeder::class);
         $this->call(JobQuestionOptionSeeder::class);
-        $this->call(JobApplicantSeeder::class);
+        $this->call(CandidateSeeder::class);
+        $this->call(ApplicantSeeder::class);
         $this->call(ApplicantResponseSeeder::class);
-        $this->call(ApplicantEducationSeeder::class);
-        $this->call(ApplicantExperienceSeeder::class);
+        $this->call(EducationSeeder::class);
+        $this->call(ExperienceSeeder::class);
         $this->call(ActivitySeeder::class);
         $this->call(InterviewSeeder::class);
         $this->call(InterviewSectionSeeder::class);
         $this->call(InterviewQuestionSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(MessageSeeder::class);
+        $this->call(ApplicantInterviewSeeder::class);
+        $this->call(ApplicantInterviewFeedbackSeeder::class);
 
         // $this->call(ApplicantAssesmentSeeder::class);
-        // $this->call(ApplicantInterviewSeeder::class);
-        // $this->call(ApplicantInterviewFeedbackSeeder::class);
         // $this->call(AssesmentSeeder::class);
         // $this->call(AssesmentQuestionSeeder::class);
         // $this->call(AssesmentQuestionOptionSeeder::class);

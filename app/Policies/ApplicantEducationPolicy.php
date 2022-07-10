@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\ApplicantEducation;
+use App\Models\Education;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ApplicantEducationPolicy
@@ -28,7 +28,7 @@ class ApplicantEducationPolicy
      * @param  App\Models\ApplicantEducation  $model
      * @return mixed
      */
-    public function view(User $user, ApplicantEducation $model)
+    public function view(User $user, Education $model)
     {
         return true;
     }
@@ -51,7 +51,7 @@ class ApplicantEducationPolicy
      * @param  App\Models\ApplicantEducation  $model
      * @return mixed
      */
-    public function update(User $user, ApplicantEducation $model)
+    public function update(User $user, Education $model)
     {
         return true;
     }
@@ -63,7 +63,7 @@ class ApplicantEducationPolicy
      * @param  App\Models\ApplicantEducation  $model
      * @return mixed
      */
-    public function delete(User $user, ApplicantEducation $model)
+    public function delete(User $user, Education $model)
     {
         return true;
     }
@@ -87,7 +87,7 @@ class ApplicantEducationPolicy
      * @param  App\Models\ApplicantEducation  $model
      * @return mixed
      */
-    public function restore(User $user, ApplicantEducation $model)
+    public function restore(User $user, Education $model)
     {
         return false;
     }
@@ -99,7 +99,7 @@ class ApplicantEducationPolicy
      * @param  App\Models\ApplicantEducation  $model
      * @return mixed
      */
-    public function forceDelete(User $user, ApplicantEducation $model)
+    public function forceDelete(User $user, Education $model)
     {
         return false;
     }

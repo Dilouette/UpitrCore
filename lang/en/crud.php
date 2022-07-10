@@ -41,7 +41,7 @@ return [
             'description' => 'Description',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',
-            'job_applicant_id' => 'Job Applicant',
+            'applicant_id' => 'Job Applicant',
             'job_id' => 'Job',
         ],
     ],
@@ -54,7 +54,7 @@ return [
         'edit_title' => 'Edit ApplicantAssesment',
         'show_title' => 'Show ApplicantAssesment',
         'inputs' => [
-            'job_applicant_id' => 'Job Applicant',
+            'applicant_id' => 'Job Applicant',
             'status_id' => 'Status Id',
             'score' => 'Score',
             'start_time' => 'Start Time',
@@ -77,7 +77,7 @@ return [
             'degree' => 'Degree',
             'start_date' => 'Start Date',
             'end_date' => 'End Date',
-            'job_applicant_id' => 'Job Applicant',
+            'applicant_id' => 'Job Applicant',
         ],
     ],
 
@@ -95,7 +95,7 @@ return [
             'summary' => 'Summary',
             'start_date' => 'Start Date',
             'end_date' => 'End Date',
-            'job_applicant_id' => 'Job Applicant',
+            'applicant_id' => 'Job Applicant',
         ],
     ],
 
@@ -107,7 +107,7 @@ return [
         'edit_title' => 'Edit ApplicantInterview',
         'show_title' => 'Show ApplicantInterview',
         'inputs' => [
-            'job_applicant_id' => 'Job Applicant',
+            'applicant_id' => 'Job Applicant',
             'score' => 'Score',
             'feedback' => 'Feedback',
             'start_time' => 'Start Time',
@@ -190,7 +190,7 @@ return [
             'created_by' => 'Created By',
             'job_id' => 'Job',
             'updated_by' => 'Updated By',
-            'job_applicant_id' => 'Job Applicant',
+            'applicant_id' => 'Job Applicant',
         ],
     ],
 
@@ -288,7 +288,7 @@ return [
         ],
     ],
 
-    'job_applicants' => [
+    'applicants' => [
         'name' => 'Job Applicants',
         'index_title' => 'JobApplicants List',
         'new_title' => 'New Job applicant',
@@ -447,7 +447,7 @@ return [
         'edit_title' => 'Edit ApplicantResponse',
         'show_title' => 'Show ApplicantResponse',
         'inputs' => [
-            'job_applicant_id' => 'Job Applicant',
+            'applicant_id' => 'Job Applicant',
             'job_question_id' => 'Job Question',
             'job_question_option_id' => 'Job Question Option',
         ],

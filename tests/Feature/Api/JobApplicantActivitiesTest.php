@@ -4,7 +4,7 @@ namespace Tests\Feature\Api;
 
 use App\Models\User;
 use App\Models\Activity;
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -26,15 +26,15 @@ class JobApplicantActivitiesTest extends TestCase
      */
     public function it_gets_job_applicant_activities()
     {
-        $jobApplicant = JobApplicant::factory()->create();
+        $applicant = Applicant::factory()->create();
         $activities = Activity::factory()
             ->count(2)
             ->create([
-                'job_applicant_id' => $jobApplicant->id,
+                'applicant_id' => $applicant->id,
             ]);
 
         $response = $this->getJson(
-            route('api.job-applicants.activities.index', $jobApplicant)
+            route('api.job-applicants.activities.index', $applicant)
         );
 
         $response->assertOk()->assertSee($activities[0]->title);
@@ -45,15 +45,15 @@ class JobApplicantActivitiesTest extends TestCase
      */
     public function it_stores_the_job_applicant_activities()
     {
-        $jobApplicant = JobApplicant::factory()->create();
+        $applicant = Applicant::factory()->create();
         $data = Activity::factory()
             ->make([
-                'job_applicant_id' => $jobApplicant->id,
+                'applicant_id' => $applicant->id,
             ])
             ->toArray();
 
         $response = $this->postJson(
-            route('api.job-applicants.activities.store', $jobApplicant),
+            route('api.job-applicants.activities.store', $applicant),
             $data
         );
 
@@ -63,6 +63,6 @@ class JobApplicantActivitiesTest extends TestCase
 
         $activity = Activity::latest('id')->first();
 
-        $this->assertEquals($jobApplicant->id, $activity->job_applicant_id);
+        $this->assertEquals($applicant->id, $activity->applicant_id);
     }
 }

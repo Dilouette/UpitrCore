@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseRequest;
 
-class ApplicantInterviewStoreRequest extends FormRequest
+class ApplicantInterviewStoreRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,14 @@ class ApplicantInterviewStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'job_applicant_id' => ['required', 'exists:job_applicants,id'],
+            'applicant_id' => ['required', 'exists:applicants,id'],
+            'interview_id' => ['required', 'exists:interviews,id'],
             'score' => ['required', 'max:255'],
             'feedback' => ['required', 'max:255', 'string'],
             'start_time' => ['required', 'date'],
             'end_time' => ['required', 'date'],
+            'feebacks.*.inteview_section_id' => ['required', 'exists:inteview_sections,id'],
+            'feebacks.*.rating' => ['required', 'min:1', 'max:5'],
         ];
     }
 }

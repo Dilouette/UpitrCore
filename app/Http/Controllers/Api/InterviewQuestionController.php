@@ -56,12 +56,20 @@ class InterviewQuestionController extends ServiceController
      */
     public function destroy($id) {
         try {
-            $question  = InterviewQuestion::find($id);
-            if (!$question) {
+            $section  = InterviewSection::find($id);
+            if (!$section) {
                 return $this->not_found();
             }
-            $question->delete();
+
+            $questions = InterviewQuestion::where('interview_section_id', $section->id)->get();
+
+            $questions->each(function($question) {
+                $question->delete();
+            });
+
+            $section->delete();
             return $this->success();
+
         } catch (\Throwable $th) {
             return $this->server_error($th);
         }

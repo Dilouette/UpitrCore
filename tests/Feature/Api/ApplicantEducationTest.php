@@ -3,9 +3,9 @@
 namespace Tests\Feature\Api;
 
 use App\Models\User;
-use App\Models\ApplicantEducation;
+use App\Models\Education;
 
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -27,7 +27,7 @@ class ApplicantEducationTest extends TestCase
      */
     public function it_gets_applicant_educations_list()
     {
-        $applicantEducations = ApplicantEducation::factory()
+        $applicantEducations = Education::factory()
             ->count(5)
             ->create();
 
@@ -41,7 +41,7 @@ class ApplicantEducationTest extends TestCase
      */
     public function it_stores_the_applicant_education()
     {
-        $data = ApplicantEducation::factory()
+        $data = Education::factory()
             ->make()
             ->toArray();
 
@@ -60,9 +60,9 @@ class ApplicantEducationTest extends TestCase
      */
     public function it_updates_the_applicant_education()
     {
-        $applicantEducation = ApplicantEducation::factory()->create();
+        $applicantEducation = Education::factory()->create();
 
-        $jobApplicant = JobApplicant::factory()->create();
+        $applicant = Applicant::factory()->create();
 
         $data = [
             'institution' => $this->faker->text(255),
@@ -70,7 +70,7 @@ class ApplicantEducationTest extends TestCase
             'degree' => $this->faker->text(255),
             'start_date' => $this->faker->date,
             'end_date' => $this->faker->date,
-            'job_applicant_id' => $jobApplicant->id,
+            'applicant_id' => $applicant->id,
         ];
 
         $response = $this->putJson(
@@ -90,7 +90,7 @@ class ApplicantEducationTest extends TestCase
      */
     public function it_deletes_the_applicant_education()
     {
-        $applicantEducation = ApplicantEducation::factory()->create();
+        $applicantEducation = Education::factory()->create();
 
         $response = $this->deleteJson(
             route('api.applicant-educations.destroy', $applicantEducation)

@@ -24,7 +24,7 @@ class ApplicantResponseStoreRequest extends BaseRequest
     public function rules()
     {
         return [
-            'job_applicant_id' => ['required', 'exists:job_applicants,id'],
+            'applicant_id' => ['required', 'exists:applicants,id'],
             'questions' => ['required', 'array'],
             'questions.*.job_question_id' => ['required', 'exists:job_questions,id'],
             'questions.*.job_question_option_id' => [

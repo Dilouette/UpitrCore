@@ -23,9 +23,9 @@ class ApplicantInterviewFeedbackFactory extends Factory
     public function definition()
     {
         return [
-            'rating' => $this->faker->numberBetween(0, 127),
+            'rating' => $this->faker->numberBetween(1, 5),
             'applicant_interview_id' => \App\Models\ApplicantInterview::factory(),
-            'interview_question_id' => \App\Models\InterviewQuestion::factory(),
+            'interview_section_id' => \App\Models\InterviewSection::factory(),
         ];
     }
 }

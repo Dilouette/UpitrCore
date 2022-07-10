@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApplicantAssesmentResource;
@@ -12,16 +12,16 @@ class JobApplicantApplicantAssesmentsController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\JobApplicant $jobApplicant
+     * @param \App\Models\Applicant $applicant
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, JobApplicant $jobApplicant)
+    public function index(Request $request, Applicant $applicant)
     {
-        $this->authorize('view', $jobApplicant);
+        $this->authorize('view', $applicant);
 
         $search = $request->get('search', '');
 
-        $applicantAssesments = $jobApplicant
+        $applicantAssesments = $applicant
             ->applicantAssesments()
             ->search($search)
             ->latest()
@@ -32,10 +32,10 @@ class JobApplicantApplicantAssesmentsController extends Controller
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\JobApplicant $jobApplicant
+     * @param \App\Models\Applicant $applicant
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, JobApplicant $jobApplicant)
+    public function store(Request $request, Applicant $applicant)
     {
         $this->authorize('create', ApplicantAssesment::class);
 
@@ -48,7 +48,7 @@ class JobApplicantApplicantAssesmentsController extends Controller
             'user_agent' => ['required', 'max:255', 'string'],
         ]);
 
-        $applicantAssesment = $jobApplicant
+        $applicantAssesment = $applicant
             ->applicantAssesments()
             ->create($validated);
 

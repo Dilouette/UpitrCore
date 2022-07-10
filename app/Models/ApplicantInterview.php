@@ -12,12 +12,18 @@ class ApplicantInterview extends Model
     use Searchable;
 
     protected $fillable = [
-        'job_applicant_id',
+        'applicant_id',
+        'interview_id',
         'score',
         'feedback',
         'start_time',
         'end_time',
+        'created_by',
     ];
+
+    protected $hidden = ['deleted_at', 'interview_id'];
+
+    protected $with = ['interview'];
 
     protected $searchableFields = ['*'];
 
@@ -28,9 +34,19 @@ class ApplicantInterview extends Model
         'end_time' => 'datetime',
     ];
 
-    public function jobApplicant()
+    public function applicant()
     {
-        return $this->belongsTo(JobApplicant::class);
+        return $this->belongsTo(Applicant::class);
+    }
+
+    public function interview()
+    {
+        return $this->belongsTo(Interview::class);
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function applicantInterviewFeedbacks()

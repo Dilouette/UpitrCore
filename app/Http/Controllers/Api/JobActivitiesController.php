@@ -51,7 +51,7 @@ class JobActivitiesController extends Controller
             'description' => ['required', 'max:255', 'string'],
             'created_by' => ['required', 'max:255'],
             'updated_by' => ['required', 'max:255'],
-            'job_applicant_id' => ['nullable', 'exists:job_applicants,id'],
+            'applicant_id' => ['nullable', 'exists:applicants,id'],
         ]);
 
         $activity = $job->activities()->create($validated);

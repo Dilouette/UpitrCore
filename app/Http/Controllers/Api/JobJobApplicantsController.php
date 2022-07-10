@@ -21,13 +21,13 @@ class JobJobApplicantsController extends Controller
 
         $search = $request->get('search', '');
 
-        $jobApplicants = $job
+        $applicants = $job
             ->applications()
             ->search($search)
             ->latest()
             ->paginate();
 
-        return new JobApplicantCollection($jobApplicants);
+        return new JobApplicantCollection($applicants);
     }
 
     /**
@@ -62,8 +62,8 @@ class JobJobApplicantsController extends Controller
             $validated['photo'] = $request->file('photo')->store('public');
         }
 
-        $jobApplicant = $job->applications()->create($validated);
+        $applicant = $job->applications()->create($validated);
 
-        return new JobApplicantResource($jobApplicant);
+        return new JobApplicantResource($applicant);
     }
 }

@@ -44,7 +44,7 @@ class JobQuestionOptionApplicantResponsesController extends Controller
         $this->authorize('create', ApplicantResponse::class);
 
         $validated = $request->validate([
-            'job_applicant_id' => ['required', 'exists:job_applicants,id'],
+            'applicant_id' => ['required', 'exists:applicants,id'],
             'job_question_id' => ['required', 'exists:job_questions,id'],
         ]);
 

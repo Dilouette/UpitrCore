@@ -24,11 +24,13 @@ class ApplicantInterviewUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'job_applicant_id' => ['required', 'exists:job_applicants,id'],
+            'applicant_id' => ['required', 'exists:applicants,id'],
             'score' => ['required', 'max:255'],
             'feedback' => ['required', 'max:255', 'string'],
             'start_time' => ['required', 'date'],
             'end_time' => ['required', 'date'],
+            'feebacks.*.inteview_question_id' => ['required', 'exists:inteview_questions,id'],
+            'feebacks.*.rating' => ['required', 'min:1', 'max:5'],
         ];
     }
 }

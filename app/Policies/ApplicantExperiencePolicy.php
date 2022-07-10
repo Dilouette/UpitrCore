@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\ApplicantExperience;
+use App\Models\Experience;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ApplicantExperiencePolicy
@@ -28,7 +28,7 @@ class ApplicantExperiencePolicy
      * @param  App\Models\ApplicantExperience  $model
      * @return mixed
      */
-    public function view(User $user, ApplicantExperience $model)
+    public function view(User $user, Experience $model)
     {
         return true;
     }
@@ -51,7 +51,7 @@ class ApplicantExperiencePolicy
      * @param  App\Models\ApplicantExperience  $model
      * @return mixed
      */
-    public function update(User $user, ApplicantExperience $model)
+    public function update(User $user, Experience $model)
     {
         return true;
     }
@@ -63,7 +63,7 @@ class ApplicantExperiencePolicy
      * @param  App\Models\ApplicantExperience  $model
      * @return mixed
      */
-    public function delete(User $user, ApplicantExperience $model)
+    public function delete(User $user, Experience $model)
     {
         return true;
     }
@@ -87,7 +87,7 @@ class ApplicantExperiencePolicy
      * @param  App\Models\ApplicantExperience  $model
      * @return mixed
      */
-    public function restore(User $user, ApplicantExperience $model)
+    public function restore(User $user, Experience $model)
     {
         return false;
     }
@@ -99,7 +99,7 @@ class ApplicantExperiencePolicy
      * @param  App\Models\ApplicantExperience  $model
      * @return mixed
      */
-    public function forceDelete(User $user, ApplicantExperience $model)
+    public function forceDelete(User $user, Experience $model)
     {
         return false;
     }

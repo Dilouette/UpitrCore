@@ -13,7 +13,7 @@ class InterviewSection extends Model
 
     protected $fillable = ['title', 'interview_id'];
 
-    protected $with = ['inteviewQuestions'];
+    protected $with = ['interviewQuestions'];
 
     protected $searchableFields = ['*'];
 
@@ -24,7 +24,7 @@ class InterviewSection extends Model
         return $this->belongsTo(Interview::class);
     }
 
-    public function inteviewQuestions()
+    public function interviewQuestions()
     {
         return $this->hasMany(InterviewQuestion::class);
     }

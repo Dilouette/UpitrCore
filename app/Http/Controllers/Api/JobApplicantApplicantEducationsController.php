@@ -2,40 +2,40 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ApplicantEducationResource;
-use App\Http\Resources\ApplicantEducationCollection;
+use App\Http\Resources\CandidateEducationResource;
+use App\Http\Resources\CandidateEducationCollection;
 
 class JobApplicantApplicantEducationsController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\JobApplicant $jobApplicant
+     * @param \App\Models\Applicant $applicant
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, JobApplicant $jobApplicant)
+    public function index(Request $request, Applicant $applicant)
     {
-        $this->authorize('view', $jobApplicant);
+        $this->authorize('view', $applicant);
 
         $search = $request->get('search', '');
 
-        $applicantEducations = $jobApplicant
+        $applicantEducations = $applicant
             ->applicantEducations()
             ->search($search)
             ->latest()
             ->paginate();
 
-        return new ApplicantEducationCollection($applicantEducations);
+        return new CandidateEducationCollection($applicantEducations);
     }
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\JobApplicant $jobApplicant
+     * @param \App\Models\Applicant $applicant
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, JobApplicant $jobApplicant)
+    public function store(Request $request, Applicant $applicant)
     {
         $this->authorize('create', ApplicantEducation::class);
 
@@ -47,10 +47,10 @@ class JobApplicantApplicantEducationsController extends Controller
             'end_date' => ['nullable', 'date'],
         ]);
 
-        $applicantEducation = $jobApplicant
+        $applicantEducation = $applicant
             ->applicantEducations()
             ->create($validated);
 
-        return new ApplicantEducationResource($applicantEducation);
+        return new CandidateEducationResource($applicantEducation);
     }
 }

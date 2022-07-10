@@ -3,7 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\Models\User;
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 
 use App\Models\Job;
 use App\Models\JobWorkflowStage;
@@ -26,15 +26,15 @@ class JobApplicantTest extends TestCase
     /**
      * @test
      */
-    public function it_gets_job_applicants_list()
+    public function it_gets_applicants_list()
     {
-        $jobApplicants = JobApplicant::factory()
+        $applicants = Applicant::factory()
             ->count(5)
             ->create();
 
         $response = $this->getJson(route('api.job-applicants.index'));
 
-        $response->assertOk()->assertSee($jobApplicants[0]->firstname);
+        $response->assertOk()->assertSee($applicants[0]->firstname);
     }
 
     /**
@@ -42,13 +42,13 @@ class JobApplicantTest extends TestCase
      */
     public function it_stores_the_job_applicant()
     {
-        $data = JobApplicant::factory()
+        $data = Applicant::factory()
             ->make()
             ->toArray();
 
         $response = $this->postJson(route('api.job-applicants.store'), $data);
 
-        $this->assertDatabaseHas('job_applicants', $data);
+        $this->assertDatabaseHas('applicants', $data);
 
         $response->assertStatus(201)->assertJsonFragment($data);
     }
@@ -58,7 +58,7 @@ class JobApplicantTest extends TestCase
      */
     public function it_updates_the_job_applicant()
     {
-        $jobApplicant = JobApplicant::factory()->create();
+        $applicant = Applicant::factory()->create();
 
         $job = Job::factory()->create();
         $jobWorkflowStage = JobWorkflowStage::factory()->create();
@@ -81,13 +81,13 @@ class JobApplicantTest extends TestCase
         ];
 
         $response = $this->putJson(
-            route('api.job-applicants.update', $jobApplicant),
+            route('api.job-applicants.update', $applicant),
             $data
         );
 
-        $data['id'] = $jobApplicant->id;
+        $data['id'] = $applicant->id;
 
-        $this->assertDatabaseHas('job_applicants', $data);
+        $this->assertDatabaseHas('applicants', $data);
 
         $response->assertOk()->assertJsonFragment($data);
     }
@@ -97,13 +97,13 @@ class JobApplicantTest extends TestCase
      */
     public function it_deletes_the_job_applicant()
     {
-        $jobApplicant = JobApplicant::factory()->create();
+        $applicant = Applicant::factory()->create();
 
         $response = $this->deleteJson(
-            route('api.job-applicants.destroy', $jobApplicant)
+            route('api.job-applicants.destroy', $applicant)
         );
 
-        $this->assertModelMissing($jobApplicant);
+        $this->assertModelMissing($applicant);
 
         $response->assertNoContent();
     }

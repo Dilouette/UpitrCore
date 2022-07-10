@@ -16,11 +16,11 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->string('title');
             $table->text('content');
-            $table->tinyInteger('related_to_id');
             $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('job_id');
+            $table->unsignedBigInteger('job_id')->nullable();
+            $table->unsignedBigInteger('candidate_id')->nullable();
             $table->bigInteger('updated_by');
-            $table->unsignedBigInteger('job_applicant_id');
+            $table->unsignedBigInteger('applicant_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

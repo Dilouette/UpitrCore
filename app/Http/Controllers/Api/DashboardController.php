@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use Carbon\Carbon;
 use App\Models\Job;
 use App\Models\Activity;
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\ServiceController;
@@ -24,7 +24,7 @@ class DashboardController extends ServiceController
             ->where('deadline', '>=', Carbon::now())->count();  
             
             // Get Active Candidate Count
-            $active_candidates = JobApplicant::whereHas('job', function ($q) {
+            $active_candidates = Applicant::whereHas('job', function ($q) {
                 return $q->where('is_published', false)
                 ->where('deadline', '>=', Carbon::now());
             })->count();  
@@ -43,12 +43,12 @@ class DashboardController extends ServiceController
             $vacancies->load('department');
 
             // Most Recent Candidates
-            $candidates = JobApplicant::latest()->take(5)->get();
+            $candidates = Applicant::latest()->take(5)->get();
             $candidates->load('job', 'jobWorkflowStage');
 
             // Most Recent Activities
             $activities = Activity::latest()->take(5)->get();
-            $activities->load('job', 'jobApplicant', 'assignees');
+            $activities->load('job', 'applicant', 'assignees');
            
             $response=[
                 'active_vacancies' => $active_vacancies,

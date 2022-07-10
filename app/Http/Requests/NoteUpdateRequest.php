@@ -30,7 +30,7 @@ class NoteUpdateRequest extends FormRequest
             'created_by' => ['required', 'max:255'],
             'job_id' => ['required', 'exists:jobs,id'],
             'updated_by' => ['required', 'max:255'],
-            'job_applicant_id' => ['required', 'exists:job_applicants,id'],
+            'applicant_id' => ['required', 'exists:applicants,id'],
         ];
     }
 }

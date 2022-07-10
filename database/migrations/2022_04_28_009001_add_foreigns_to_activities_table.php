@@ -14,9 +14,16 @@ return new class extends Migration {
     {
         Schema::table('activities', function (Blueprint $table) {
             $table
-                ->foreign('job_applicant_id')
+                ->foreign('applicant_id')
                 ->references('id')
-                ->on('job_applicants')
+                ->on('applicants')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
+
+            $table
+                ->foreign('candidate_id')
+                ->references('id')
+                ->on('candidates')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
 
@@ -51,7 +58,8 @@ return new class extends Migration {
     public function down()
     {
         Schema::table('activities', function (Blueprint $table) {
-            $table->dropForeign(['job_applicant_id']);
+            $table->dropForeign(['applicant_id']);
+            $table->dropForeign(['candidate_id']);
             $table->dropForeign(['job_id']);
             $table->dropForeign(['created_by']);
             $table->dropForeign(['updated_by']);

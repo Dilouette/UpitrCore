@@ -18,7 +18,8 @@ class Note extends Model
         'created_by',
         'job_id',
         'updated_by',
-        'job_applicant_id',
+        'applicant_id',
+        'candidate_id',
     ];
 
     protected $searchableFields = ['*'];
@@ -28,8 +29,13 @@ class Note extends Model
         return $this->belongsTo(Job::class);
     }
 
-    public function jobApplicant()
+    public function applicant()
     {
-        return $this->belongsTo(JobApplicant::class);
+        return $this->belongsTo(Applicant::class);
+    }
+
+    public function candidate()
+    {
+        return $this->belongsTo(Candidate::class);
     }
 }

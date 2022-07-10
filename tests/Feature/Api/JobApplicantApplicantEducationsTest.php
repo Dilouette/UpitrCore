@@ -3,8 +3,8 @@
 namespace Tests\Feature\Api;
 
 use App\Models\User;
-use App\Models\JobApplicant;
-use App\Models\ApplicantEducation;
+use App\Models\Applicant;
+use App\Models\Education;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -26,17 +26,17 @@ class JobApplicantApplicantEducationsTest extends TestCase
      */
     public function it_gets_job_applicant_applicant_educations()
     {
-        $jobApplicant = JobApplicant::factory()->create();
-        $applicantEducations = ApplicantEducation::factory()
+        $applicant = Applicant::factory()->create();
+        $applicantEducations = Education::factory()
             ->count(2)
             ->create([
-                'job_applicant_id' => $jobApplicant->id,
+                'applicant_id' => $applicant->id,
             ]);
 
         $response = $this->getJson(
             route(
                 'api.job-applicants.applicant-educations.index',
-                $jobApplicant
+                $applicant
             )
         );
 
@@ -48,17 +48,17 @@ class JobApplicantApplicantEducationsTest extends TestCase
      */
     public function it_stores_the_job_applicant_applicant_educations()
     {
-        $jobApplicant = JobApplicant::factory()->create();
-        $data = ApplicantEducation::factory()
+        $applicant = Applicant::factory()->create();
+        $data = Education::factory()
             ->make([
-                'job_applicant_id' => $jobApplicant->id,
+                'applicant_id' => $applicant->id,
             ])
             ->toArray();
 
         $response = $this->postJson(
             route(
                 'api.job-applicants.applicant-educations.store',
-                $jobApplicant
+                $applicant
             ),
             $data
         );
@@ -67,11 +67,11 @@ class JobApplicantApplicantEducationsTest extends TestCase
 
         $response->assertStatus(201)->assertJsonFragment($data);
 
-        $applicantEducation = ApplicantEducation::latest('id')->first();
+        $applicantEducation = Education::latest('id')->first();
 
         $this->assertEquals(
-            $jobApplicant->id,
-            $applicantEducation->job_applicant_id
+            $applicant->id,
+            $applicantEducation->applicant_id
         );
     }
 }

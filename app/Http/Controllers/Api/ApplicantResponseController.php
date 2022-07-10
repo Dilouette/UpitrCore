@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 use Illuminate\Http\Request;
 use App\Models\ApplicantResponse;
 use Illuminate\Support\Facades\DB;
@@ -19,10 +19,10 @@ class ApplicantResponseController extends ServiceController
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index($applicant_id)
+    public function index(Request $request, $applicant_id)
     {
         try {
-            $applicantResponses = ApplicantResponse::where('job_applicant_id',$applicant_id)->orderBy('id', 'asc')->get();
+            $applicantResponses = ApplicantResponse::where('applicant_id',$applicant_id)->orderBy('id', 'asc')->get();
 
             return $this->success(new ApplicantResponseCollection($applicantResponses));
         } catch (\Throwable $th) {
@@ -44,7 +44,7 @@ class ApplicantResponseController extends ServiceController
             foreach($validated['questions'] as $question){ 
 
                 // Get the applicant
-                $applicant = JobApplicant::find($validated['job_applicant_id']);
+                $applicant = Applicant::find($validated['applicant_id']);
 
                 //Check if the question is valid for the selected job
                 $jobQuestion = $applicant->job->jobQuestions()->where('id', $question['job_question_id'])->first();
@@ -64,7 +64,7 @@ class ApplicantResponseController extends ServiceController
                 }
 
                 //Check if question already exists for the applicant
-                $questionExists = ApplicantResponse::where('job_applicant_id',$validated['job_applicant_id'])->where('job_question_id',$question['job_question_id'])->first();
+                $questionExists = ApplicantResponse::where('applicant_id',$validated['applicant_id'])->where('job_question_id',$question['job_question_id'])->first();
                 if ($questionExists) {
                     $questionExists->job_question_option_id = $question['job_question_option_id'];
                     $questionExists->response = $question['response'];
@@ -72,7 +72,7 @@ class ApplicantResponseController extends ServiceController
                 } else {
                     $applicantResponse = new ApplicantResponse();
 
-                    $applicantResponse->job_applicant_id = $validated['job_applicant_id'];
+                    $applicantResponse->applicant_id = $validated['applicant_id'];
                     $applicantResponse->job_question_id = $question['job_question_id'];
                     $applicantResponse->job_question_option_id = $question['job_question_option_id'];
                     $applicantResponse->response = $question['response'];
@@ -81,7 +81,7 @@ class ApplicantResponseController extends ServiceController
                 }
             }
 
-            $applicantResponses = ApplicantResponse::where('job_applicant_id',$validated['job_applicant_id'])->orderBy('id', 'asc')->get();
+            $applicantResponses = ApplicantResponse::where('applicant_id',$validated['applicant_id'])->orderBy('id', 'asc')->get();
 
             return $this->success(new ApplicantResponseCollection($applicantResponses));
         } catch (\Throwable $th) {

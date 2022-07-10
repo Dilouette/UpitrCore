@@ -47,33 +47,6 @@ class JobController extends ServiceController
             });
 
             $jobs = $query->paginate($page_size);
-            $jobs->load(
-                'user', 
-                'city', 
-                'department', 
-                'industry', 
-                'jobFunction', 
-                'employmentType',
-                'experienceLevel', 
-                'educationLevel', 
-                'currency', 
-                'jobWorkflow'
-            );
-
-            $jobs->makeHidden([
-                'created_by',
-                'country_id',
-                'region_id',
-                'city_id',
-                'department_id',
-                'industry_id',
-                'job_function_id',
-                'employment_type_id',
-                'experience_level_id',
-                'education_level_id',  
-                'salary_currency_id',
-                'job_workflow_id',                
-            ]);           
 
             return $this->success($jobs);
         } catch (\Throwable $th) {
@@ -113,34 +86,7 @@ class JobController extends ServiceController
                 return $q->where("department_id", $request->department);
             });
 
-            $jobs = $query->paginate($page_size);
-            $jobs->load(
-                'user', 
-                'city', 
-                'department', 
-                'industry', 
-                'jobFunction', 
-                'employmentType',
-                'experienceLevel', 
-                'educationLevel', 
-                'currency', 
-                'jobWorkflow'
-            );
-
-            $jobs->makeHidden([
-                'created_by',
-                'country_id',
-                'region_id',
-                'city_id',
-                'department_id',
-                'industry_id',
-                'job_function_id',
-                'employment_type_id',
-                'experience_level_id',
-                'education_level_id',  
-                'salary_currency_id',
-                'job_workflow_id',                
-            ]);           
+            $jobs = $query->paginate($page_size);       
 
             return $this->success($jobs);
         } catch (\Throwable $th) {
@@ -173,37 +119,6 @@ class JobController extends ServiceController
 
             DB::commit();
 
-            $job->makeHidden([
-                'created_by',
-                'country_id',
-                'region_id',
-                'city_id',
-                'department_id',
-                'industry_id',
-                'job_function_id',
-                'employment_type_id',
-                'experience_level_id',
-                'education_level_id',  
-                'salary_currency_id',
-                'job_workflow_id',                
-            ]);
-
-            $job->load(
-                'user', 
-                'city', 
-                'department', 
-                'industry', 
-                'jobFunction', 
-                'employmentType',
-                'experienceLevel', 
-                'educationLevel', 
-                'currency', 
-                'jobWorkflow',
-                'jobQuestions',
-                'jobSettings',
-                'interviews'
-            );
-
             return $this->created(new JobResource($job));
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -223,39 +138,7 @@ class JobController extends ServiceController
             if (!$job) {
                 return $this->not_found();
             }
-
-            $job->makeHidden([
-                'created_by',
-                'country_id',
-                'region_id',
-                'city_id',
-                'department_id',
-                'industry_id',
-                'job_function_id',
-                'employment_type_id',
-                'experience_level_id',
-                'education_level_id',  
-                'salary_currency_id',
-                'job_workflow_id',                
-            ]);
-
-            $job->load(
-                'user', 
-                'city', 
-                'department', 
-                'industry', 
-                'jobFunction', 
-                'employmentType',
-                'experienceLevel', 
-                'educationLevel', 
-                'currency', 
-                'jobWorkflow',
-                'jobQuestions', 
-                'jobSettings',
-                'activities',
-                'notes'
-            );
-
+            $job->load('interviews');
             return $this->success(new JobResource($job));
         } catch (\Throwable $th) {
             return $this->server_error($th);
@@ -278,36 +161,6 @@ class JobController extends ServiceController
             $job->is_published = true;
             $job->save();
 
-            $job->makeHidden([
-                'created_by',
-                'country_id',
-                'region_id',
-                'city_id',
-                'department_id',
-                'industry_id',
-                'job_function_id',
-                'employment_type_id',
-                'experience_level_id',
-                'education_level_id',  
-                'salary_currency_id',
-                'job_workflow_id',                
-            ]);
-
-            $job->load(
-                'user', 
-                'city', 
-                'department', 
-                'industry', 
-                'jobFunction', 
-                'employmentType',
-                'experienceLevel', 
-                'educationLevel', 
-                'currency', 
-                'jobWorkflow',
-                'jobQuestions',
-                'jobSettings'
-            );
-
             return $this->success(new JobResource($job));
         } catch (\Throwable $th) {
             return $this->server_error($th);
@@ -329,36 +182,6 @@ class JobController extends ServiceController
 
             $job->is_published = false;
             $job->save();
-
-            $job->makeHidden([
-                'created_by',
-                'country_id',
-                'region_id',
-                'city_id',
-                'department_id',
-                'industry_id',
-                'job_function_id',
-                'employment_type_id',
-                'experience_level_id',
-                'education_level_id',  
-                'salary_currency_id',
-                'job_workflow_id',                
-            ]);
-
-            $job->load(
-                'user', 
-                'city', 
-                'department', 
-                'industry', 
-                'jobFunction', 
-                'employmentType',
-                'experienceLevel', 
-                'educationLevel', 
-                'currency', 
-                'jobWorkflow',
-                'jobQuestions',
-                'jobSettings'
-            );
 
             return $this->success(new JobResource($job));
         } catch (\Throwable $th) {
@@ -384,36 +207,6 @@ class JobController extends ServiceController
 
             $job->update($validated);
             
-            $job->makeHidden([
-                'created_by',
-                'country_id',
-                'region_id',
-                'city_id',
-                'department_id',
-                'industry_id',
-                'job_function_id',
-                'employment_type_id',
-                'experience_level_id',
-                'education_level_id',  
-                'salary_currency_id',
-                'job_workflow_id',                
-            ]);
-
-            $job->load(
-                'user', 
-                'city', 
-                'department', 
-                'industry', 
-                'jobFunction', 
-                'employmentType',
-                'experienceLevel', 
-                'educationLevel', 
-                'currency', 
-                'jobWorkflow',
-                'jobQuestions',
-                'jobSettings'
-            );
-
             return $this->success(new JobResource($job));
         } catch (\Throwable $th) {
             return $this->server_error($th);

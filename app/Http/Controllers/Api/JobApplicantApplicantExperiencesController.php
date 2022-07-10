@@ -2,40 +2,40 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ApplicantExperienceResource;
-use App\Http\Resources\ApplicantExperienceCollection;
+use App\Http\Resources\CandidateExperienceResource;
+use App\Http\Resources\CandidateExperienceCollection;
 
 class JobApplicantApplicantExperiencesController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\JobApplicant $jobApplicant
+     * @param \App\Models\Applicant $applicant
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, JobApplicant $jobApplicant)
+    public function index(Request $request, Applicant $applicant)
     {
-        $this->authorize('view', $jobApplicant);
+        $this->authorize('view', $applicant);
 
         $search = $request->get('search', '');
 
-        $applicantExperiences = $jobApplicant
+        $applicantExperiences = $applicant
             ->applicantExperiences()
             ->search($search)
             ->latest()
             ->paginate();
 
-        return new ApplicantExperienceCollection($applicantExperiences);
+        return new CandidateExperienceCollection($applicantExperiences);
     }
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\JobApplicant $jobApplicant
+     * @param \App\Models\Applicant $applicant
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, JobApplicant $jobApplicant)
+    public function store(Request $request, Applicant $applicant)
     {
         $this->authorize('create', ApplicantExperience::class);
 
@@ -48,10 +48,10 @@ class JobApplicantApplicantExperiencesController extends Controller
             'end_date' => ['nullable', 'date'],
         ]);
 
-        $applicantExperience = $jobApplicant
+        $applicantExperience = $applicant
             ->applicantExperiences()
             ->create($validated);
 
-        return new ApplicantExperienceResource($applicantExperience);
+        return new CandidateExperienceResource($applicantExperience);
     }
 }

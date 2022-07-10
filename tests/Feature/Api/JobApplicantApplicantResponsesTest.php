@@ -3,7 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\Models\User;
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 use App\Models\ApplicantResponse;
 
 use Tests\TestCase;
@@ -26,15 +26,15 @@ class JobApplicantApplicantResponsesTest extends TestCase
      */
     public function it_gets_job_applicant_applicant_responses()
     {
-        $jobApplicant = JobApplicant::factory()->create();
+        $applicant = Applicant::factory()->create();
         $applicantResponses = ApplicantResponse::factory()
             ->count(2)
             ->create([
-                'job_applicant_id' => $jobApplicant->id,
+                'applicant_id' => $applicant->id,
             ]);
 
         $response = $this->getJson(
-            route('api.job-applicants.applicant-responses.index', $jobApplicant)
+            route('api.job-applicants.applicant-responses.index', $applicant)
         );
 
         $response->assertOk()->assertSee($applicantResponses[0]->id);
@@ -45,17 +45,17 @@ class JobApplicantApplicantResponsesTest extends TestCase
      */
     public function it_stores_the_job_applicant_applicant_responses()
     {
-        $jobApplicant = JobApplicant::factory()->create();
+        $applicant = Applicant::factory()->create();
         $data = ApplicantResponse::factory()
             ->make([
-                'job_applicant_id' => $jobApplicant->id,
+                'applicant_id' => $applicant->id,
             ])
             ->toArray();
 
         $response = $this->postJson(
             route(
                 'api.job-applicants.applicant-responses.store',
-                $jobApplicant
+                $applicant
             ),
             $data
         );
@@ -67,8 +67,8 @@ class JobApplicantApplicantResponsesTest extends TestCase
         $applicantResponse = ApplicantResponse::latest('id')->first();
 
         $this->assertEquals(
-            $jobApplicant->id,
-            $applicantResponse->job_applicant_id
+            $applicant->id,
+            $applicantResponse->applicant_id
         );
     }
 }

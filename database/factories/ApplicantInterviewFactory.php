@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Interview;
 use Illuminate\Support\Str;
 use App\Models\ApplicantInterview;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,11 +24,13 @@ class ApplicantInterviewFactory extends Factory
     public function definition()
     {
         return [
-            'score' => $this->faker->numberBetween(0, 32767),
+            'score' => $this->faker->numberBetween(5, 25),
             'feedback' => $this->faker->text,
             'start_time' => $this->faker->dateTime,
             'end_time' => $this->faker->dateTime,
-            'job_applicant_id' => \App\Models\JobApplicant::factory(),
+            'applicant_id' => \App\Models\Applicant::factory(),
+            'interview_id' => Interview::factory(),
+            'created_by' => \App\Models\User::factory(),
         ];
     }
 }

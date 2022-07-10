@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\ApplicantResponse;
 
 use App\Models\JobQuestion;
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 use App\Models\JobQuestionOption;
 
 use Tests\TestCase;
@@ -64,12 +64,12 @@ class ApplicantResponseTest extends TestCase
     {
         $applicantResponse = ApplicantResponse::factory()->create();
 
-        $jobApplicant = JobApplicant::factory()->create();
+        $applicant = Applicant::factory()->create();
         $jobQuestion = JobQuestion::factory()->create();
         $jobQuestionOption = JobQuestionOption::factory()->create();
 
         $data = [
-            'job_applicant_id' => $jobApplicant->id,
+            'applicant_id' => $applicant->id,
             'job_question_id' => $jobQuestion->id,
             'job_question_option_id' => $jobQuestionOption->id,
         ];

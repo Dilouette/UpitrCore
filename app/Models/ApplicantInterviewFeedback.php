@@ -13,9 +13,13 @@ class ApplicantInterviewFeedback extends Model
 
     protected $fillable = [
         'applicant_interview_id',
-        'inteview_question_id',
+        'interview_section_id',
         'rating',
     ];
+
+    protected $hidden = ['deleted_at', 'interview_section_id', 'applicant_interview_id'];
+
+    protected $with = ['interviewSection'];
 
     protected $searchableFields = ['*'];
 
@@ -26,8 +30,8 @@ class ApplicantInterviewFeedback extends Model
         return $this->belongsTo(ApplicantInterview::class);
     }
 
-    public function inteviewQuestion()
+    public function interviewSection()
     {
-        return $this->belongsTo(InterviewQuestion::class);
+        return $this->belongsTo(InterviewSection::class);
     }
 }

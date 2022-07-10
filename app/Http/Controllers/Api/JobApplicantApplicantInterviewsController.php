@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\JobApplicant;
+use App\Models\Applicant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ApplicantInterviewResource;
@@ -12,16 +12,16 @@ class JobApplicantApplicantInterviewsController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\JobApplicant $jobApplicant
+     * @param \App\Models\Applicant $applicant
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, JobApplicant $jobApplicant)
+    public function index(Request $request, Applicant $applicant)
     {
-        $this->authorize('view', $jobApplicant);
+        $this->authorize('view', $applicant);
 
         $search = $request->get('search', '');
 
-        $applicantInterviews = $jobApplicant
+        $applicantInterviews = $applicant
             ->applicantInterviews()
             ->search($search)
             ->latest()
@@ -32,10 +32,10 @@ class JobApplicantApplicantInterviewsController extends Controller
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\JobApplicant $jobApplicant
+     * @param \App\Models\Applicant $applicant
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, JobApplicant $jobApplicant)
+    public function store(Request $request, Applicant $applicant)
     {
         $this->authorize('create', ApplicantInterview::class);
 
@@ -46,7 +46,7 @@ class JobApplicantApplicantInterviewsController extends Controller
             'end_time' => ['required', 'date'],
         ]);
 
-        $applicantInterview = $jobApplicant
+        $applicantInterview = $applicant
             ->applicantInterviews()
             ->create($validated);
 

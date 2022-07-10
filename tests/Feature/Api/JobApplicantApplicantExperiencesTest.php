@@ -3,8 +3,8 @@
 namespace Tests\Feature\Api;
 
 use App\Models\User;
-use App\Models\JobApplicant;
-use App\Models\ApplicantExperience;
+use App\Models\Applicant;
+use App\Models\Experience;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -26,17 +26,17 @@ class JobApplicantApplicantExperiencesTest extends TestCase
      */
     public function it_gets_job_applicant_applicant_experiences()
     {
-        $jobApplicant = JobApplicant::factory()->create();
-        $applicantExperiences = ApplicantExperience::factory()
+        $applicant = Applicant::factory()->create();
+        $applicantExperiences = Experience::factory()
             ->count(2)
             ->create([
-                'job_applicant_id' => $jobApplicant->id,
+                'applicant_id' => $applicant->id,
             ]);
 
         $response = $this->getJson(
             route(
                 'api.job-applicants.applicant-experiences.index',
-                $jobApplicant
+                $applicant
             )
         );
 
@@ -48,17 +48,17 @@ class JobApplicantApplicantExperiencesTest extends TestCase
      */
     public function it_stores_the_job_applicant_applicant_experiences()
     {
-        $jobApplicant = JobApplicant::factory()->create();
-        $data = ApplicantExperience::factory()
+        $applicant = Applicant::factory()->create();
+        $data = Experience::factory()
             ->make([
-                'job_applicant_id' => $jobApplicant->id,
+                'applicant_id' => $applicant->id,
             ])
             ->toArray();
 
         $response = $this->postJson(
             route(
                 'api.job-applicants.applicant-experiences.store',
-                $jobApplicant
+                $applicant
             ),
             $data
         );
@@ -67,11 +67,11 @@ class JobApplicantApplicantExperiencesTest extends TestCase
 
         $response->assertStatus(201)->assertJsonFragment($data);
 
-        $applicantExperience = ApplicantExperience::latest('id')->first();
+        $applicantExperience = Experience::latest('id')->first();
 
         $this->assertEquals(
-            $jobApplicant->id,
-            $applicantExperience->job_applicant_id
+            $applicant->id,
+            $applicantExperience->applicant_id
         );
     }
 }

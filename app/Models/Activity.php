@@ -26,7 +26,8 @@ class Activity extends Model
         'description',
         'created_by',
         'updated_by',
-        'job_applicant_id',
+        'candidate_id',
+        'applicant_id',
         'job_id',
     ];
 
@@ -41,7 +42,8 @@ class Activity extends Model
         'activity_type_id',
         'related_to_id',
         'importance_id',
-        'job_applicant_id',
+        'candidate_id',
+        'applicant_id',
         'job_id',
         'status_id'
     ];
@@ -63,9 +65,9 @@ class Activity extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function jobApplicant()
+    public function applicant()
     {
-        return $this->belongsTo(JobApplicant::class);
+        return $this->belongsTo(Applicant::class);
     }
 
     public function assignees()
