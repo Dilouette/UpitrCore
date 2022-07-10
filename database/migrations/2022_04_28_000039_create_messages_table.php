@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->tinyInteger('from_user_type_id');            
             $table->tinyInteger('to_user_type_id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('candidate_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('candidate_id');
             $table->string('subject')->nullable();
-            $table->unsignedInteger('reply_to')->nullable();
+            $table->unsignedBigInteger('reply_to')->nullable();
             $table->text('body');
             $table->boolean('opened');
             $table->timestamps();
