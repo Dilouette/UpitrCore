@@ -30,6 +30,7 @@ class JobFactory extends Factory
             'is_remote' => $this->faker->boolean,
             'description' => $this->faker->text,
             'requirements' => $this->faker->text,
+            'responsibilities' => $this->faker->text,
             'benefit' => $this->faker->text,
             'keywords' => "MS Excel, ACCA, Dynamics, ICAN",
             'salary_min' => 200000,
