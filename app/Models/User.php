@@ -49,6 +49,7 @@ class User extends Authenticatable
     protected $with = [
         'department', 
         'designation', 
+        'roles'
     ];
 
     protected $casts = [

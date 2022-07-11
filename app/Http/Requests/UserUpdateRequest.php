@@ -35,9 +35,8 @@ class UserUpdateRequest extends FormRequest
             'lastname' => ['required', 'max:255', 'string'],
             'department_id' => ['nullable', 'numeric', 'exists:departments,id'],
             'password' => ['nullable'],
-            'reset_login' => ['required', 'boolean'],
-            'first_login' => ['required', 'boolean'],
-            'last_login' => ['required', 'date'],
+            'is_active' => ['nullable', 'boolean'],
+            'role_id' => ['required', 'numeric', 'exists:roles,id'],
             'designation_id' => [
                 'nullable',
                 'numeric',

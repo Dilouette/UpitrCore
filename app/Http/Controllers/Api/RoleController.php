@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Resources\RoleResource;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\RoleStoreRequest;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Api\ServiceController;
 
@@ -43,13 +45,15 @@ class RoleController extends ServiceController {
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) 
+    public function store(RoleStoreRequest $request) 
     {
-        $validated = $this->validate($request, [
-            'name' => 'required|unique:roles|max:64',
-            'permissions' => 'array',
-        ]);
         try {
+
+            $validated = $request->validated();
+
+            $validated['created_by'] = Auth::user()->id;
+            $validated['web_guard'] = Auth::getDefaultDriver();
+
             $role = Role::create($validated);
 
             $permissions = Permission::find($request->permissions);
@@ -57,7 +61,7 @@ class RoleController extends ServiceController {
             
             $role->load('permissions');
 
-            return new RoleResource($role);
+            return $this->created(new RoleResource($role));
         } catch (\Throwable $th) {
             return $this->server_error($th);
         }

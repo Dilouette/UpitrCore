@@ -24,7 +24,7 @@ return new class extends Migration {
             $table->string('remember_token', 100)->nullable();
             $table->boolean('reset_login');
             $table->boolean('first_login');
-            $table->dateTime('last_login');
+            $table->dateTime('last_login')->nullable();
             $table->unsignedInteger('designation_id')->nullable();
             $table->boolean('is_active');
 

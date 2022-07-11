@@ -36,7 +36,7 @@ class PermissionsSeeder extends Seeder
         Permission::create(['group_id' => 4, 'name' => 'applicant_reports']);
 
         $currentPermissions = Permission::all();
-        $userRole = Role::create(['name' => 'user']);
+        $userRole = Role::create(['name' => 'administrator']);
         $userRole->givePermissionTo($currentPermissions);
 
         Permission::create(['group_id' => 5, 'name' => 'list_roles']);
@@ -54,7 +54,7 @@ class PermissionsSeeder extends Seeder
         Permission::create(['group_id' => 7, 'name' => 'update_company']);
 
         $allPermissions = Permission::all();
-        $adminRole = Role::create(['name' => 'super-admin']);
+        $adminRole = Role::create(['name' => 'prime']);
         $adminRole->givePermissionTo($allPermissions);
 
         $user = \App\Models\User::factory()

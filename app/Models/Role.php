@@ -6,7 +6,7 @@ use Spatie\Permission\Models\Role as SpatieRole;
 
 class Role extends SpatieRole
 {
-    protected $fillable = ['user_id'];
+    protected $fillable = ['user_id' ,'created_by'];
 
     protected $table = 'roles';
 
@@ -15,5 +15,10 @@ class Role extends SpatieRole
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

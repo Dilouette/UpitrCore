@@ -68,7 +68,9 @@ class Job extends Model
         'experienceLevel', 
         'educationLevel', 
         'currency', 
-        'jobWorkflow'
+        'jobWorkflow',
+        'jobQuestions',
+        'jobSettings',
     ];
 
     protected $searchableFields = ['*'];

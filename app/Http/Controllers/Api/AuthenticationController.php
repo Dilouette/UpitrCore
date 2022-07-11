@@ -21,15 +21,16 @@ class AuthenticationController extends ServiceController
         $data = $request->validated();
         try {
             $credentials = request(['email', 'password']);
-
+            
+            
             // Check credentials
-            if (!Auth::attempt($credentials))
+            if (!Auth::guard('web')->attempt($credentials))
             {
                 $status = 'invalid_credentials';
                 return $this->unauthorised(null, null, $status);
             }
 
-            $user = $request->user();
+            $user = Auth::guard('web')->user();
 
             // if the account is not active or functional
             if($user->is_active != true) {

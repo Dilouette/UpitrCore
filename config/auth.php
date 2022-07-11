@@ -15,7 +15,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'api',
         'passwords' => 'users',
     ],
 
@@ -45,7 +45,11 @@ return [
         'api' => [
             'driver' => 'passport',
             'provider' => 'users',
-            'hash' => false,
+        ],
+
+        'web-api' => [
+            'driver' => 'passport',
+            'provider' => 'candidates',
         ],
     ],
 
@@ -72,10 +76,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'candidates' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Candidate::class,
+        ],
     ],
 
     /*
@@ -96,6 +100,13 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'candidates' => [
+            'provider' => 'candidates',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

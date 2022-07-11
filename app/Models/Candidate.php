@@ -5,15 +5,17 @@ namespace App\Models;
 use App\Models\Industry;
 use App\Models\JobFunction;
 use App\Models\Scopes\Searchable;
-use Illuminate\Database\Eloquent\Model;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Candidate extends Model
+class Candidate extends Authenticatable
 {
     use HasFactory;
     use Searchable;
     use SoftDeletes;
+    use HasApiTokens;
 
     protected $fillable = [
         'firstname',
