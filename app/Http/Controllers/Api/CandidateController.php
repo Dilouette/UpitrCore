@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Applicant;
 use App\Models\Candidate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\JobApplicantResource;
-use App\Http\Requests\ApplicantMoveRequest;
-use App\Http\Requests\JobApplicantStoreRequest;
-use App\Http\Requests\JobApplicantUpdateRequest;
 
 class CandidateController extends ServiceController
 {

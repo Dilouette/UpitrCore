@@ -30,8 +30,57 @@ class ApplicantController extends ServiceController
                 ->where('job_id', $vacancy_id)
                 ->orderby('id', 'desc');
 
+            $query->when($request->filled('keyword'), function ($q) use($request){
+                return $q->whereHas('candidate', function ($q) use ($request) {
+                    $q->where("firstname", "ilike", "%$request->keyword%")
+                    ->orWhere("middlename", "ilike", "%$request->keyword%")
+                    ->orWhere("lastname", "ilike", "%$request->keyword%")
+                    ->orWhere("email", "ilike", "%$request->keyword%")
+                    ->orWhere("phone", "ilike", "%$request->keyword%")
+                    ->orWhere("skills", "ilike", "%$request->keyword%");
+                });
+            });    
+
             $query->when($request->filled('stage'), function ($q) use($request){
                 return $q->where("job_workflow_stage_id", $request->stage);
+            });
+
+            $query->when($request->filled('gender'), function ($q) use($request){
+                return $q->whereHas('candidate', function ($q) use ($request) {
+                    $q->where("gender_id", $request->gender);
+                });
+            });
+
+            $query->when($request->filled('industry'), function ($q) use($request){
+                return $q->whereHas('candidate', function ($q) use ($request) {
+                    $q->where("industry_id", $request->industry);
+                });
+            });
+
+            $query->when($request->filled('job_function'), function ($q) use($request){
+                return $q->whereHas('candidate', function ($q) use ($request) {
+                    $q->where("job_function_id", $request->job_function);
+                });
+            });
+
+            $query->when(($request->filled('dob_start') && $request->filled('dob_end')), function ($q) use($request){
+                return $q->whereHas('candidate', function ($q) use ($request) {
+                    $q->whereBetween('dob', [$request->date('dob_start'), $request->date('dob_end')]);
+                });
+            });
+
+            $query->when(($request->filled('exp_min') && $request->filled('exp_max')), function ($q) use($request){
+                return $q->whereHas('candidate', function ($q) use ($request) {
+                    $q->whereBetween('years_of_experience', [$request->exp_min, $request->exp_max]);
+                });
+            });
+
+            $query->when($request->filled('degree_class'), function ($q) use($request){
+                return $q->whereHas('candidate', function ($q) use ($request) {
+                    return $q->whereHas('educations', function ($q) use ($request) {
+                        $q->where('degree_classification_id', $request->degree_class);
+                    });
+                });                
             });
 
             $applicants = $page_size == '*' ? $query->get() : $query->paginate($page_size);
