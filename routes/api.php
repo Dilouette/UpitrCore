@@ -144,6 +144,7 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
     Route::name('applicants')->prefix('applicants')->middleware('auth:api')->group(function () {
         Route::get('/{vacancy_id}', [ApplicantController::class, 'index'])->name('index');
         Route::get('/single/{id}', [ApplicantController::class, 'show'])->name('show');
+        Route::put('/bulk-move', [ApplicantController::class, 'bulkMove'])->name('bulk.move');
         Route::put('/{id}', [ApplicantController::class, 'move'])->name('move');
     });
 
@@ -213,7 +214,6 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::post('/', [JobController::class, 'store'])->name('store');
         Route::get('/active', [JobController::class, 'active'])->name('active');
         Route::get('/{id}', [JobController::class, 'show'])->name('show');
-        Route::put('/{id}', [JobController::class, 'update'])->name('update');
     });
 
 });

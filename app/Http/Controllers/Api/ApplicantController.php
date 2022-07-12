@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Models\Applicant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Resources\JobApplicantResource;
 use App\Http\Requests\ApplicantMoveRequest;
+use App\Http\Resources\JobApplicantResource;
+use App\Http\Requests\ApplicantBulkMoveRequest;
 use App\Http\Requests\JobApplicantStoreRequest;
 use App\Http\Requests\JobApplicantUpdateRequest;
 
@@ -32,12 +33,12 @@ class ApplicantController extends ServiceController
 
             $query->when($request->filled('keyword'), function ($q) use($request){
                 return $q->whereHas('candidate', function ($q) use ($request) {
-                    $q->where("firstname", "ilike", "%$request->keyword%")
-                    ->orWhere("middlename", "ilike", "%$request->keyword%")
-                    ->orWhere("lastname", "ilike", "%$request->keyword%")
-                    ->orWhere("email", "ilike", "%$request->keyword%")
-                    ->orWhere("phone", "ilike", "%$request->keyword%")
-                    ->orWhere("skills", "ilike", "%$request->keyword%");
+                    $q->where("firstname", "like", "%$request->keyword%")
+                    ->orWhere("middlename", "like", "%$request->keyword%")
+                    ->orWhere("lastname", "like", "%$request->keyword%")
+                    ->orWhere("email", "like", "%$request->keyword%")
+                    ->orWhere("phone", "like", "%$request->keyword%")
+                    ->orWhere("skills", "like", "%$request->keyword%");
                 });
             });    
 
@@ -172,6 +173,27 @@ class ApplicantController extends ServiceController
             $applicant  = Applicant::find($id);
 
             return $this->success(new JobApplicantResource($applicant));
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        } 
+        
+    }
+
+        /**
+     * @param \App\Http\Requests\ApplicantBulkMoveRequest $request
+     * @param \App\Models\Applicant $applicant
+     * @return \Illuminate\Http\Response
+     */
+    public function bulkMove(ApplicantBulkMoveRequest $request) {
+
+        try {
+            
+            $validated = $request->validated();
+
+            Applicant::whereIn('id', $validated['applicants'])
+                  ->update(['job_workflow_stage_id' => $validated['job_workflow_stage_id']]);
+
+            return $this->success($validated['applicants']);
         } catch (\Throwable $th) {
             return $this->server_error($th);
         } 

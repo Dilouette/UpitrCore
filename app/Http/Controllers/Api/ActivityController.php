@@ -33,9 +33,9 @@ class ActivityController extends ServiceController
 
             $query->when($request->filled('keyword'), function ($q) use($request){
                 Log::info($request->keyword);
-                return $q->where("title", "ilike", "%$request->keyword%")
-                ->orWhere("location", "ilike", "%$request->keyword%")
-                ->orWhere("description", "ilike", "%$request->keyword%");
+                return $q->where("title", "like", "%$request->keyword%")
+                ->orWhere("location", "like", "%$request->keyword%")
+                ->orWhere("description", "like", "%$request->keyword%");
             });
 
             $query->when(($request->filled('start') && $request->filled('end')), function ($q) use($request){

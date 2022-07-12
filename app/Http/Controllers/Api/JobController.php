@@ -33,9 +33,9 @@ class JobController extends ServiceController
                 ->orderby('id', 'desc');
 
             $query->when($request->filled('keyword'), function ($q) use($request){
-                return $q->where("title", "ilike", "%$request->keyword%")
-                            ->orWhere("description", "ilike", "%$request->keyword%")
-                            ->orWhere("code", "ilike", "%$request->keyword%");
+                return $q->where("title", "like", "%$request->keyword%")
+                            ->orWhere("description", "like", "%$request->keyword%")
+                            ->orWhere("code", "like", "%$request->keyword%");
             });
 
             $query->when(($request->filled('deadline_start') && $request->filled('deadline_end')), function ($q) use($request){
@@ -73,9 +73,9 @@ class JobController extends ServiceController
 
             $query->when($request->filled('keyword'), function ($q) use($request){
                 Log::info($request->keyword);
-                return $q->where("title", "ilike", "%$request->keyword%")
-                         ->orWhere("description", "ilike", "%$request->keyword%")
-                         ->orWhere("code", "ilike", "%$request->keyword%");
+                return $q->where("title", "like", "%$request->keyword%")
+                         ->orWhere("description", "like", "%$request->keyword%")
+                         ->orWhere("code", "like", "%$request->keyword%");
             });
 
             $query->when(($request->filled('deadline_start') && $request->filled('deadline_end')), function ($q) use($request){

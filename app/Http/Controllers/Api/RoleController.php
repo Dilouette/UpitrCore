@@ -30,7 +30,7 @@ class RoleController extends ServiceController {
                 ->orderby('created_at', 'desc');
 
             $query->when($request->filled('keyword'), function ($q) use($request){
-                return $q->where("title", "ilike", "%$request->keyword%");
+                return $q->where("title", "like", "%$request->keyword%");
             });
 
             $roles = $page_size == '*' ? $query->get() : $query->paginate($page_size);

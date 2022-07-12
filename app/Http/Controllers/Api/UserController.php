@@ -37,9 +37,9 @@ class UserController extends ServiceController
                 ->orderby('id', 'desc');
 
             $query->when($request->filled('keyword'), function ($q) use($request){
-                return $q->where("email", "ilike", "%$request->keyword%")
-                            ->orWhere("firstname", "ilike", "%$request->keyword%")
-                            ->orWhere("lastname", "ilike", "%$request->keyword%");
+                return $q->where("email", "like", "%$request->keyword%")
+                            ->orWhere("firstname", "like", "%$request->keyword%")
+                            ->orWhere("lastname", "like", "%$request->keyword%");
             });
 
             $query->when($request->filled('department'), function ($q) use($request){

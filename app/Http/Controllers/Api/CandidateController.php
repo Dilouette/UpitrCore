@@ -53,12 +53,12 @@ class CandidateController extends ServiceController
             });
 
             $query->when($request->filled('keyword'), function ($q) use($request){
-                return $q->where("firstname", "ilike", "%$request->keyword%")
-                ->orWhere("middlename", "ilike", "%$request->keyword%")
-                ->orWhere("lastname", "ilike", "%$request->keyword%")
-                ->orWhere("email", "ilike", "%$request->keyword%")
-                ->orWhere("phone", "ilike", "%$request->keyword%")
-                ->orWhere("skills", "ilike", "%$request->keyword%");
+                return $q->where("firstname", "like", "%$request->keyword%")
+                ->orWhere("middlename", "like", "%$request->keyword%")
+                ->orWhere("lastname", "like", "%$request->keyword%")
+                ->orWhere("email", "like", "%$request->keyword%")
+                ->orWhere("phone", "like", "%$request->keyword%")
+                ->orWhere("skills", "like", "%$request->keyword%");
             });            
 
             $candidates = $query->paginate($page_size);
