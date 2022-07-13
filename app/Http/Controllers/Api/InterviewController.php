@@ -16,10 +16,10 @@ class InterviewController extends ServiceController
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function show($id, $vacancy_id)
+    public function show($id)
     {
         try {
-            $interview = Interview::where('id',$id)->where('job_id',$vacancy_id)->first();
+            $interview = Interview::find($id);
 
             if(!$interview){
                 return $this->not_found();

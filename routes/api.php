@@ -106,7 +106,7 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
 
     //Vacancy Interviews Routes
     Route::name('vacancy.interviews.')->prefix('vacancy-interviews')->middleware('auth:api')->group(function () {
-        Route::get('/{id}/{vacancy_id}', [InterviewController::class, 'show'])->name('show');
+        Route::get('/{id}', [InterviewController::class, 'show'])->name('show');
     });
 
     //Vacancy Interview Sections Routes
