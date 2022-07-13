@@ -21,7 +21,10 @@ class JobWorkflow extends Model
         'created_at',
         'updated_at', 
         'deleted_at', 
+        'is_system_workflow'
     ];
+
+    protected $with = ['jobWorkflowStages'];
 
     protected $table = 'job_workflows';
 
