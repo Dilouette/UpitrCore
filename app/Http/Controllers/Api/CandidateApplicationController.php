@@ -25,7 +25,8 @@ class CandidateApplicationController extends ServiceController
                 ->where('candidate_id', $id)
                 ->orderby('id', 'desc');
 
-            $applications = $query->paginate($page_size);
+            $applications = $query->paginate($page_size)
+            ->load('job');
 
             return $this->success($applications);
         } catch (\Throwable $th) {
