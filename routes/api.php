@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\AssesmentQuestionController;
 use App\Http\Controllers\Api\InterviewQuestionController;
 use App\Http\Controllers\Api\CandidateEducationController;
 use App\Http\Controllers\Api\CandidateExperienceController;
+use App\Http\Controllers\Api\CandidateApplicationController;
 use App\Http\Controllers\Api\ApplicantInterviewFeedbackController;
 
 /*
@@ -180,6 +181,11 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
     Route::name('candidate.experiences')->prefix('candidate-experiences')->middleware('auth:api')->group(function () {
         Route::get('/{candidate_id}', [CandidateExperienceController::class, 'index'])->name('index');
         Route::get('/single/{id}', [CandidateExperienceController::class, 'show'])->name('show');
+    });
+
+    //Candidates' Application Routes
+    Route::name('candidate.applications')->prefix('candidate-applications')->middleware('auth:api')->group(function () {
+        Route::get('/{id}', [CandidateApplicationController::class, 'index'])->name('index');
     });
 
     //Activities Routes
