@@ -12,8 +12,7 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-        
+    {        
         $this->call(CompanySeeder::class);
         $this->call(DepartmentSeeder::class);
         $this->call(CountrySeeder::class);
@@ -48,11 +47,11 @@ class DatabaseSeeder extends Seeder
         $this->call(MessageSeeder::class);
         $this->call(ApplicantInterviewSeeder::class);
         $this->call(ApplicantInterviewFeedbackSeeder::class);
-
-        // $this->call(ApplicantAssesmentSeeder::class);
-        // $this->call(AssesmentSeeder::class);
-        // $this->call(AssesmentQuestionSeeder::class);
-        // $this->call(AssesmentQuestionOptionSeeder::class);
+        $this->call(AssesmentSeeder::class);
+        $this->call(AssesmentQuestionSeeder::class);
+        $this->call(AssesmentQuestionOptionSeeder::class);
+        $this->call(ApplicantAssesmentSeeder::class);
+        
         // $this->call(AssesmentResponseSeeder::class);
         // $this->call(BenefitTemplateSeeder::class);
         // $this->call(NoteSeeder::class);

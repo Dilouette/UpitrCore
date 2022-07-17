@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Api\JobController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
@@ -13,7 +14,6 @@ use App\Http\Controllers\Api\InterviewController;
 use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\JobSettingController;
 use App\Http\Controllers\Api\JobQuestionController;
-use App\Http\Controllers\Api\JobApplicantController;
 use App\Http\Controllers\Api\MiscellaneousController;
 use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\InterviewSectionController;
@@ -21,20 +21,14 @@ use App\Http\Controllers\Api\ApplicantResponseController;
 use App\Http\Controllers\Api\AssesmentQuestionController;
 use App\Http\Controllers\Api\InterviewQuestionController;
 use App\Http\Controllers\Api\CandidateEducationController;
+use App\Http\Controllers\Api\CandidateAssessmentController;
 use App\Http\Controllers\Api\CandidateExperienceController;
 use App\Http\Controllers\Api\CandidateApplicationController;
-use App\Http\Controllers\Api\ApplicantInterviewFeedbackController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+use App\Http\Controllers\Api\ApplicantInterviewFeedbackController;
+use App\Http\Controllers\Api\Career\JobController as CareerJobController;
+use App\Http\Controllers\Api\Career\AuthenticationController as CareerAuthenticationController;
+
 
 Route::name('api.v1.')->prefix('v1')->group(function () {
 
@@ -188,6 +182,11 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::get('/{id}', [CandidateApplicationController::class, 'index'])->name('index');
     });
 
+    //Candidates' Assessment Routes
+    Route::name('candidate.assessments')->prefix('candidate-assessments')->middleware('auth:api')->group(function () {
+        Route::get('/{id}', [CandidateAssessmentController::class, 'index'])->name('index');
+    });
+
     //Activities Routes
     Route::name('activities')->prefix('activities')->middleware('auth:api')->group(function () {
         Route::post('/', [ActivityController::class, 'store'])->name('store');
@@ -215,11 +214,35 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('delete');
     });
 
-    //Job Board
-    Route::name('jobs.')->prefix('jobs')->group(function () {
-        Route::post('/', [JobController::class, 'store'])->name('store');
-        Route::get('/active', [JobController::class, 'active'])->name('active');
-        Route::get('/{id}', [JobController::class, 'show'])->name('show');
-    });
+    /*
+    |--------------------------------------------------------------------------
+    | Job Board Routes
+    |--------------------------------------------------------------------------
+    |
+    | Here are the routes for the jobboard to list jobs and job details.
+    |
+    */
 
+    Route::name('career-portal')->prefix('career-portal')->group(function(){        
+        // Jobs routes
+        Route::name('jobs.')->prefix('jobs')->group(function () {
+            Route::get('/', [CareerJobController::class, 'index'])->name('index');
+            Route::get('/{id}', [CareerJobController::class, 'show'])->name('show');
+        });
+
+        // Authentication routes 
+        Route::name('auth.')->prefix('authentication')->group(function () {
+            Route::post('/signup', [CareerAuthenticationController::class, 'signup'])->name('signup');
+            Route::post('/signin', [CareerAuthenticationController::class, 'signin'])->name('signin');
+            Route::post('/confirm-password', [CareerAuthenticationController::class, 'confirmPassword'])->name('confirm.password');
+            Route::post('/forgot-password', [CareerAuthenticationController::class, 'forgotPassword'])->name('forgot.password');
+            Route::post('/reset-password', [CareerAuthenticationController::class, 'resetPassword'])->name('reset.password');
+        });
+
+        // Account routes
+        Route::name('account.')->prefix('account')->middleware('auth:api')->group(function () {
+            Route::get('/active', [JobController::class, 'active'])->name('active');
+            Route::get('/{id}', [JobController::class, 'show'])->name('show');
+        });
+    });
 });

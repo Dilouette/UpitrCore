@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\AssesmentQuestion;
 use App\Models\AssesmentQuestionOption;
 
 class AssesmentQuestionOptionSeeder extends Seeder
@@ -14,8 +15,15 @@ class AssesmentQuestionOptionSeeder extends Seeder
      */
     public function run()
     {
-        AssesmentQuestionOption::factory()
+        $questions = AssesmentQuestion::all();
+        
+        foreach ($questions as $i => $question) { 
+            AssesmentQuestionOption::factory()
             ->count(5)
-            ->create();
+            ->create([
+                'assesment_question_id' => $question->id,
+                'is_answer' => ($i+1) % 5 == 0 ? true : false,
+            ]);
+        }        
     }
 }

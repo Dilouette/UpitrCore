@@ -19,7 +19,6 @@ class AssesmentResponse extends Model
     ];
 
     protected $searchableFields = ['*'];
-
     protected $table = 'assesment_responses';
 
     public function applicantAssesment()

@@ -47,7 +47,12 @@ return [
             'provider' => 'users',
         ],
 
-        'web-api' => [
+        'web-career' => [
+            'driver' => 'session',
+            'provider' => 'candidates',
+        ],
+
+        'api-career' => [
             'driver' => 'passport',
             'provider' => 'candidates',
         ],

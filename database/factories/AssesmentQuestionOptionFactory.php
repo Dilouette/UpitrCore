@@ -23,6 +23,7 @@ class AssesmentQuestionOptionFactory extends Factory
     public function definition()
     {
         return [
+            'value' => $this->faker->text(16),
             'is_answer' => $this->faker->boolean,
             'assesment_question_id' => \App\Models\AssesmentQuestion::factory(),
         ];

@@ -23,8 +23,8 @@ class ApplicantAssesmentFactory extends Factory
     public function definition()
     {
         return [
-            'status_id' => $this->faker->numberBetween(0, 127),
-            'score' => $this->faker->randomNumber(0),
+            'status_id' => $this->faker->numberBetween(0, 2),
+            'score' => $this->faker->numberBetween(0,),
             'start_time' => $this->faker->dateTime,
             'end_time' => $this->faker->dateTime,
             'ip' => $this->faker->ipv4,

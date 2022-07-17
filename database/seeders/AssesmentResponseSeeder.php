@@ -14,8 +14,14 @@ class AssesmentResponseSeeder extends Seeder
      */
     public function run()
     {
-        AssesmentResponse::factory()
-            ->count(5)
-            ->create();
+        $questions = AssesmentQuestion::all();
+        
+        foreach ($questions as $i => $question) { 
+            AssesmentResponse::factory()
+            ->create([
+                'assesment_question_id' => $question->id,
+                'is_answer' => ($i+1) % 5 == 0 ? true : false,
+            ]);
+        } 
     }
 }
