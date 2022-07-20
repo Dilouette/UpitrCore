@@ -31,7 +31,7 @@ class CandidateEducationStoreRequest extends BaseRequest
             'degree' => ['required', 'max:255', 'string'],
             'start_date' => ['required', 'date'],
             'end_date' => ['nullable', 'date'],
-            'candidate_id' => ['required', 'exists:candidates,id'],
+            'candidate_id' => ['nullable', 'exists:candidates,id'],
             'degree_classification_id' => ['required', 'integer', new EnumValue(DegreeClassification::class)],
         ];
     }

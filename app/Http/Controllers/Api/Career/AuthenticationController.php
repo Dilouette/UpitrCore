@@ -3,20 +3,199 @@ namespace App\Http\Controllers\Api\Career;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Candidate;
+use App\Mail\WelcomeEmail;
 use App\Models\PasswordReset;
+use App\Mail\ConfirmationEmail;
 use App\Mail\ResetPasswordEmail;
 use App\Mail\ForgotPasswordEmail;
+use App\Models\EmailVerification;
 use App\Http\Requests\EmailRequest;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\SigninRequest;
+use App\Http\Requests\SignupRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\PasswordResetRequest;
 use App\Http\Controllers\Api\ServiceController;
+use App\Http\Requests\EmailVerificationRequest;
 
 class AuthenticationController extends ServiceController
 {
+     /**
+     * @param \App\Http\Requests\UserStoreRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function signup(SignupRequest $request)
+    {
+        $validated = $request->validated();
+        try {
+            $validated['password'] = Hash::make($validated['password']);
+            $validated['email'] = strtolower($validated['email']);
+            $validated['username'] = $validated['email'];
+            $validated['reset_login'] = false;
+            $validated['first_login'] = true;
+            $validated['is_active'] = true;
+
+            $user = Candidate::create($validated);
+
+            // generate email verification token
+            // $confirmation_token = mt_rand(100000, 999999);
+            $confirmation_token = uniqid();
+
+            // persist email verification token
+            EmailVerification::updateOrCreate(
+                ['email' => $validated["email"]],
+                [
+                    'token' => bcrypt($confirmation_token),
+                    'expires_at' => Carbon::now()->addHours(1)
+                ]
+            );
+
+            $url = ENV('FRONTEND_URL') . 'email-confirmation?token=' . $confirmation_token . '&email=' . $validated['email'];
+
+            // Send verification mail
+            try {
+                Mail::to($validated["email"])->queue(new ConfirmationEmail($user, $url));
+            } catch (\Throwable $th) {
+                Log::error($th->getMessage());
+            }
+
+            $message = "User successfully created and an email verification mail has been sent to the user's registered mail";
+            return $this->created($user, $message);
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }
+    }
+
+    /**
+     * @param \App\Http\Requests\EmailRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function resendConfirmation(EmailRequest $request)
+    {
+        $validated = $request->validated();
+        try
+        {
+            // Get user details
+            $user = Candidate::where('email', $validated['email'])->first();
+            if(!$user)
+            {
+                $message = "The supplied email was not found";
+                return $this->not_found(null, $message);
+            }
+
+            if($user->email_verified == true)
+            {
+                $status = 'already_verified';
+                return $this->bad_request(null, null, $status);
+            }
+
+            // generate email verification token
+            // $confirmation_token = mt_rand(100000, 999999);
+            $confirmation_token = uniqid();
+
+            // persist email verification token
+            EmailVerification::updateOrCreate(
+                ['email' => $validated["email"]],
+                [
+                    'token' => bcrypt($confirmation_token),
+                    'expires_at' => Carbon::now()->addHours(1)
+                ]
+            );
+
+            $url = ENV('FRONTEND_URL') . 'email-confirmation?token=' . $confirmation_token . '&email=' . $validated['email'];
+
+            // Send verification mail
+            try {
+                Mail::to($validated["email"])->queue(new ConfirmationEmail($user, $url));
+            } catch (\Throwable $th) {
+                Log::error($th->getMessage());
+            }
+
+            $message = "Verification mail has been resent to user's registered mail";
+            return $this->success($user, $message);
+        }
+        catch (\Throwable $ex)
+        {
+            return $this->server_error($ex);
+        }
+    }
+
+    /**
+     * @param \App\Http\Requests\EmailVerificationRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function confirmation(EmailVerificationRequest $request)
+    {
+        try
+        {
+            $data = $request->validated();
+
+            // get verification details details
+            $verification = EmailVerification::where('email', $data['email'])->first();
+
+            // validate verification token
+            if(!$verification || !Hash::check($data["token"], $verification->token))
+            {
+                $status = 'invalid_token';
+                return $this->bad_request(null, null, $status);
+            }
+
+            // validate token lifespan
+            if(Carbon::now()->gt($verification->expires_at))
+            {
+                $status = 'expired_token';
+                return $this->bad_request(null, null, $status);
+            }
+
+            // Get user details
+            $user = Candidate::where('email', $verification->email)->first();
+            if(!$user)
+            {
+                return $this->not_found();
+            }
+
+            // verify user
+            $user->email_verified = true;
+            $user->email_verified_at = Carbon::now();
+            $user->save();
+
+            $verification->delete();
+
+            // generate access token
+            $tokenResult = $user->createToken('Personal Access Token');
+            $token = $tokenResult->token;
+            $token->save();
+
+            $url = ENV('FRONTEND_URL') . '/dashboard';
+
+            // send welcome mail
+            try {
+                Mail::to($user->email)->queue(new WelcomeEmail($user, $url));
+            } catch (\Throwable $th) {
+                Log::error($th->getMessage());
+            }
+
+            $response['user'] = $user;
+            $response['token'] = [
+                'access_token' => $tokenResult->accessToken,
+                'token_type' => 'Bearer Token',
+                'expires' => Carbon::parse($token->expires_at)->toDateTimeString(),
+            ];
+            return $this->success($response);
+        }
+        catch (\Throwable $ex)
+        {
+            return $this->server_error($ex);
+        }
+    }
+
+    /**
+     * @param \App\Http\Requests\SigninRequest $request
+     * @return \Illuminate\Http\Response
+     */
     public function signin(SigninRequest $request)
     {
         $data = $request->validated();
@@ -65,9 +244,8 @@ class AuthenticationController extends ServiceController
         }
     }
 
-
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\EmailRequest $request
      * @return \Illuminate\Http\Response
      */
     public function forgotPassword(EmailRequest $request)
@@ -76,29 +254,30 @@ class AuthenticationController extends ServiceController
         try
         {
             // Get user details
-            $user = User::where('email', $data['email'])->first();
+            $user = Candidate::where('email', $data['email'])->first();
             if(!$user)
             {
                 return $this->not_found();
             }
 
             // generate email verification token
-            $reset_token = mt_rand(100000, 999999);
-
-            Log::alert($reset_token);
+            // $confirmation_token = mt_rand(100000, 999999);
+            $reset_token = uniqid();
 
             // persist email verification token
             PasswordReset::updateOrCreate(
                 ['email' => $data["email"]],
                 [
                     'token' => bcrypt($reset_token),
-                    'expires_at' => Carbon::now()->addHours(12)
+                    'expires_at' => Carbon::now()->addHours(1)
                 ]
             );
 
+            $url = ENV('FRONTEND_URL') . 'reset-password?token=' . $reset_token . '&email=' . $data['email'];
+
             // Send verification mail
             try {
-                Mail::to($data["email"])->queue(new ForgotPasswordEmail($user, $reset_token, null));
+                Mail::to($data["email"])->queue(new ForgotPasswordEmail($user, $url, null));
             } catch (\Throwable $th) {
                 Log::error($th->getMessage());
             }
@@ -144,7 +323,7 @@ class AuthenticationController extends ServiceController
             }
 
             // Update password
-            $user = User::where('email', $data['email'])->first();
+            $user = Candidate::where('email', $data['email'])->first();
             $user->fill(['password' => bcrypt($data['password'])])->save();
 
             $resetRequest->delete();

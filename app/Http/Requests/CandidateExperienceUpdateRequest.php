@@ -30,7 +30,7 @@ class CandidateExperienceUpdateRequest extends BaseRequest
             'summary' => ['nullable', 'max:255', 'string'],
             'start_date' => ['required', 'date'],
             'end_date' => ['nullable', 'date'],
-            'candidate_id' => ['required', 'exists:candidates,id'],
+            'candidate_id' => ['nullable', 'exists:candidates,id'],
         ];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\User;
+use App\Models\Candidate;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class EmailVerificationEmail extends Mailable implements ShouldQueue
+class ConfirmationEmail extends Mailable implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -23,11 +23,10 @@ class EmailVerificationEmail extends Mailable implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(User $user, $url, String $token)
+    public function __construct(Candidate $user, String $url)
     {
         $this->user = $user;
         $this->url = $url;
-        $this->token = $token;
     }
 
     /**
@@ -42,8 +41,7 @@ class EmailVerificationEmail extends Mailable implements ShouldQueue
         ->subject("Email Confirmation")
         ->with([
             "name" => $this->user->firstname,
-            "url" => $this->url,
-            "token" => $this->token
+            "url" => $this->url
         ]);
     }
 }

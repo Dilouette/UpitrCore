@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\User;
+use App\Models\Candidate;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -22,7 +22,7 @@ class WelcomeEmail extends Mailable implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(User $user, String $url = null)
+    public function __construct(Candidate $user, String $url = null)
     {
         $this->user = $user;
         $this->url = $url;

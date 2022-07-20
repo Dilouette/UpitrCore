@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\InterviewController;
 use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\JobSettingController;
+use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\JobQuestionController;
 use App\Http\Controllers\Api\MiscellaneousController;
 use App\Http\Controllers\Api\AuthenticationController;
@@ -27,7 +28,9 @@ use App\Http\Controllers\Api\CandidateApplicationController;
 
 use App\Http\Controllers\Api\ApplicantInterviewFeedbackController;
 use App\Http\Controllers\Api\Career\JobController as CareerJobController;
+use App\Http\Controllers\Api\Career\CandidateEducationController as CareerEducationController;
 use App\Http\Controllers\Api\Career\AuthenticationController as CareerAuthenticationController;
+use App\Http\Controllers\Api\Career\CandidateExperienceController as CareerExperienceController;
 
 
 Route::name('api.v1.')->prefix('v1')->group(function () {
@@ -205,6 +208,11 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         Route::delete('/{id}', [RoleController::class, 'destroy'])->name('delete');
     });
 
+    //Permission Routes
+    Route::name('permissions')->prefix('permissions')->middleware('auth:api')->group(function () {
+        Route::get('/', [PermissionController::class, 'index'])->name('index');
+    });
+
     //Users Routes
     Route::name('users')->prefix('users')->middleware('auth:api')->group(function () {
         Route::post('/', [UserController::class, 'store'])->name('store');
@@ -233,16 +241,35 @@ Route::name('api.v1.')->prefix('v1')->group(function () {
         // Authentication routes 
         Route::name('auth.')->prefix('authentication')->group(function () {
             Route::post('/signup', [CareerAuthenticationController::class, 'signup'])->name('signup');
+            Route::post('/resend-confirmation', [CareerAuthenticationController::class, 'resendConfirmation'])->name('resend.confirmation');
+            Route::post('/email-confirmation', [CareerAuthenticationController::class, 'confirmation'])->name('email.confirmation');
             Route::post('/signin', [CareerAuthenticationController::class, 'signin'])->name('signin');
-            Route::post('/confirm-password', [CareerAuthenticationController::class, 'confirmPassword'])->name('confirm.password');
             Route::post('/forgot-password', [CareerAuthenticationController::class, 'forgotPassword'])->name('forgot.password');
             Route::post('/reset-password', [CareerAuthenticationController::class, 'resetPassword'])->name('reset.password');
         });
 
         // Account routes
-        Route::name('account.')->prefix('account')->middleware('auth:api')->group(function () {
-            Route::get('/active', [JobController::class, 'active'])->name('active');
-            Route::get('/{id}', [JobController::class, 'show'])->name('show');
+        Route::name('account.')->prefix('account')->middleware('auth:auth:api-career')->group(function () {
+            Route::get('/', [AccountController::class, 'index'])->name('index');
+            Route::put('/', [AccountController::class, 'update'])->name('update');
+        });
+
+        //Candidates' Education Routes
+        Route::name('candidate.education')->prefix('education')->middleware('auth:auth:api-career')->group(function () {
+            Route::get('/', [CareerEducationController::class, 'index'])->name('index');
+            Route::post('/', [CareerEducationController::class, 'store'])->name('store');
+            Route::get('/{id}', [CareerEducationController::class, 'show'])->name('show');
+            Route::put('/{id}', [CareerEducationController::class, 'update'])->name('update');
+            Route::delete('/{id}', [CareerEducationController::class, 'destroy'])->name('destroy');
+        });
+
+        //Candidates' Experience Routes
+        Route::name('candidate.experiences')->prefix('experiences')->middleware('auth:api-career')->group(function () {
+            Route::get('/', [CareerExperienceController::class, 'index'])->name('index');
+            Route::post('/', [CareerExperienceController::class, 'store'])->name('store');
+            Route::get('/{id}', [CareerExperienceController::class, 'show'])->name('show');
+            Route::put('/{id}', [CareerExperienceController::class, 'update'])->name('update');
+            Route::delete('/{id}', [CareerExperienceController::class, 'destroy'])->name('destroy');
         });
     });
 });

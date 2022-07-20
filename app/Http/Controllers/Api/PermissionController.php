@@ -3,25 +3,33 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use App\Models\PermissionGroup;
 use Spatie\Permission\Models\Role;
-use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
 use App\Http\Resources\PermissionResource;
-use App\Http\Resources\PermissionCollection;
 
-class PermissionController extends Controller
+class PermissionController extends ServiceController
 {
     /**
     * @return \Illuminate\Http\Response
     */
     public function index(Request $request)
     {
-        $this->authorize('list', Permission::class);
+        try {
 
-        $search = $request->get('search', '');
-        $permissions = Permission::where('name', 'like', "%{$search}%")->paginate();
+            $query = PermissionGroup::query()
+                ->orderby('created_at', 'desc');
 
-        return new PermissionCollection($permissions);
+            $query->when($request->filled('keyword'), function ($q) use($request){
+                return $q->where("title", "like", "%$request->keyword%");
+            });
+
+            $groups = $query->get();
+            return $this->success($groups);
+
+        } catch (\Throwable $th) {
+            return $this->server_error($th);
+        }     
     }
 
     /**

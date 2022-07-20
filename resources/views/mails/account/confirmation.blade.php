@@ -346,10 +346,10 @@
                 style="margin: auto;">
                 <tr>
                     <td valign="top" class="bg_white" style="padding: 3.5em 2.5em 0 2.5em;">
-                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="250px">
                             <tr>
                                 <td class="logo" style="text-align: center;">
-                                    <img src="{{ asset('img/rainoil-logo.png') }}">
+                                    <img src="{{ asset('img/rainoil-logo.png') }}" style="width: 200px">
                                 </td>
                             </tr>
                         </table>
@@ -358,7 +358,7 @@
                 <tr>
                     <td valign="middle" class="hero bg_white" style="padding: 1em 0 1em 0;">
                         <img src="{{ asset('img/confirmation-bg.png') }}" alt=""
-                            style="width: 300px; max-width: 300px; height: auto; margin: auto; display: block;">
+                            style="width: 250px; max-width: 250px; height: auto; margin: auto; display: block;">
                     </td>
                 </tr>
                 <tr>
@@ -368,12 +368,8 @@
                                 <td>
                                     <div class="text" style="padding: 0 2.5em; text-align: center;">
                                         <h2>Email Confirmation</h2><br>
-                                        <h3>Hello {{ $name ?? 'You' }}, <br> Before we get started, please take a second to make sure we've got your email right. Please use the OTP below to confirm your email address</h3>
-                                        <h2> {{ $token ?? '00000' }} </h2>
-                                        @if ($url != null)
-                                        <h3>Or click the link below to confirm now</h3>
-                                        <p><a href="{{ $url ?? '#' }}" class="btn btn-primary">Verify Email Address</a></p>
-                                        @endif
+                                        <h3>Hello {{ $name ?? 'You' }}, <br> Before we get started, please take a second to make sure we've got your email right. Please click on the link below to confirm your email address</h3>
+                                        <p><a href="{{ $url ?? '#' }}" class="btn btn-primary">Confirm Email Address</a></p>
                                     </div>
                                 </td>
                             </tr>

@@ -346,10 +346,10 @@
                 style="margin: auto;">
                 <tr>
                     <td valign="top" class="bg_white" style="padding: 3.5em 2.5em 0 2.5em;">
-                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="250px">
                             <tr>
                                 <td class="logo" style="text-align: center;">
-                                    <img src="{{ asset('img/rainoil-logo.png') }}">
+                                    <img src="{{ asset('img/rainoil-logo.png') }}" style="width: 200px">
                                 </td>
                             </tr>
                         </table>
@@ -358,7 +358,7 @@
                 <tr>
                     <td valign="middle" class="hero bg_white" style="padding: 1em 0 1em 0;">
                         <img src="{{ asset('img/confirmation-bg.png') }}" alt=""
-                            style="width: 300px; max-width: 300px; height: auto; margin: auto; display: block;">
+                            style="width: 250px; max-width: 250px; height: auto; margin: auto; display: block;">
                     </td>
                 </tr>
                 <tr>

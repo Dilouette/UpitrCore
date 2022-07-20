@@ -14,6 +14,8 @@ class PermissionGroup extends Model
 
     protected $fillable = ['name', 'description'];
 
+    protected $with = ['permissions'];
+
     protected $searchableFields = ['*'];
 
     protected $table = 'permission_groups';

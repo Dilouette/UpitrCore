@@ -23,7 +23,7 @@ class ForgotPasswordEmail extends Mailable implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(User $user, String $token, String $url = null)
+    public function __construct($user, String $url, String $token = null)
     {
         $this->user = $user;
         $this->token = $token;
@@ -42,8 +42,8 @@ class ForgotPasswordEmail extends Mailable implements ShouldQueue
         ->subject("Forgot Password")
         ->with([
             "name" => $this->user->firstname,
-            "token" => $this->token,
-            "url" => $this->url
+            "url" => $this->url,
+            "token" => $this->token
         ]);
     }
 }

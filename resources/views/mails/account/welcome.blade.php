@@ -346,10 +346,10 @@
                 style="margin: auto;">
                 <tr>
                     <td valign="top" class="bg_white" style="padding: 3.5em 2.5em 0 2.5em;">
-                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="250px">
                             <tr>
                                 <td class="logo" style="text-align: center;">
-                                    <img src="{{ asset('img/rainoil-logo.png') }}">
+                                    <img src="{{ asset('img/rainoil-logo.png') }}" style="width: 200px">
                                 </td>
                             </tr>
                         </table>
@@ -358,7 +358,7 @@
                 <tr>
                     <td valign="middle" class="hero bg_white" style="padding: 1em 0 1em 0;">
                         <img src="{{ asset('img/confirmation-bg.png') }}" alt=""
-                            style="width: 300px; max-width: 300px; height: auto; margin: auto; display: block;">
+                            style="width: 250px; max-width: 250px; height: auto; margin: auto; display: block;">
                     </td>
                 </tr>
                 <tr>
@@ -370,7 +370,7 @@
                                         <h2>Welcome</h2><br>
                                         <h3>Hello {{ $name ?? 'You' }},</h3>
                                         <h3 style="font-size: 18px">We are excited to have you!</h3><br>
-                                        <h3 style="font-size: 18px">{{ ENV('APP_NAME') }} is the easiest way to get islamic counsell and admonition from all parts of the world. Don't just take our word for it, click the button below to get started . </h3>
+                                        <h3 style="font-size: 18px">{{ ENV('APP_NAME') }} makes it easy to apply for jobs. Click the button below to get started . </h3>
                                         <p><a href="{{ $url ?? '#' }}" class="btn btn-primary">Get Started</a></p>
                                     </div>
                                 </td>

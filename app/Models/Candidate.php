@@ -44,6 +44,9 @@ class Candidate extends Authenticatable
         'first_login',
         'last_login',
         'is_active',
+
+        'email_verified',
+        'email_verified_at',
     ];
 
     protected $hidden = [

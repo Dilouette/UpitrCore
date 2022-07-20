@@ -30,6 +30,14 @@ class Experience extends Model
         'end_date' => 'date',
     ];
 
+    protected $with = [
+        'industry'
+    ];
+
+    protected $hidden = [
+        'industry_id'
+    ];
+
     public function candidate()
     {
         return $this->belongsTo(Candidate::class);

@@ -36,6 +36,8 @@ return new class extends Migration {
             $table->tinyInteger('years_of_experience')->nullable();
 
             $table->timestamp('email_verified_at')->nullable();
+            $table->boolean('email_verified')->nullable();
+
             $table->string('password')->nullable();
             $table->string('remember_token', 100)->nullable();
             $table->boolean('reset_login')->default(false)->nullable();
